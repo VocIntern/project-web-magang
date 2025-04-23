@@ -1,0 +1,105 @@
+/vocintern
+├── app
+│   ├── Console
+│   ├── Exceptions
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── Auth
+│   │   │   ├── Admin
+│   │   │   │   ├── MahasiswaController.php
+│   │   │   │   ├── PerusahaanController.php
+│   │   │   │   ├── MagangController.php
+│   │   │   │   └── DashboardController.php
+│   │   │   ├── Mahasiswa
+│   │   │   │   ├── ProfileController.php
+│   │   │   │   ├── MagangController.php
+│   │   │   │   └── DashboardController.php
+│   │   │   ├── Perusahaan
+│   │   │   │   ├── ProfileController.php
+│   │   │   │   ├── MagangController.php
+│   │   │   │   └── DashboardController.php
+│   │   │   └── HomeController.php
+│   │   ├── Middleware
+│   │   │   ├── CheckRole.php
+│   │   │   ├── IsAdmin.php
+│   │   │   ├── IsMahasiswa.php
+│   │   │   └── IsPerusahaan.php
+│   │   └── Requests
+│   │       ├── Admin
+│   │       ├── Mahasiswa
+│   │       └── Perusahaan
+│   ├── Models
+│   │   ├── User.php
+│   │   ├── Mahasiswa.php
+│   │   ├── Perusahaan.php
+│   │   ├── Magang.php
+│   │   └── Laporan.php
+│   └── Services
+│       ├── FileUploadService.php
+│       └── PdfGeneratorService.php
+├── bootstrap
+├── config
+├── database
+│   ├── factories
+│   ├── migrations
+│   │   ├── 2014_10_12_000000_create_users_table.php
+│   │   ├── 2024_04_23_000001_create_mahasiswa_table.php
+│   │   ├── 2024_04_23_000002_create_perusahaan_table.php
+│   │   ├── 2024_04_23_000003_create_magang_table.php
+│   │   └── 2024_04_23_000004_create_laporan_table.php
+│   └── seeders
+│       ├── UsersSeeder.php
+│       ├── MahasiswaSeeder.php
+│       └── PerusahaanSeeder.php
+├── public
+│   ├── css
+│   ├── js
+│   ├── images
+│   └── uploads
+│       ├── cv
+│       ├── surat_pengantar
+│       └── laporan
+├── resources
+│   ├── css
+│   ├── js
+│   └── views
+│       ├── admin
+│       │   ├── dashboard.blade.php
+│       │   ├── mahasiswa
+│       │   ├── perusahaan
+│       │   └── magang
+│       ├── mahasiswa
+│       │   ├── dashboard.blade.php
+│       │   ├── profile.blade.php
+│       │   ├── cari-magang.blade.php
+│       │   └── status-magang.blade.php
+│       ├── perusahaan
+│       │   ├── dashboard.blade.php
+│       │   ├── profile.blade.php
+│       │   ├── post-lowongan.blade.php
+│       │   └── kelola-pendaftar.blade.php
+│       ├── auth
+│       │   ├── login.blade.php
+│       │   └── register.blade.php
+│       ├── layouts
+│       │   ├── app.blade.php
+│       │   ├── admin.blade.php
+│       │   ├── mahasiswa.blade.php
+│       │   └── perusahaan.blade.php
+│       ├── components
+│       │   ├── navbar.blade.php
+│       │   ├── sidebar.blade.php
+│       │   └── footer.blade.php
+│       └── welcome.blade.php
+├── routes
+│   ├── web.php
+│   ├── admin.php
+│   ├── mahasiswa.php
+│   └── perusahaan.php
+├── storage
+├── tests
+├── .env
+├── .gitignore
+├── composer.json
+├── package.json
+└── README.md
