@@ -1,47 +1,242 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!-- resources/views/auth/login.blade.php -->
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <title>{{ config('app.name', 'VocIntern') }} - Login</title>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Figtree', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .login-container {
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+        
+        .login-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .login-form h2 {
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            height: 50px;
+            border: 2px solid #eee;
+            border-radius: 6px;
+            padding: 0 15px;
+        }
+        
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #4a6cf7;
+        }
+        
+        .forgot-link {
+            font-size: 14px;
+        }
+        
+        .btn-login {
+            background-color: #4a6cf7;
+            border-color: #4a6cf7;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            height: 50px;
+            border-radius: 6px;
+        }
+        
+        .btn-login:hover {
+            background-color: #3a5bd9;
+            border-color: #3a5bd9;
+        }
+        
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .social-login .btn {
+            display: inline-block;
+            font-weight: 500;
+            border-radius: 6px;
+            padding: 12px 24px;
+            margin: 0 5px;
+            color: #fff;
+        }
+        
+        .btn-google {
+            background-color: #ea4335;
+            border-color: #ea4335;
+        }
+        
+        .btn-google:hover {
+            background-color: #d33426;
+            border-color: #d33426;
+            color: #fff;
+        }
+        
+        .btn-linkedin {
+            background-color: #0077b5;
+            border-color: #0077b5;
+        }
+        
+        .btn-linkedin:hover {
+            background-color: #005e93;
+            border-color: #005e93;
+            color: #fff;
+        }
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .login-logo i {
+            font-size: 48px;
+            color: #4a6cf7;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #eee;
+            z-index: 1;
+        }
+        
+        .divider span {
+            position: relative;
+            background-color: #fff;
+            padding: 0 15px;
+            z-index: 2;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container login-container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="login-form">
+                    <div class="login-logo">
+                        <a href="/" class="d-flex align-items-center justify-content-center">
+                            <i class="fas fa-briefcase"></i>
+                        </a>
+                        <h1 class="mt-2 mb-0">VocIntern</h1>
+                        <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
+                    </div>
+                    
+                    <h2 class="text-center">Masuk ke Akun Anda</h2>
+                    
+                    @if (session('status'))
+                        <div class="alert alert-success mb-3" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger mb-3">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="password" type="password" class="form-control" name="password" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="remember">
+                                    Ingat Saya
+                                </label>
+                            </div>
+                            @if (Route::has('password.request'))
+                                <a class="forgot-link" href="{{ route('password.request') }}">
+                                    Lupa Password?
+                                </a>
+                            @endif
+                        </div>
+                        
+                        <div class="mb-0">
+                            <button type="submit" class="btn btn-login w-100">
+                                Masuk
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>atau masuk dengan</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <a href="#" class="btn btn-google">
+                            <i class="fab fa-google me-2"></i> Google
+                        </a>
+                        <a href="#" class="btn btn-linkedin">
+                            <i class="fab fa-linkedin-in me-2"></i> LinkedIn
+                        </a>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

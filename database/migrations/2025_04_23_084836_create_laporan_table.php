@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('laporan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pendaftaran_magang_id')->constrained()->onDelete('cascade');
+            $table->integer('minggu_ke');
+            $table->text('kegiatan');
+            $table->string('file_laporan')->nullable();
+            $table->text('catatan_perusahaan')->nullable();
             $table->timestamps();
         });
     }
