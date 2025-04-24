@@ -1,0 +1,194 @@
+/* public/css/auth.css */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.login-container, 
+.register-container, 
+.forgot-password-container, 
+.reset-password-container,
+.confirm-password-container,
+.verify-email-container {
+    max-width: 500px;
+}
+
+.login-form, 
+.register-form, 
+.forgot-password-form, 
+.reset-password-form,
+.confirm-password-form,
+.verify-email-form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-logo a {
+    width: 60px;
+    height: 60px;
+    background-color: #4F46E5;
+    border-radius: 50%;
+    display: inline-flex;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.login-logo h1 {
+    font-weight: 600;
+    color: #333;
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.btn-login, 
+.btn-register, 
+.btn-reset,
+.btn-confirm,
+.btn-verify {
+    background-color: #4F46E5;
+    border-color: #4F46E5;
+    color: white;
+    padding: 10px 15px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-login:hover, 
+.btn-register:hover, 
+.btn-reset:hover,
+.btn-confirm:hover,
+.btn-verify:hover {
+    background-color: #4338CA;
+    border-color: #4338CA;
+    color: white;
+}
+
+.forgot-link {
+    color: #4F46E5;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 25px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.divider span {
+    padding: 0 10px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.social-login {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.social-login .btn {
+    flex: 1;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+.btn-google {
+    background-color: #DB4437;
+    border-color: #DB4437;
+    color: white;
+}
+
+.btn-google:hover {
+    background-color: #C53929;
+    border-color: #C53929;
+    color: white;
+}
+
+.btn-linkedin {
+    background-color: #0077B5;
+    border-color: #0077B5;
+    color: white;
+}
+
+.btn-linkedin:hover {
+    background-color: #006699;
+    border-color: #006699;
+    color: white;
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-right: none;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+.register-form {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.role-fields {
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 15px;
+}
+
+.verify-icon {
+    color: #4F46E5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .login-form, 
+    .register-form, 
+    .forgot-password-form, 
+    .reset-password-form,
+    .confirm-password-form,
+    .verify-email-form {
+        padding: 20px;
+    }
+
+    .social-login {
+        flex-direction: column;
+    }
+}

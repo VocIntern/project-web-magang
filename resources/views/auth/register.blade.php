@@ -19,194 +19,16 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        body {
-            font-family: 'Figtree', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .register-container {
-            margin-top: 3%;
-            margin-bottom: 3%;
-        }
-
-        .register-form {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .register-form h2 {
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        .form-control {
-            height: 50px;
-            border: 2px solid #eee;
-            border-radius: 6px;
-            padding: 0 15px;
-        }
-
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #4a6cf7;
-        }
-
-        .btn-register {
-            background-color: #4a6cf7;
-            border-color: #4a6cf7;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 500;
-            height: 50px;
-            border-radius: 6px;
-        }
-
-        .btn-register:hover {
-            background-color: #3a5bd9;
-            border-color: #3a5bd9;
-        }
-
-        .social-register {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .social-register .btn {
-            display: inline-block;
-            font-weight: 500;
-            border-radius: 6px;
-            padding: 12px 24px;
-            margin: 0 5px;
-            color: #fff;
-        }
-
-        .btn-google {
-            background-color: #ea4335;
-            border-color: #ea4335;
-        }
-
-        .btn-google:hover {
-            background-color: #d33426;
-            border-color: #d33426;
-            color: #fff;
-        }
-
-        .btn-linkedin {
-            background-color: #0077b5;
-            border-color: #0077b5;
-        }
-
-        .btn-linkedin:hover {
-            background-color: #005e93;
-            border-color: #005e93;
-            color: #fff;
-        }
-
-        .register-logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .register-logo i {
-            font-size: 48px;
-            color: #4a6cf7;
-        }
-
-        .divider {
-            text-align: center;
-            margin: 30px 0;
-            position: relative;
-        }
-
-        .divider::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: #eee;
-            z-index: 1;
-        }
-
-        .divider span {
-            position: relative;
-            background-color: #fff;
-            padding: 0 15px;
-            z-index: 2;
-            color: #999;
-        }
-
-        .user-type-selector {
-            margin-bottom: 20px;
-        }
-
-        .user-type-selector label {
-            cursor: pointer;
-            padding: 15px;
-            border: 2px solid #eee;
-            border-radius: 8px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .user-type-selector label:hover {
-            border-color: #4a6cf7;
-        }
-
-        .user-type-selector input[type="radio"]:checked+label {
-            border-color: #4a6cf7;
-            background-color: rgba(74, 108, 247, 0.1);
-        }
-
-        .user-type-selector input[type="radio"] {
-            display: none;
-        }
-
-        .user-type-selector i {
-            display: block;
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #4a6cf7;
-        }
-
-        /* Hero section style */
-        .hero-section {
-            background-color: #4a6cf7;
-            padding: 50px 0;
-            color: white;
-            margin-bottom: 40px;
-        }
-
-        .hero-section h2 {
-            font-weight: 700;
-            font-size: 2.5rem;
-        }
-
-        .hero-section p {
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Hero Section like welcome page -->
-    <section class="hero-section">
-        <div class="container text-center">
-            <h2 class="mb-4">Siap Memulai Karir Anda?</h2>
-            <p class="lead mb-4">Daftar sekarang dan temukan magang yang sesuai dengan minat dan keahlian Anda.</p>
-        </div>
-    </section>
-
     <div class="container register-container">
         <div class="row justify-content-center">
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <div class="register-form">
-                    <div class="register-logo">
+                    <div class="login-logo">
                         <a href="/" class="d-flex align-items-center justify-content-center">
                             <i class="fas fa-briefcase"></i>
                         </a>
@@ -226,147 +48,150 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="user-type-selector">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <input type="radio" name="role" id="mahasiswa" value="mahasiswa"
-                                        {{ old('role') == 'mahasiswa' || request()->query('role') == 'mahasiswa' ? 'checked' : '' }}
-                                        required>
-                                    <label for="mahasiswa" class="w-100">
-                                        <i class="fas fa-user-graduate"></i>
-                                        <span>Mahasiswa</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <input type="radio" name="role" id="perusahaan" value="perusahaan"
-                                        {{ old('role') == 'perusahaan' || request()->query('role') == 'perusahaan' ? 'checked' : '' }}>
-                                    <label for="perusahaan" class="w-100">
-                                        <i class="fas fa-building"></i>
-                                        <span>Perusahaan</span>
-                                    </label>
-                                </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Lengkap</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Nama Lengkap</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input id="name" type="text" class="form-control" name="name"
-                                        value="{{ old('name') }}" required autofocus>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input id="email" type="email" class="form-control" name="email"
-                                        value="{{ old('email') }}" required>
-                                </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input id="password" type="password" class="form-control" name="password" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input id="password_confirmation" type="password" class="form-control"
-                                        name="password_confirmation" required>
-                                </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="password" type="password" class="form-control" name="password" required>
                             </div>
                         </div>
 
-                        <div id="mahasiswa_fields" class="mb-3">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="nim" class="form-label">NIM</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                        <input id="nim" type="text" class="form-control" name="nim"
-                                            value="{{ old('nim') }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="study_program" class="form-label">Program Studi</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
-                                        <select id="study_program" class="form-control" name="study_program">
-                                            <option value="" disabled selected>Pilih Program Studi</option>
-                                            <option value="Teknologi Informasi">Teknologi Informasi</option>
-                                            <option value="Administrasi Bisnis">Administrasi Bisnis</option>
-                                            <option value="Akuntansi">Akuntansi</option>
-                                            <option value="Teknik Digital">Teknik Digital</option>
-                                            <option value="Perpajakan">Perpajakan</option>
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 
-                        <div id="perusahaan_fields" class="mb-3" style="display: none;">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="perusahaan_name" class="form-label">Nama Perusahaan</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-building"></i></span>
-                                        <input id="perusahaan_name" type="text" class="form-control"
-                                            name="perusahaan_name" value="{{ old('perusahaan_name') }}">
-                                    </div>
-                                </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Daftar Sebagai</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                <select id="role" name="role" class="form-select" required>
+                                    <option value="">Pilih Peran</option>
+                                    <option value="mahasiswa" {{ old('role') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                                    <option value="perusahaan" {{ old('role') == 'perusahaan' ? 'selected' : '' }}>Perusahaan</option>
+                                </select>
+                            </div>
+                        </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="industry" class="form-label">Industri</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-industry"></i></span>
-                                        <select id="industry" class="form-control" name="industry">
-                                            <option value="" disabled selected>Pilih Industri</option>
-                                            <option value="Teknologi">Teknologi</option>
-                                            <option value="Keuangan">Keuangan</option>
-                                            <option value="Pendidikan">Pendidikan</option>
-                                            <option value="Manufaktur">Manufaktur</option>
-                                            <option value="Kesehatan">Kesehatan</option>
-                                            <option value="Retail">Retail</option>
-                                            <option value="Lainnya">Lainnya</option>
-                                        </select>
-                                    </div>
+                        <!-- Fields for Mahasiswa -->
+                        <div id="mahasiswa-fields" class="role-fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="nim" class="form-label">NIM</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                    <input id="nim" type="text" class="form-control" name="nim" value="{{ old('nim') }}">
                                 </div>
                             </div>
 
                             <div class="mb-3">
-                                <label for="perusahaan_address" class="form-label">Alamat Perusahaan</label>
+                                <label for="jurusan" class="form-label">Jurusan</label>
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                                    <textarea id="perusahaan_address" class="form-control" name="perusahaan_address" rows="3">{{ old('perusahaan_address') }}</textarea>
+                                    <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                                    <input id="jurusan" type="text" class="form-control" name="jurusan" value="{{ old('jurusan') }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="angkatan" class="form-label">Angkatan</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                    <input id="angkatan" type="number" class="form-control" name="angkatan" value="{{ old('angkatan') }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio (Opsional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                                    <textarea id="bio" class="form-control" name="bio" rows="3">{{ old('bio') }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="foto" class="form-label">Foto (Opsional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                    <input id="foto" type="file" class="form-control" name="foto">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mb-3 form-check">
-                            <input class="form-check-input" type="checkbox" name="terms" id="terms" required>
-                            <label class="form-check-label" for="terms">
-                                Saya menyetujui <a href="#">Syarat dan Ketentuan</a> serta <a
-                                    href="#">Kebijakan Privasi</a>
-                            </label>
+                        <!-- Fields for Perusahaan -->
+                        <div id="perusahaan-fields" class="role-fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-building"></i></span>
+                                    <input id="nama_perusahaan" type="text" class="form-control" name="nama_perusahaan" value="{{ old('nama_perusahaan') }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="alamat" class="form-label">Alamat</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                    <textarea id="alamat" class="form-control" name="alamat" rows="3">{{ old('alamat') }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bidang" class="form-label">Bidang Usaha</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                                    <input id="bidang" type="text" class="form-control" name="bidang" value="{{ old('bidang') }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Website (Opsional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-globe"></i></span>
+                                    <input id="website" type="url" class="form-control" name="website" value="{{ old('website') }}">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="logo" class="form-label">Logo Perusahaan (Opsional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                    <input id="logo" type="file" class="form-control" name="logo">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="deskripsi" class="form-label">Deskripsi Perusahaan (Opsional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-info-circle"></i></span>
+                                    <textarea id="deskripsi" class="form-control" name="deskripsi" rows="3">{{ old('deskripsi') }}</textarea>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-0">
                             <button type="submit" class="btn btn-register w-100">
-                                Daftar Sekarang
+                                Daftar
                             </button>
                         </div>
                     </form>
@@ -375,7 +200,7 @@
                         <span>atau daftar dengan</span>
                     </div>
 
-                    <div class="social-register">
+                    <div class="social-login">
                         <a href="#" class="btn btn-google">
                             <i class="fab fa-google me-2"></i> Google
                         </a>
@@ -385,7 +210,7 @@
                     </div>
 
                     <div class="text-center mt-4">
-                        <p class="mb-0">Sudah punya akun? <a href="{{ route('login') }}">Masuk</a></p>
+                        <p class="mb-0">Sudah punya akun? <a href="{{ route('login') }}">Masuk Sekarang</a></p>
                     </div>
                 </div>
             </div>
@@ -394,46 +219,32 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    
     <script>
-        // Toggle between mahasiswa and perusahaan registration fields
-        document.addEventListener('DOMContentLoaded', function() {
-            const mahasiswaRadio = document.getElementById('mahasiswa');
-            const perusahaanRadio = document.getElementById('perusahaan');
-            const mahasiswaFields = document.getElementById('mahasiswa_fields');
-            const perusahaanFields = document.getElementById('perusahaan_fields');
-
-            // Function to update fields visibility
-            function updateFieldsVisibility() {
-                if (mahasiswaRadio.checked) {
-                    mahasiswaFields.style.display = 'block';
-                    perusahaanFields.style.display = 'none';
-                } else if (perusahaanRadio.checked) {
-                    mahasiswaFields.style.display = 'none';
-                    perusahaanFields.style.display = 'block';
-                }
+        // Show/hide role-specific fields based on selection
+        document.getElementById('role').addEventListener('change', function() {
+            const mahasiswaFields = document.getElementById('mahasiswa-fields');
+            const perusahaanFields = document.getElementById('perusahaan-fields');
+            
+            // Hide all role fields first
+            mahasiswaFields.style.display = 'none';
+            perusahaanFields.style.display = 'none';
+            
+            // Show fields based on selected role
+            if (this.value === 'mahasiswa') {
+                mahasiswaFields.style.display = 'block';
+            } else if (this.value === 'perusahaan') {
+                perusahaanFields.style.display = 'block';
             }
-
-            // Function to update URL without reloading page
-            function updateURLParameter(param, value) {
-                const url = new URL(window.location.href);
-                url.searchParams.set(param, value);
-                window.history.pushState({}, '', url);
+        });
+        
+        // Trigger change event if role is pre-selected (e.g., when returning with errors)
+        window.addEventListener('DOMContentLoaded', function() {
+            const roleSelect = document.getElementById('role');
+            if (roleSelect.value) {
+                const event = new Event('change');
+                roleSelect.dispatchEvent(event);
             }
-
-            // Initial state based on preselected value or URL parameter
-            updateFieldsVisibility();
-
-            // Event listeners for radio buttons
-            mahasiswaRadio.addEventListener('change', function() {
-                updateFieldsVisibility();
-                updateURLParameter('role', 'mahasiswa');
-            });
-
-            perusahaanRadio.addEventListener('change', function() {
-                updateFieldsVisibility();
-                updateURLParameter('role', 'perusahaan');
-            });
         });
     </script>
 </body>
