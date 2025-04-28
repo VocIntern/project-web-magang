@@ -1,5 +1,5 @@
 <?php
-
+// <!-- app\Http\Controllers\Auth\AuthenticatedSessionController.php -->
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -24,11 +24,36 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $request->validate([
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
+        ]);
 
-        $request->session()->regenerate();
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            // regenerate session agar terhindar session fixation
+            $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+            // Opsional: hapus intended URL lama
+            Auth::user()->refresh();
+
+            $user = Auth::user();
+
+            // Redirect berdasarkan role—gunakan route() untuk memastikan nama route benar
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->isMahasiswa()) {
+                return redirect()->route('mahasiswa.dashboard');
+            } elseif ($user->isPerusahaan()) {
+                return redirect()->route('perusahaan.dashboard');
+            }
+
+            // Fallback, jika suatu saat ada role lain
+            return redirect('/');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     /**

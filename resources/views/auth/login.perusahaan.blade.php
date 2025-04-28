@@ -1,4 +1,4 @@
-<!-- resources/views/auth/reset-password.blade.php -->
+<!-- resources/views/auth/login.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'VocIntern') }} - Reset Password</title>
+    <title>{{ config('app.name', 'VocIntern') }} - Login</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -24,22 +24,25 @@
 </head>
 
 <body>
-    <div class="container reset-password-container">
+    <div class="container login-container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="reset-password-form">
-                    {{-- <div class="login-logo">
+                <div class="login-form">
+                    <div class="login-logo">
                         <a href="/" class="d-flex align-items-center justify-content-center">
                             <i class="fas fa-briefcase"></i>
                         </a>
                         <h1 class="mt-2 mb-0">VocIntern</h1>
                         <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
-                    </div> --}}
+                    </div>
 
-                    <h2 class="text-center">Reset Password</h2>
-                    <p class="text-center text-muted mb-4">
-                        Masukkan email dan password baru Anda
-                    </p>
+                    <h2 class="text-center">Masuk ke Akun Anda</h2>
+
+                    @if (session('status'))
+                        <div class="alert alert-success mb-3" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
                     @if ($errors->any())
                         <div class="alert alert-danger mb-3">
@@ -51,49 +54,63 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.store') }}">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <!-- Token Reset -->
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <!-- Email -->
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                 <input id="email" type="email" class="form-control" name="email"
-                                    value="{{ old('email', $email) }}" required autofocus>
+                                    value="{{ old('email') }}" required autofocus>
                             </div>
                         </div>
 
-                        <!-- Password Baru -->
-                        <div class="mb-4">
-                            <label for="password" class="form-label">Password Baru</label>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                 <input id="password" type="password" class="form-control" name="password" required>
                             </div>
                         </div>
 
-                        <!-- Konfirmasi Password -->
-                        <div class="mb-4">
-                            <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input id="password_confirmation" type="password" class="form-control"
-                                    name="password_confirmation" required>
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                    {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="remember">
+                                    Ingat Saya
+                                </label>
                             </div>
+                            @if (Route::has('password.request'))
+                                <a class="forgot-link" href="{{ route('password.request') }}">
+                                    Lupa Password?
+                                </a>
+                            @endif
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                        <div class="mb-0">
+                            <button type="submit" class="btn btn-login w-100">
+                                Masuk
+                            </button>
+                        </div>
                     </form>
 
+                    <div class="divider">
+                        <span>atau masuk dengan</span>
+                    </div>
+
+                    <div class="social-login">
+                        <a href="#" class="btn btn-google">
+                            <i class="fab fa-google me-2"></i> Google
+                        </a>
+                        <a href="#" class="btn btn-linkedin">
+                            <i class="fab fa-linkedin-in me-2"></i> LinkedIn
+                        </a>
+                    </div>
 
                     <div class="text-center mt-4">
-                        <p class="mb-0">
-                            <a href="{{ route('login') }}">Kembali ke Login</a>
-                        </p>
+                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
                     </div>
                 </div>
             </div>

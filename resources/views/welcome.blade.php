@@ -1,6 +1,22 @@
 <!-- resources/views/welcome.blade.php -->
+{{-- Autentikasi role setelah login --}}
+@auth
+    @php
+        if (auth()->user()->isAdmin()) {
+            header('Location: ' . route('admin.dashboard'));
+            exit();
+        } elseif (auth()->user()->isMahasiswa()) {
+            header('Location: ' . route('mahasiswa.dashboard'));
+            exit();
+        } elseif (auth()->user()->isPerusahaan()) {
+            header('Location: ' . route('perusahaan.dashboard'));
+            exit();
+        }
+    @endphp
+@endauth
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,43 +24,43 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         body {
             font-family: 'Nunito', sans-serif;
             color: #333;
         }
-        
+
         .hero-section {
             background: linear-gradient(135deg, #3a8ffe 0%, #0048cc 100%);
             color: white;
             padding: 5rem 0;
         }
-        
+
         .feature-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #0048cc;
         }
-        
+
         .feature-card {
             padding: 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             height: 100%;
             transition: transform 0.3s;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-5px);
         }
-        
+
         .job-card {
             border: 1px solid #eee;
             border-radius: 10px;
@@ -52,11 +68,11 @@
             margin-bottom: 1rem;
             transition: box-shadow 0.3s;
         }
-        
+
         .job-card:hover {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .company-logo {
             width: 60px;
             height: 60px;
@@ -69,20 +85,20 @@
             font-weight: bold;
             color: #0048cc;
         }
-        
+
         .footer {
             background-color: #f8f9fa;
             padding: 3rem 0;
         }
-        
+
         .search-box {
             border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .navbar-custom {
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .usu-logo {
@@ -91,6 +107,7 @@
         }
     </style>
 </head>
+
 <body class="antialiased">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 navbar-custom sticky-top">
@@ -98,7 +115,8 @@
             <a class="navbar-brand fw-bold text-primary" href="/">
                 <i class="fas fa-briefcase me-2"></i>VocIntern
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -120,7 +138,16 @@
                     @if (Route::has('login'))
                         <div>
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="btn btn-outline-primary me-2">Dashboard</a>
+                                @if (auth()->user()->isAdmin())
+                                    <a href="{{ route('admin.dashboard') }}"
+                                        class="btn btn-outline-primary me-2">Dashboard</a>
+                                @elseif(auth()->user()->isMahasiswa())
+                                    <a href="{{ route('mahasiswa.dashboard') }}"
+                                        class="btn btn-outline-primary me-2">Dashboard</a>
+                                @elseif(auth()->user()->isPerusahaan())
+                                    <a href="{{ route('perusahaan.dashboard') }}"
+                                        class="btn btn-outline-primary me-2">Dashboard</a>
+                                @endif
                             @else
                                 <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Masuk</a>
                                 @if (Route::has('register'))
@@ -140,7 +167,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <h1 class="display-4 fw-bold mb-4">Temukan Magang Vokasi Terbaik</h1>
-                    <p class="lead mb-4">VocIntern menghubungkan mahasiswa vokasi USU dengan peluang magang terbaik di perusahaan terkemuka. Raih pengalaman kerja berharga sebelum lulus!</p>
+                    <p class="lead mb-4">VocIntern menghubungkan mahasiswa vokasi USU dengan peluang magang terbaik di
+                        perusahaan terkemuka. Raih pengalaman kerja berharga sebelum lulus!</p>
                     <div class="d-flex gap-3">
                         <a href="{{ route('register') }}" class="btn btn-light btn-lg">Daftar Sekarang</a>
                         <a href="/magang" class="btn btn-outline-light btn-lg">Lihat Lowongan</a>
@@ -154,16 +182,18 @@
     </section>
 
     <!-- Search Section -->
+    <!-- resources/views/welcome.blade.php (bagian search section) -->
     <section class="py-5 bg-light">
         <div class="container">
             <div class="search-box bg-white p-4">
-                <form class="row g-3">
+                <form class="row g-3" action="{{ route('welcome') }}" method="GET">
                     <div class="col-md-5">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control border-start-0" placeholder="Posisi atau kata kunci">
+                            <input type="text" name="keyword" class="form-control border-start-0"
+                                placeholder="Posisi atau kata kunci" value="{{ request('keyword') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -171,7 +201,8 @@
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="fas fa-map-marker-alt text-muted"></i>
                             </span>
-                            <input type="text" class="form-control border-start-0" placeholder="Lokasi">
+                            <input type="text" name="lokasi" class="form-control border-start-0"
+                                placeholder="Lokasi" value="{{ request('lokasi') }}">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -183,84 +214,65 @@
     </section>
 
     <!-- Featured Internships -->
+    <!-- Featured Internships Section -->
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-5">Lowongan Magang Terbaru</h2>
             <div class="row">
-                <!-- Internship Card 1 -->
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="job-card">
-                        <div class="d-flex mb-3">
-                            <div class="company-logo me-3 d-flex align-items-center justify-content-center">
-                                ABC
+                @forelse($magang as $item)
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="job-card">
+                            <div class="d-flex mb-3">
+                                <div class="company-logo me-3 d-flex align-items-center justify-content-center">
+                                    @if ($item->perusahaan->logo)
+                                        <img src="{{ asset('storage/' . $item->perusahaan->logo) }}"
+                                            alt="{{ $item->perusahaan->nama_perusahaan }}" class="img-fluid rounded">
+                                    @else
+                                        {{ substr($item->perusahaan->nama_perusahaan, 0, 3) }}
+                                    @endif
+                                </div>
+                                <div>
+                                    <h5 class="mb-1">{{ $item->judul }}</h5>
+                                    <p class="mb-0 text-muted">{{ $item->perusahaan->nama_perusahaan }}</p>
+                                </div>
                             </div>
-                            <div>
-                                <h5 class="mb-1">Web Developer Intern</h5>
-                                <p class="mb-0 text-muted">PT ABC Technology</p>
+                            <div class="mb-3">
+                                <span class="badge bg-light text-dark me-2">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    {{ $item->lokasi }}
+                                </span>
+                                <span class="badge bg-light text-dark">
+                                    <i class="fas fa-clock me-1"></i>
+                                    {{ $item->kuota }} posisi tersedia
+                                </span>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <span class="badge bg-light text-dark me-2"><i class="fas fa-map-marker-alt me-1"></i> Medan</span>
-                            <span class="badge bg-light text-dark"><i class="fas fa-clock me-1"></i> Full-time</span>
-                        </div>
-                        <p class="text-muted small">Magang pengembangan web menggunakan Laravel dan React.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Diposting 2 hari lalu</small>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
+                            <p class="text-muted small">{{ Str::limit($item->deskripsi, 100) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    Dibuka hingga {{ $item->tanggal_selesai->format('d M Y') }}
+                                </small>
+                                {{-- <a href="{{ route('magang.show', $item->id) }}"
+                                    class="btn btn-sm btn-outline-primary">Lihat Detail</a> --}}
+                                <a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Internship Card 2 -->
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="job-card">
-                        <div class="d-flex mb-3">
-                            <div class="company-logo me-3 d-flex align-items-center justify-content-center">
-                                XYZ
-                            </div>
-                            <div>
-                                <h5 class="mb-1">UI/UX Design Intern</h5>
-                                <p class="mb-0 text-muted">XYZ Creative Studio</p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <span class="badge bg-light text-dark me-2"><i class="fas fa-map-marker-alt me-1"></i> Medan</span>
-                            <span class="badge bg-light text-dark"><i class="fas fa-clock me-1"></i> Part-time</span>
-                        </div>
-                        <p class="text-muted small">Magang desain UI/UX untuk aplikasi mobile dan web.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Diposting 1 minggu lalu</small>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
-                        </div>
+                @empty
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Tidak ada lowongan magang yang tersedia saat ini.</p>
                     </div>
-                </div>
-                
-                <!-- Internship Card 3 -->
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="job-card">
-                        <div class="d-flex mb-3">
-                            <div class="company-logo me-3 d-flex align-items-center justify-content-center">
-                                DEF
-                            </div>
-                            <div>
-                                <h5 class="mb-1">Digital Marketing Intern</h5>
-                                <p class="mb-0 text-muted">DEF Media Group</p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <span class="badge bg-light text-dark me-2"><i class="fas fa-map-marker-alt me-1"></i> Medan</span>
-                            <span class="badge bg-light text-dark"><i class="fas fa-clock me-1"></i> Full-time</span>
-                        </div>
-                        <p class="text-muted small">Magang pemasaran digital dengan fokus pada media sosial.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Diposting 3 hari lalu</small>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
+
+            @if ($magang->hasPages())
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $magang->withQueryString()->links('vendor.pagination.bootstrap-5') }}
+                </div>
+            @endif
+
             <div class="text-center mt-4">
-                <a href="/magang" class="btn btn-outline-primary">Lihat Semua Lowongan</a>
+                {{-- <a href="{{ route('magang.index') }}" class="btn btn-outline-primary">Lihat Semua Lowongan</a> --}}
+                <a href="#" class="btn btn-outline-primary">Lihat Semua Lowongan</a>
             </div>
         </div>
     </section>
@@ -276,7 +288,8 @@
                             <i class="fas fa-search"></i>
                         </div>
                         <h4>Mudah Mencari</h4>
-                        <p class="text-muted">Temukan magang yang sesuai dengan keahlian dan minat Anda dengan fitur pencarian canggih.</p>
+                        <p class="text-muted">Temukan magang yang sesuai dengan keahlian dan minat Anda dengan fitur
+                            pencarian canggih.</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -285,7 +298,8 @@
                             <i class="fas fa-building"></i>
                         </div>
                         <h4>Perusahaan Terpercaya</h4>
-                        <p class="text-muted">Terhubung dengan perusahaan terkemuka yang menawarkan pengalaman magang berkualitas.</p>
+                        <p class="text-muted">Terhubung dengan perusahaan terkemuka yang menawarkan pengalaman magang
+                            berkualitas.</p>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -294,7 +308,8 @@
                             <i class="fas fa-laptop-code"></i>
                         </div>
                         <h4>Fokus Vokasi</h4>
-                        <p class="text-muted">Platform khusus untuk mahasiswa vokasi USU yang mencari pengalaman praktis sesuai bidang studi.</p>
+                        <p class="text-muted">Platform khusus untuk mahasiswa vokasi USU yang mencari pengalaman
+                            praktis sesuai bidang studi.</p>
                     </div>
                 </div>
             </div>
@@ -307,8 +322,10 @@
             <h2 class="mb-4">Siap Memulai Karir Anda?</h2>
             <p class="lead mb-4">Daftar sekarang dan temukan magang yang sesuai dengan minat dan keahlian Anda.</p>
             <div class="d-flex gap-3 justify-content-center">
-                <a href="{{ route('register') }}?role=mahasiswa" class="btn btn-light btn-lg">Daftar Sebagai Mahasiswa</a>
-                <a href="{{ route('register') }}?role=perusahaan" class="btn btn-outline-light btn-lg">Daftar Sebagai Perusahaan</a>
+                <a href="{{ route('register') }}?role=mahasiswa" class="btn btn-light btn-lg">Daftar Sebagai
+                    Mahasiswa</a>
+                <a href="{{ route('register') }}?role=perusahaan" class="btn btn-outline-light btn-lg">Daftar Sebagai
+                    Perusahaan</a>
             </div>
         </div>
     </section>
@@ -319,7 +336,8 @@
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>VocIntern</h5>
-                    <p class="text-muted">Platform magang khusus untuk mahasiswa vokasi USU, menghubungkan talenta berbakat dengan perusahaan terkemuka.</p>
+                    <p class="text-muted">Platform magang khusus untuk mahasiswa vokasi USU, menghubungkan talenta
+                        berbakat dengan perusahaan terkemuka.</p>
                     <div class="d-flex align-items-center mt-3">
                         <img src="/api/placeholder/40/40" alt="USU Logo" class="usu-logo">
                         <span>Universitas Sumatera Utara</span>
@@ -328,36 +346,45 @@
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Magang</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Cari Magang</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Kategori</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Cari Magang</a>
+                        </li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Kategori</a>
+                        </li>
                         <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Lokasi</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Perusahaan</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Perusahaan</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Perusahaan</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Posting Lowongan</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Profil Perusahaan</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Manfaat Kerjasama</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Sukses Story</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Posting
+                                Lowongan</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Profil
+                                Perusahaan</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Manfaat
+                                Kerjasama</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Sukses Story</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Bantuan</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><a href="#" class="text-muted text-decoration-none">FAQ</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Kontak Kami</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Kontak Kami</a>
+                        </li>
                         <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Panduan</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Tips Magang</a></li>
+                        <li class="mb-2"><a href="#" class="text-muted text-decoration-none">Tips Magang</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4">
                     <h6 class="fw-bold mb-3">Kontak</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Kampus USU, Medan</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> vocintern@usu.ac.id</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2"></i> (061) 82116655</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> vocintern2025@gmail.com</li>
+                        {{-- <li class="mb-2"><i class="fas fa-phone me-2"></i> (061) 82116655</li> --}}
                     </ul>
                 </div>
             </div>
@@ -372,4 +399,5 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

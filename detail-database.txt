@@ -1,77 +1,79 @@
 Tabel users:
     Schema::create('users', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('email')->unique();
-        $table->timestamp('email_verified_at')->nullable();
-        $table->string('password');
-        $table->enum('role', ['admin', 'mahasiswa', 'perusahaan'])->default('mahasiswa');
-        $table->rememberToken();
-        $table->timestamps();
-    });
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->enum('role', ['admin', 'mahasiswa', 'perusahaan'])->default('mahasiswa');
+            $table->rememberToken();
+            $table->timestamps();
+        });
 
 Tabel mahasiswa:
     Schema::create('mahasiswa', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->string('nim')->unique();
-        $table->string('jurusan');
-        $table->integer('angkatan');
-        $table->text('bio')->nullable();
-        $table->string('foto')->nullable();
-        $table->timestamps();
-    });
+            $table->id();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('nama');
+            $table->integer('nim')->unique();
+            $table->string('jurusan');
+            $table->string('semester');
+            $table->text('bio')->nullable();
+            $table->string('foto')->nullable();
+            $table->timestamps();
+        });
 
 Tabel perusahaan:
     Schema::create('perusahaan', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->string('nama_perusahaan');
-        $table->text('alamat');
-        $table->string('bidang');
-        $table->string('website')->nullable();
-        $table->string('logo')->nullable();
-        $table->text('deskripsi')->nullable();
-        $table->timestamps();
-    });
+            $table->id();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('nama_perusahaan');
+            $table->text('alamat');
+            $table->string('bidang');
+            $table->string('nama_pendaftar');
+            $table->string('website')->nullable();
+            $table->string('logo')->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->timestamps();
+        });
 
 Tabel magang:
     Schema::create('magang', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('perusahaan_id')->constrained()->onDelete('cascade');
-        $table->string('judul');
-        $table->text('deskripsi');
-        $table->string('lokasi');
-        $table->string('bidang');
-        $table->date('tanggal_mulai');
-        $table->date('tanggal_selesai');
-        $table->integer('kuota')->default(1);
-        $table->boolean('status_aktif')->default(true);
-        $table->timestamps();
-    });
+            $table->id();
+            $table->foreignId('perusahaan_id')->references('id')->on('perusahaan')->onDelete('cascade');
+            $table->string('judul');
+            $table->text('deskripsi');
+            $table->string('lokasi');
+            $table->string('bidang');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
+            $table->integer('kuota')->default(1);
+            $table->boolean('status_aktif')->default(true);
+            $table->timestamps();
+        });
 
-tabel laporan:
-    Schema::create('laporan', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('pendaftaran_magang_id')->constrained()->onDelete('cascade');
-        $table->integer('minggu_ke');
-        $table->text('kegiatan');
-        $table->string('file_laporan')->nullable();
-        $table->text('catatan_perusahaan')->nullable();
-        $table->timestamps();
-    });
-
-tabel pendaftaran_magang:
+Tabel pendaftaran_magang:
     Schema::create('pendaftaran_magang', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('mahasiswa_id')->constrained()->onDelete('cascade');
-        $table->foreignId('magang_id')->constrained()->onDelete('cascade');
-        $table->string('cv');
-        $table->string('surat_pengantar')->nullable();
-        $table->enum('status', ['menunggu', 'diterima', 'ditolak'])->default('menunggu');
-        $table->text('catatan')->nullable();
-        $table->date('tanggal_mulai')->nullable();
-        $table->date('tanggal_selesai')->nullable();
-        $table->enum('status_magang', ['belum_mulai', 'berlangsung', 'selesai'])->nullable();
-        $table->timestamps();
-});
+            $table->id();
+            $table->foreign('mahasiswa_id')->references('id')->on('mahasiswa')->onDelete('cascade');
+            $table->foreign('magang_id')->references('id')->on('magang')->onDelete('cascade');
+            $table->string('cv');
+            $table->string('surat_pengantar')->nullable();
+            $table->enum('status', ['menunggu', 'diterima', 'ditolak'])->default('menunggu');
+            $table->text('catatan')->nullable();
+            $table->date('tanggal_mulai')->nullable();
+            $table->date('tanggal_selesai')->nullable();
+            $table->enum('status_magang', ['belum_mulai', 'berlangsung', 'selesai'])->nullable();
+            $table->timestamps();
+        });
+
+Tabel laporan:
+    Schema::create('laporan', function (Blueprint $table) {
+            $table->id();
+            $table->foreign('pendaftaran_magang_id')->references('id')->on('pendaftaran_magang')->onDelete('cascade');
+            $table->integer('minggu_ke');
+            $table->text('kegiatan');
+            $table->string('file_laporan')->nullable();
+            $table->text('catatan_perusahaan')->nullable();
+            $table->timestamps();
+        });

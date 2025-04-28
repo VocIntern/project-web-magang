@@ -16,9 +16,11 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
+        Auth::user()->refresh();
         // Cek apakah user sudah login dan rolenya sesuai
         if (!Auth::check() || Auth::user()->role !== $role) {
-            return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            Auth::logout();
+            return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
 
         return $next($request);
