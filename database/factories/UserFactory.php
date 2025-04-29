@@ -29,12 +29,9 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'role'                  => $this->faker->randomElement([                // ⑥ Random role dari array :contentReference[oaicite:1]{index=1}
-                'admin',
-                'mahasiswa',
-                'perusahaan',
-            ]),
+            'role' => $this->faker->randomElement(['admin','mahasiswa','perusahaan']),
         ];
+
     }
 
     /**

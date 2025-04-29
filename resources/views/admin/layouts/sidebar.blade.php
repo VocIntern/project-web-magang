@@ -1,5 +1,5 @@
 <!-- resources/views/layouts/sidebar.blade.php -->
-<nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+<nav id="sidebar" class="sidebar-shrink col-md-3 col-lg-2 d-md-block sidebar collapse">
     <div class="sidebar-green pt-3 d-flex flex-column h-100">
         <div class="px-3 py-4 d-flex align-items-center">
             <i class="fas fa-briefcase text-white me-2 fa-2x"></i>
