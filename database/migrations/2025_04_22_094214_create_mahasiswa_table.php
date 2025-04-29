@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('nama');
-            $table->integer('nim')->unique();
+            $table->bigInteger('nim')->unique();
             $table->string('jurusan');
             $table->string('semester');
             $table->text('bio')->nullable();

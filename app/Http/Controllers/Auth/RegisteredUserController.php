@@ -17,9 +17,10 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.register');
+        $role = $request->query('role', 'mahasiswa');
+        return view('auth.register', compact('role'));
     }
 
     /**
@@ -48,9 +49,9 @@ class RegisteredUserController extends Controller
         if ($user->role === 'mahasiswa') {
             return redirect()->route('mahasiswa.profile.create');
         } elseif ($user->role === 'perusahaan') {
-            return redirect()->route('perusahaan.profile.create');
+            return redirect()->route('login'); //perusahaan.profile.complete
         }
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect('/');
     }
 }

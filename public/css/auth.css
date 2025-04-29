@@ -9,18 +9,18 @@ body {
     padding: 20px;
 }
 
-.login-container, 
-.register-container, 
-.forgot-password-container, 
+.login-container,
+.register-container,
+.forgot-password-container,
 .reset-password-container,
 .confirm-password-container,
 .verify-email-container {
     max-width: 500px;
 }
 
-.login-form, 
-.register-form, 
-.forgot-password-form, 
+.login-form,
+.register-form,
+.forgot-password-form,
 .reset-password-form,
 .confirm-password-form,
 .verify-email-form {
@@ -38,7 +38,7 @@ body {
 .login-logo a {
     width: 60px;
     height: 60px;
-    background-color: #4F46E5;
+    background-color: #4f46e5;
     border-radius: 50%;
     display: inline-flex;
     color: white;
@@ -59,31 +59,31 @@ h2 {
     color: #333;
 }
 
-.btn-login, 
-.btn-register, 
+.btn-login,
+.btn-register,
 .btn-reset,
 .btn-confirm,
 .btn-verify {
-    background-color: #4F46E5;
-    border-color: #4F46E5;
+    background-color: #4f46e5;
+    border-color: #4f46e5;
     color: white;
     padding: 10px 15px;
     font-weight: 500;
     transition: all 0.3s;
 }
 
-.btn-login:hover, 
-.btn-register:hover, 
+.btn-login:hover,
+.btn-register:hover,
 .btn-reset:hover,
 .btn-confirm:hover,
 .btn-verify:hover {
-    background-color: #4338CA;
-    border-color: #4338CA;
+    background-color: #4338ca;
+    border-color: #4338ca;
     color: white;
 }
 
 .forgot-link {
-    color: #4F46E5;
+    color: #4f46e5;
     text-decoration: none;
     font-size: 14px;
 }
@@ -101,7 +101,7 @@ h2 {
 
 .divider::before,
 .divider::after {
-    content: '';
+    content: "";
     flex: 1;
     border-bottom: 1px solid #e2e8f0;
 }
@@ -125,20 +125,20 @@ h2 {
 }
 
 .btn-google {
-    background-color: #DB4437;
-    border-color: #DB4437;
+    background-color: #db4437;
+    border-color: #db4437;
     color: white;
 }
 
 .btn-google:hover {
-    background-color: #C53929;
-    border-color: #C53929;
+    background-color: #c53929;
+    border-color: #c53929;
     color: white;
 }
 
 .btn-linkedin {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
     color: white;
 }
 
@@ -163,8 +163,8 @@ h2 {
 }
 
 .register-form {
-    max-height: 80vh;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
 }
 
 .role-fields {
@@ -174,14 +174,14 @@ h2 {
 }
 
 .verify-icon {
-    color: #4F46E5;
+    color: #4f46e5;
 }
 
 /* Responsive adjustments */
 @media (max-width: 576px) {
-    .login-form, 
-    .register-form, 
-    .forgot-password-form, 
+    .login-form,
+    .register-form,
+    .forgot-password-form,
     .reset-password-form,
     .confirm-password-form,
     .verify-email-form {

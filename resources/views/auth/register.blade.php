@@ -50,16 +50,40 @@
 
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        <input type="hidden" name="role" value="{{ request('role', 'mahasiswa') }}">
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input id="email" type="email" class="form-control" name="email"
-                                    value="{{ old('email') }}" required>
+                        {{-- Hidden role --}}
+                        <input type="hidden" name="role" value="{{ $role }}">
+
+                        {{-- Tentukan judul & input khusus berdasarkan role --}}
+                        @php
+                            $role = $role ?? request('role', 'mahasiswa');
+                        @endphp
+
+                        @if ($role === 'mahasiswa')
+                            <h2 class="text-center">Daftar Sebagai Mahasiswa</h2>
+                            {{-- Misal: NIM --}}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input id="email" type="email" class="form-control" name="email"
+                                        value="{{ old('email') }}" required>
+                                </div>
                             </div>
-                        </div>
+                            {{-- Tambahkan field lain seperti jurusan, fakultas, dll. --}}
+                        @elseif($role === 'perusahaan')
+                            <h2 class="text-center">Daftar Sebagai Perusahaan</h2>
+                            {{-- Misal: Nama Perusahaan --}}
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Perusahaan</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input id="email" type="email" class="form-control" name="email"
+                                        value="{{ old('email') }}" required>
+                                </div>
+                            </div>
+                            {{-- Field tambahan: alamat, website, deskripsi, dll. --}}
+                        @endif
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -68,7 +92,6 @@
                                 <input id="password" type="password" class="form-control" name="password" required>
                             </div>
                         </div>
-
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                             <div class="input-group">
@@ -78,11 +101,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-0">
-                            <button type="submit" class="btn btn-register w-100">
-                                Daftar
-                            </button>
-                        </div>
+                        <button type="submit" class="btn btn-register w-100">Daftar</button>
                     </form>
 
                     <div class="divider">

@@ -20,6 +20,6 @@ class IsMahasiswa
             return $next($request);
         }
 
-        return redirect()->route('mahasiswa.dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
     }
 }
