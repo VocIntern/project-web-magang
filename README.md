@@ -15,7 +15,7 @@ Platform manajemen magang untuk menghubungkan mahasiswa D1,D2,D3, dan D4 di perg
 - Pembuatan laporan magang otomatis
 
 
-## 🗃️ Entity Relationship Diagram (ERD) - Sistem Magang Mahasiswa
+## 🗃️ Entity Relationship Diagram (ERD)
 
 Dokumen ini berisi penjelasan mengenai struktur basis data sistem magang yang dirancang untuk menghubungkan mahasiswa dengan perusahaan.
 
@@ -53,7 +53,7 @@ Berikut adalah hubungan antar entitas dalam sistem:
 
 ---
 
-### 🖼️ Diagram ERD
+### 🖼️ ERD
 
 Berikut adalah diagram visual dari hubungan entitas:
 
