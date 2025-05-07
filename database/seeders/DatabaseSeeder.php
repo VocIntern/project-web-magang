@@ -23,35 +23,9 @@ class DatabaseSeeder extends Seeder
             MagangSeeder::class,
             PerusahaanSeeder::class,
             MahasiswaSeeder::class,
+            UserSeeder::class,
             // seeder lain jika ada...
         ]);
 
-
-        // Buat 5 admin
-        for ($i = 1; $i <= 5; $i++) {
-            User::factory()->create([
-                'email' => 'admin' . $i . '@admin.com',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin',
-            ]);
-        }
-
-        // Buat 5 mahasiswa
-        for ($i = 1; $i <= 5; $i++) {
-            User::factory()->create([
-                'email' => 'mahasiswa' . $i . '@mahasiswa.com',
-                'password' => Hash::make('mahasiswa123'),
-                'role' => 'mahasiswa',
-            ]);
-        }
-
-        // Buat 5 perusahaan
-        for ($i = 1; $i <= 5; $i++) {
-            User::factory()->create([
-                'email' => 'perusahaan' . $i . '@perusahaan.com',
-                'password' => Hash::make('perusahaan123'),
-                'role' => 'perusahaan',
-            ]);
-        }
     }
 }
