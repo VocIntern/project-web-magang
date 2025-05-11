@@ -91,7 +91,7 @@ class MahasiswaMagangController extends Controller
         // Check if student has already applied
         $hasApplied = false;
         if (Auth::check() && Auth::user()->isMahasiswa()) {
-            $hasApplied = PendaftaranMagang::where('mahasiswa_id', Auth::user()->mahasiswa->id)
+            $hasApplied = PendaftaranMagang::where('mahasiswa_id', Auth::user()->mahasiswa?->id)
                 ->where('magang_id', $id)
                 ->exists();
         }
