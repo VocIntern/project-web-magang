@@ -105,26 +105,6 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/magang/{magang}', [MagangController::class, 'destroy'])->name('admin.magang.destroy');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Mahasiswa Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::middleware(['auth', 'verified', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-    // Profile completion for mahasiswa
-    Route::get('/profile/create', [MahasiswaProfileController::class, 'create'])->name('profile.create');
-    Route::post('/profile', [MahasiswaProfileController::class, 'store'])->name('profile.store');
-    Route::get('/profile/edit', [MahasiswaProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [MahasiswaProfileController::class, 'update'])->name('profile.update');
-
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return view('mahasiswa.dashboard');
-    })->name('dashboard');
-});
-
-
 
 
 require __DIR__ . '/auth.php';
