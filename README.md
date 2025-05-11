@@ -82,7 +82,7 @@ Berikut adalah diagram visual dari hubungan entitas:
 
 1. Clone repository:
    ```bash
-   git clone https://github.com/VocIntern/project-web-magang.git
+   git clone -b landingpage https://github.com/VocIntern/project-web-magang.git
    cd vocintern
    
 2. Install dependencies:
