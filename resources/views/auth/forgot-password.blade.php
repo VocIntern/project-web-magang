@@ -29,9 +29,9 @@
             <div class="col-md-12">
                 <div class="forgot-password-form">
                     <div class="login-logo">
-                        <a href="/" class="d-flex align-items-center justify-content-center">
+                        {{-- <a href="/" class="d-flex align-items-center justify-content-center">
                             <i class="fas fa-briefcase"></i>
-                        </a>
+                        </a> --}}
                         <h1 class="mt-2 mb-0">VocIntern</h1>
                         <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
                     </div>

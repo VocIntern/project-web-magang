@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use App\Models\Magang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -48,7 +49,7 @@ class MahasiswaProfileController extends Controller
             'foto' => $fotoPath,
         ]);
 
-        return redirect()->route('mahasiswa.dashboard')
+        return redirect()->route('magang.search')
             ->with('success', 'Profil mahasiswa berhasil dibuat!');
     }
 

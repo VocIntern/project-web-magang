@@ -1,0 +1,196 @@
+/* ===== Global ===== */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem 1rem;
+}
+
+/* ===== Header Pencarian ===== */
+.search-header {
+  background-color: #0054a6;  /* warna biru pekat */
+  color: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.search-header h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-form input[type="text"] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.25rem 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.search-form button {
+  padding: 0.75rem 1.25rem;
+  border: none;
+  background-color: #ffd200;
+  color: #0054a6;
+  font-weight: bold;
+  border-radius: 0 0.25rem 0.25rem 0;
+  cursor: pointer;
+}
+.search-form button:hover {
+  background-color: #ffcc00;
+}
+
+/* ===== Layout Grid ===== */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.col-md-3 {
+  flex: 0 0 25%;
+}
+
+.col-md-9 {
+  flex: 0 0 70%;
+}
+
+/* ===== Sidebar Filter ===== */
+.filter-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.filter-card .card-header {
+  background: #f0f2f5;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+.filter-card .card-body {
+  padding: 1rem;
+}
+
+.filter-card label {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.filter-card select,
+.filter-card .form-check-input {
+  margin-bottom: 0.75rem;
+}
+
+/* ===== Kartu Lowongan ===== */
+.job-card {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.job-card .card-body {
+  padding: 1rem;
+  flex: 1;
+}
+
+.job-card .card-body .media {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.job-card .card-body .media img,
+.job-card .card-body .media .placeholder-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  background: #e9ecef;
+}
+
+.job-card .card-body h5 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.job-card .card-body h6 {
+  margin: 0.25rem 0;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.job-card .card-body p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.job-card .card-body .badges {
+  margin-top: 0.75rem;
+}
+
+.job-card .card-body .badges .badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+  background: #f0f2f5;
+  color: #333;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.job-card .card-footer {
+  background: #fff;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: #999;
+  border-top: 1px solid #eee;
+}
+
+/* ===== Tombol Detail & Lamaran ===== */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #0054a6;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #004080;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border: 1px solid #0054a6;
+  color: #0054a6;
+}
+.btn-outline-primary:hover {
+  background: #0054a6;
+  color: #fff;
+}

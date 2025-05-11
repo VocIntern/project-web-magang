@@ -28,13 +28,13 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="register-form">
-                    {{-- <div class="login-logo">
-                        <a href="/" class="d-flex align-items-center justify-content-center">
+                    <div class="login-logo">
+                        {{-- <a href="/" class="d-flex align-items-center justify-content-center">
                             <i class="fas fa-briefcase"></i>
-                        </a>
+                        </a> --}}
                         <h1 class="mt-2 mb-0">VocIntern</h1>
                         <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
-                    </div> --}}
+                    </div>
 
                     <h2 class="text-center">Buat Akun Baru</h2>
 
