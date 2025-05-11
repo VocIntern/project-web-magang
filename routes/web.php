@@ -15,12 +15,6 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 
-
-
-
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -52,11 +46,6 @@ Route::middleware(['auth', 'verified', 'role:mahasiswa'])->prefix('mahasiswa')->
 
     // Pendaftaran management - assuming you have this controller
     // Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
-
-    // Dashboard
-    Route::get('/dashboard', function () {
-        return view('mahasiswa.dashboard');
-    })->name('dashboard');
 });
 
 /*
