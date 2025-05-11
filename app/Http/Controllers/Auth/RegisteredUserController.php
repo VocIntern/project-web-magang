@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
         Auth::login($user);
         // Redirect based on role for profile completion
         if ($user->role === 'mahasiswa') {
-            return redirect()->route('mahasiswa.profile.create');
+            return redirect()->route('login'); //mahasiswa.profile.complete
         } elseif ($user->role === 'perusahaan') {
             return redirect()->route('login'); //perusahaan.profile.complete
         }
