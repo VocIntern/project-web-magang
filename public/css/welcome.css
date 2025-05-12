@@ -16,9 +16,10 @@
 }
 
 body {
-    font-family: 'Nunito', sans-serif;
-    color: var(--dark-color);
+    font-family: "Nunito", sans-serif;
+    color: var(--light-color);
     line-height: 1.6;
+    background-color: green;
 }
 
 a {
@@ -26,11 +27,29 @@ a {
     transition: var(--transition);
 }
 
+.hero-bg {
+    background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.7),
+            rgba(0, 0, 0, 0.8)
+        ),
+        url("/images/961.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: 1;
+}
+
 /* Navbar */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px);
+}
+
 .navbar-custom {
-    box-shadow: var(--shadow-sm);
-    background-color: var(--white-color);
-    padding: 15px 0;
+    background-color: transparent !important;
+    box-shadow: none; /* opsional, kalau ingin hilangkan bayangan */
+}
+.navbar-scrolled {
+    background-color: rgba(22, 21, 21, 0.5) !important;
 }
 
 .navbar-brand {
@@ -54,7 +73,11 @@ a {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-light) 0%,
+        var(--primary-color) 100%
+    );
     color: var(--white-color);
     padding: 5rem 0;
     position: relative;
@@ -202,7 +225,11 @@ a {
 
 /* CTA Section */
 .cta-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    background: linear-gradient(
+        135deg,
+        var(--primary-color) 0%,
+        var(--primary-light) 100%
+    );
     color: var(--white-color);
     padding: 4rem 0;
     text-align: center;
@@ -229,17 +256,20 @@ a {
 
 /* Footer */
 .footer {
-    background-color: var(--light-color);
+    background-color: #006633;
     padding: 4rem 0 2rem;
+    font-weight: 600;
+    color: white;
 }
 
-.footer h5, .footer h6 {
+.footer h5,
+.footer h6 {
     font-weight: 700;
     margin-bottom: 1.5rem;
 }
 
 .footer p {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .footer .list-unstyled li {
@@ -247,12 +277,12 @@ a {
 }
 
 .footer .list-unstyled a {
-    color: var(--gray-color);
+    color: white;
     transition: var(--transition);
 }
 
 .footer .list-unstyled a:hover {
-    color: var(--primary-color);
+    color: var(--light-color);
     text-decoration: none;
 }
 
@@ -263,7 +293,7 @@ a {
 }
 
 .pagination .page-link {
-    color: var(--primary-color);
+    color: var(--dark-color);
     border-radius: 5px;
     margin: 0 3px;
     border: 1px solid var(--border-color);
@@ -271,8 +301,8 @@ a {
 }
 
 .pagination .page-item.active .page-link {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
+    background-color: #006633;
+    border-color: var(--secondary-color);
 }
 
 /* Responsive adjustments */
@@ -280,7 +310,7 @@ a {
     .hero-section {
         padding: 4rem 0;
     }
-    
+
     .hero-section h1 {
         font-size: 2.25rem;
     }
@@ -291,15 +321,16 @@ a {
         padding: 3rem 0;
         text-align: center;
     }
-    
+
     .search-box {
         padding: 1rem;
     }
-    
-    .feature-card, .job-card {
+
+    .feature-card,
+    .job-card {
         margin-bottom: 1.5rem;
     }
-    
+
     .cta-section .btn {
         margin-bottom: 1rem;
         display: block;
@@ -344,7 +375,7 @@ a {
 }
 
 .section-title:after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -15px;
     left: 50%;

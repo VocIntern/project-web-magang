@@ -33,89 +33,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    {{-- <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            color: #333;
-        }
-
-        .hero-section {
-            background: linear-gradient(135deg, #3a8ffe 0%, #0048cc 100%);
-            color: white;
-            padding: 5rem 0;
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #0048cc;
-        }
-
-        .feature-card {
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            height: 100%;
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .job-card {
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            transition: box-shadow 0.3s;
-        }
-
-        .job-card:hover {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .company-logo {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #0048cc;
-        }
-
-        .footer {
-            background-color: #f8f9fa;
-            padding: 3rem 0;
-        }
-
-        .search-box {
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar-custom {
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .usu-logo {
-            height: 40px;
-            margin-right: 10px;
-        }
-    </style> --}}
 </head>
 
 <body class="antialiased">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 navbar-custom sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom py-3 fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="/">
-                <i class="fas fa-briefcase me-2"></i>VocIntern
+            <a class="navbar-brand fw-bold text-warning"href="/">
+                <i class="fas fa-briefcase me-2 text-warning"></i>VocIntern
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -142,18 +67,18 @@
                             @auth
                                 @if (auth()->user()->isAdmin())
                                     <a href="{{ route('admin.dashboard') }}"
-                                        class="btn btn-outline-primary me-2">Dashboard</a>
+                                        class="btn btn-outline-success me-2">Dashboard</a>
                                 @elseif(auth()->user()->isMahasiswa())
-                                    <a href="{{ route('mahasiswa.dashboard') }}"
-                                        class="btn btn-outline-primary me-2">Dashboard</a>
+                                    <a href="{{ route('mahasiswa.magang.search') }}"
+                                        class="btn btn-outline-success me-2">Cari Magang</a>
                                 @elseif(auth()->user()->isPerusahaan())
                                     <a href="{{ route('perusahaan.dashboard') }}"
-                                        class="btn btn-outline-primary me-2">Dashboard</a>
+                                        class="btn btn-outline-success me-2">Dashboard</a>
                                 @endif
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Masuk</a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-warning me-2">Masuk</a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="btn btn-primary">Daftar</a>
+                                    <a href="{{ route('register') }}" class="btn btn-warning">Daftar</a>
                                 @endif
                             @endauth
                         </div>
@@ -164,8 +89,10 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
+    <section class="hero-section position-relative text-white d-flex align-items-center" style="min-height: 100vh;">
+        <div class="hero-bg position-absolute top-0 start-0 w-100 h-100"></div>
+
+        <div class="container position-relative z-1">
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <h1 class="display-4 fw-bold mb-4">Temukan Magang Vokasi Terbaik</h1>
@@ -173,19 +100,17 @@
                         perusahaan terkemuka. Raih pengalaman kerja berharga sebelum lulus!</p>
                     <div class="d-flex gap-3">
                         <a href="{{ route('register') }}" class="btn btn-light btn-lg">Daftar Sekarang</a>
-                        <a href="/magang" class="btn btn-outline-light btn-lg">Lihat Lowongan</a>
+                        <a href="/magang" class="btn btn-outline-warning btn-lg">Lihat Lowongan</a>
                     </div>
-                </div>
-                <div class="col-lg-6 d-none d-lg-block">
-                    <img src="/api/placeholder/600/400" alt="VocIntern Hero Image" class="img-fluid rounded shadow-lg">
                 </div>
             </div>
         </div>
     </section>
 
+
     <!-- Search Section -->
     <!-- resources/views/welcome.blade.php (bagian search section) -->
-    <section class="py-5 bg-light">
+    <section class="py-5">
         <div class="container">
             <div class="search-box bg-white p-4">
                 <form class="row g-3" action="{{ route('welcome') }}" method="GET">
@@ -208,7 +133,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">Cari Lowongan</button>
+                        <button type="submit" class="btn btn-success w-100">Cari Lowongan</button>
                     </div>
                 </form>
             </div>
@@ -219,13 +144,14 @@
     <!-- Featured Internships Section -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Lowongan Magang Terbaru</h2>
+            <h2 class="text-center text-white mb-5">Lowongan Magang Terbaru</h2>
             <div class="row">
                 @forelse($magang as $item)
                     <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="job-card">
+                        <div class="job-card bg-light">
                             <div class="d-flex mb-3">
-                                <div class="company-logo me-3 d-flex align-items-center justify-content-center">
+                                <div
+                                    class="company-logo me-3 d-flex align-items-center justify-content-center text-success">
                                     @if ($item->perusahaan->logo)
                                         <img src="{{ asset('storage/' . $item->perusahaan->logo) }}"
                                             alt="{{ $item->perusahaan->nama_perusahaan }}" class="img-fluid rounded">
@@ -239,7 +165,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <span class="badge bg-light text-dark me-2">
+                                <span class="badge bg-sucess text-dark me-2">
                                     <i class="fas fa-map-marker-alt me-1"></i>
                                     {{ $item->lokasi }}
                                 </span>
@@ -255,7 +181,7 @@
                                 </small>
                                 {{-- <a href="{{ route('magang.show', $item->id) }}"
                                     class="btn btn-sm btn-outline-primary">Lihat Detail</a> --}}
-                                <a href="#" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
+                                <a href="#" class="btn btn-sm btn-outline-success">Lihat Detail</a>
                             </div>
                         </div>
                     </div>
@@ -274,20 +200,20 @@
 
             <div class="text-center mt-4">
                 {{-- <a href="{{ route('magang.index') }}" class="btn btn-outline-primary">Lihat Semua Lowongan</a> --}}
-                <a href="#" class="btn btn-outline-primary">Lihat Semua Lowongan</a>
+                <a href="#" class="btn btn-outline-success">Lihat Semua Lowongan</a>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="py-5 bg-light">
+    <section class="py-5 bg-success">
         <div class="container">
-            <h2 class="text-center mb-5">Mengapa VocIntern?</h2>
+            <h2 class="text-center text-light mb-5">Mengapa VocIntern?</h2>
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="feature-card bg-white">
                         <div class="feature-icon">
-                            <i class="fas fa-search"></i>
+                            <i class="fas fa-search" style="color: #006633;"></i>
                         </div>
                         <h4>Mudah Mencari</h4>
                         <p class="text-muted">Temukan magang yang sesuai dengan keahlian dan minat Anda dengan fitur
@@ -297,7 +223,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="feature-card bg-white">
                         <div class="feature-icon">
-                            <i class="fas fa-building"></i>
+                            <i class="fas fa-building" style="color: #006633;"></i>
                         </div>
                         <h4>Perusahaan Terpercaya</h4>
                         <p class="text-muted">Terhubung dengan perusahaan terkemuka yang menawarkan pengalaman magang
@@ -307,7 +233,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="feature-card bg-white">
                         <div class="feature-icon">
-                            <i class="fas fa-laptop-code"></i>
+                            <i class="fas fa-laptop-code" style="color: #006633;"></i>
                         </div>
                         <h4>Fokus Vokasi</h4>
                         <p class="text-muted">Platform khusus untuk mahasiswa vokasi USU yang mencari pengalaman
@@ -319,7 +245,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-5 bg-primary text-white">
+    <section class="py-5 bg-warning">
         <div class="container text-center">
             <h2 class="mb-4">Siap Memulai Karir Anda?</h2>
             <p class="lead mb-4">Daftar sekarang dan temukan magang yang sesuai dengan minat dan keahlian Anda.</p>
@@ -333,17 +259,14 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" style="background-color: #006633;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>VocIntern</h5>
                     <p class="text-muted">Platform magang khusus untuk mahasiswa vokasi USU, menghubungkan talenta
                         berbakat dengan perusahaan terkemuka.</p>
-                    <div class="d-flex align-items-center mt-3">
-                        <img src="/api/placeholder/40/40" alt="USU Logo" class="usu-logo">
-                        <span>Universitas Sumatera Utara</span>
-                    </div>
+            
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Magang</h6>
@@ -397,6 +320,16 @@
             </div>
         </div>
     </footer>
+    <script>
+        window.addEventListener('scroll', function() {
+            var navbar = document.querySelector('.navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
