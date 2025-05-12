@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-success w-100">Cari Lowongan</button>
+                        <button type="submit" class="btn btn-outline-success w-100">Cari Lowongan</button>
                     </div>
                 </form>
             </div>
@@ -206,9 +206,9 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-5 bg-success">
+    <section class="py-5 bg-warning">
         <div class="container">
-            <h2 class="text-center text-light mb-5">Mengapa VocIntern?</h2>
+            <h2 class="text-center mb-5">Mengapa VocIntern?</h2>
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="feature-card bg-white">
@@ -266,7 +266,7 @@
                     <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>VocIntern</h5>
                     <p class="text-muted">Platform magang khusus untuk mahasiswa vokasi USU, menghubungkan talenta
                         berbakat dengan perusahaan terkemuka.</p>
-            
+
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Magang</h6>

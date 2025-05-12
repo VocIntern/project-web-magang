@@ -49,11 +49,11 @@
 
                     @if ($errors->any())
                         <div class="alert alert-danger mb-3">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+
+                            @foreach ($errors->all() as $error)
+                                <a>{{ $error }}</a>
+                            @endforeach
+
                         </div>
                     @endif
 
@@ -64,7 +64,8 @@
                             <label for="email" class="form-label">Email</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email"
+                                    value="{{ old('email') }}" required autofocus>
                             </div>
                         </div>
 
@@ -76,7 +77,8 @@
                     </form>
 
                     <div class="text-center mt-4">
-                        <p class="mb-0"><a href="{{ route('login') }}"><i class="fas fa-arrow-left me-2"></i>Kembali ke Halaman Login</a></p>
+                        <p class="mb-0"><a href="{{ route('login') }}"><i class="fas fa-arrow-left me-2"></i>Kembali
+                                ke Halaman Login</a></p>
                     </div>
                 </div>
             </div>

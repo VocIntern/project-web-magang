@@ -259,7 +259,7 @@ a {
     background-color: #006633;
     padding: 4rem 0 2rem;
     font-weight: 600;
-    color: white;
+    /* color: white; */
 }
 
 .footer h5,
@@ -277,12 +277,12 @@ a {
 }
 
 .footer .list-unstyled a {
-    color: white;
+    /* color: white; */
     transition: var(--transition);
 }
 
 .footer .list-unstyled a:hover {
-    color: var(--light-color);
+    color: var(--primary-color);
     text-decoration: none;
 }
 
