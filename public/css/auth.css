@@ -9,6 +9,35 @@ body {
     padding: 20px;
 }
 
+.role-selector {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.role-btn {
+    flex: 1;
+    text-align: center;
+    padding: 10px 15px;
+    border: none;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.role-btn.active {
+    background-color: #006c2f;
+    color: white;
+}
+
+.login-container {
+    max-width: 500px;
+    margin: 40px auto;
+}
+
 .login-container,
 .register-container,
 .forgot-password-container,
@@ -38,7 +67,7 @@ body {
 .login-logo a {
     width: 60px;
     height: 60px;
-    background-color: #4f46e5;
+    background-color: #007040;
     border-radius: 50%;
     display: inline-flex;
     color: white;
@@ -64,8 +93,8 @@ h2 {
 .btn-reset,
 .btn-confirm,
 .btn-verify {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
+    background-color: #007f28;
+    border-color: #ffffff;
     color: white;
     padding: 10px 15px;
     font-weight: 500;
@@ -77,8 +106,8 @@ h2 {
 .btn-reset:hover,
 .btn-confirm:hover,
 .btn-verify:hover {
-    background-color: #4338ca;
-    border-color: #4338ca;
+    background-color: #006120;
+    border-color: #005828;
     color: white;
 }
 
