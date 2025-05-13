@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 
-class VerifyEmail extends Notification implements ShouldQueue
+class VerifyEmail extends Notification
 {
     use Queueable;
 
@@ -55,5 +55,4 @@ class VerifyEmail extends Notification implements ShouldQueue
             ]
         );
     }
-
 }
