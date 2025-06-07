@@ -1,196 +1,378 @@
-/* ===== Global ===== */
+/* VocIntern Custom CSS - Tema Hijau dan Kuning */
+
+/* Variabel Warna */
+:root {
+    --primary-green: #2ecc71;
+    --secondary-green: #27ae60;
+    --dark-green: #1e8449;
+    --light-green: #a9dfbf;
+    --extra-light-green: #eafaf1;
+    
+    --primary-yellow: #f1c40f;
+    --secondary-yellow: #f39c12;
+    --light-yellow: #fdebd0;
+    
+    --neutral-gray: #f8f9fa;
+    --light-gray: #ecf0f1;
+    --dark-gray: #7f8c8d;
+    --text-dark: #2c3e50;
+}
+
+/* Styling Umum */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f7fa;
-  margin: 0;
-  padding: 0;
-  color: #333;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    background-color: #f9f9f9;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 2rem 1rem;
+.text-primary-green {
+    color: var(--primary-green) !important;
 }
 
-/* ===== Header Pencarian ===== */
-.search-header {
-  background-color: #0054a6;  /* warna biru pekat */
-  color: #fff;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  margin-bottom: 2rem;
+.bg-primary-green {
+    background-color: var(--primary-green) !important;
 }
 
-.search-header h2 {
-  margin-bottom: 1rem;
-  font-size: 1.75rem;
+.text-primary-yellow {
+    color: var(--primary-yellow) !important;
 }
 
-.search-form {
-  display: flex;
-  gap: 0.5rem;
+.bg-primary-yellow {
+    background-color: var(--primary-yellow) !important;
 }
 
-.search-form input[type="text"] {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 0.25rem 0 0 0.25rem;
-  font-size: 1rem;
+/* Override Bootstrap Default Classes */
+.btn-success {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    transition: all 0.3s ease;
 }
 
-.search-form button {
-  padding: 0.75rem 1.25rem;
-  border: none;
-  background-color: #ffd200;
-  color: #0054a6;
-  font-weight: bold;
-  border-radius: 0 0.25rem 0.25rem 0;
-  cursor: pointer;
-}
-.search-form button:hover {
-  background-color: #ffcc00;
-}
-
-/* ===== Layout Grid ===== */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.col-md-3 {
-  flex: 0 0 25%;
-}
-
-.col-md-9 {
-  flex: 0 0 70%;
-}
-
-/* ===== Sidebar Filter ===== */
-.filter-card {
-  background: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  overflow: hidden;
-}
-
-.filter-card .card-header {
-  background: #f0f2f5;
-  padding: 1rem;
-  font-weight: bold;
-}
-
-.filter-card .card-body {
-  padding: 1rem;
-}
-
-.filter-card label {
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
-  display: block;
-}
-
-.filter-card select,
-.filter-card .form-check-input {
-  margin-bottom: 0.75rem;
-}
-
-/* ===== Kartu Lowongan ===== */
-.job-card {
-  background: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.job-card .card-body {
-  padding: 1rem;
-  flex: 1;
-}
-
-.job-card .card-body .media {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.job-card .card-body .media img,
-.job-card .card-body .media .placeholder-logo {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 0.25rem;
-  background: #e9ecef;
-}
-
-.job-card .card-body h5 {
-  margin: 0;
-  font-size: 1.1rem;
-}
-
-.job-card .card-body h6 {
-  margin: 0.25rem 0;
-  color: #777;
-  font-size: 0.9rem;
-}
-
-.job-card .card-body p {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.job-card .card-body .badges {
-  margin-top: 0.75rem;
-}
-
-.job-card .card-body .badges .badge {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  margin-right: 0.5rem;
-  background: #f0f2f5;
-  color: #333;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-}
-
-.job-card .card-footer {
-  background: #fff;
-  padding: 0.75rem 1rem;
-  font-size: 0.8rem;
-  color: #999;
-  border-top: 1px solid #eee;
-}
-
-/* ===== Tombol Detail & Lamaran ===== */
-.btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
-  transition: background 0.2s;
+.btn-success:hover, .btn-success:focus {
+    background-color: var(--secondary-green);
+    border-color: var(--secondary-green);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
 }
 
 .btn-primary {
-  background: #0054a6;
-  color: #fff;
+    background-color: var(--secondary-yellow);
+    border-color: var(--secondary-yellow);
+    transition: all 0.3s ease;
 }
-.btn-primary:hover {
-  background: #004080;
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-yellow);
+    border-color: var(--primary-yellow);
+    box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+}
+
+.btn-outline-success {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover, .btn-outline-success:focus {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
 }
 
 .btn-outline-primary {
-  background: transparent;
-  border: 1px solid #0054a6;
-  color: #0054a6;
+    color: var(--secondary-yellow);
+    border-color: var(--secondary-yellow);
+    transition: all 0.3s ease;
 }
-.btn-outline-primary:hover {
-  background: #0054a6;
-  color: #fff;
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    background-color: var(--secondary-yellow);
+    border-color: var(--secondary-yellow);
+    color: white;
+    box-shadow: 0 5px 15px rgba(243, 156, 18, 0.2);
+}
+
+.form-control:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+}
+
+.badge.bg-light {
+    background-color: var(--light-green) !important;
+    color: var(--dark-green) !important;
+}
+
+/* Search Container */
+.search-container {
+    background: linear-gradient(135deg, var(--extra-light-green), var(--light-green));
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.15);
+    margin-bottom: 30px;
+    border: 1px solid rgba(46, 204, 113, 0.1);
+}
+
+.search-container .input-group-text {
+    background-color: transparent;
+    border-right: none;
+    color: var(--dark-green);
+}
+
+.search-container .form-control {
+    border-left: none;
+    font-size: 0.95rem;
+}
+
+.search-container .btn-success {
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* Filter Sidebar */
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid var(--light-green);
+    padding: 15px;
+}
+
+.card-header h5 {
+    color: var(--dark-green);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.form-label.fw-bold {
+    color: var(--dark-green);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+/* Job Cards */
+.card-title {
+    color: var(--dark-green);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.card .company-logo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--extra-light-green);
+    border: 1px solid var(--light-green);
+}
+
+.card .company-logo img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.card .bi {
+    color: var(--primary-green);
+}
+
+.card .badge {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+.badge.bg-light.text-success {
+    background-color: var(--light-yellow) !important;
+    color: var(--secondary-yellow) !important;
+}
+
+.card-footer {
+    background-color: transparent;
+    padding: 15px;
+}
+
+/* Pagination */
+.pagination {
+    gap: 5px;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-green);
+    border: 1px solid var(--light-green);
+    font-weight: 500;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+}
+
+.pagination .page-item .page-link:hover {
+    background-color: var(--light-green);
+    color: var(--dark-green);
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    border: none;
+}
+
+.modal-header {
+    background-color: var(--primary-green);
+    color: white;
+    border-bottom: none;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+}
+
+.modal-header .btn-close {
+    color: white;
+    opacity: 1;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--light-green);
+}
+
+/* Alert */
+.alert-info {
+    background-color: var(--light-yellow);
+    border-color: var(--primary-yellow);
+    color: var(--secondary-yellow);
+}
+
+/* Hover Effects */
+.card .card-body, .card .card-footer {
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-body {
+    background-color: var(--extra-light-green);
+}
+
+/* Additional Styling for Select Dropdowns */
+.form-select {
+    background-color: white;
+    border: 1px solid var(--light-green);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-select:hover {
+    border-color: var(--primary-green);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .search-container {
+        padding: 15px !important;
+    }
+    
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+    
+    .card {
+        height: auto !important;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--dark-green);
+}
+
+/* Navbar  */
+.navbar {
+    background-color: rgba(30, 255, 105, 0.748) !important;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-custom {
+    background-color: transparent !important;
+    box-shadow: none; /* opsional, kalau ingin hilangkan bayangan */
+}
+.navbar-scrolled {
+    background-color: rgba(16, 97, 58, 0.5) !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.usu-logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.nav-link {
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
 }

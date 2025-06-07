@@ -44,6 +44,21 @@ Route::middleware(['auth', 'verified', 'role:mahasiswa'])->prefix('mahasiswa')->
     Route::get('/magang/{id}/apply', [MahasiswaMagangController::class, 'showApplyForm'])->name('magang.apply.form');
     Route::post('/magang/{id}/apply', [MahasiswaMagangController::class, 'apply'])->name('magang.apply.submit');
 
+
+
+// Tambahkan routes ini di dalam grup middleware 'auth' dan prefix 'mahasiswa'
+    // Profile routes
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/edit', [ProfileController::class, 'edit'])
+             ->name('edit');
+        Route::patch('/update', [ProfileController::class, 'update'])
+             ->name('update');
+        Route::patch('/update-password', [ProfileController::class, 'updatePassword'])
+             ->name('update-password');
+    });
+    
+
+
     // Pendaftaran management - assuming you have this controller
     // Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
 });
@@ -104,6 +119,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/magang/{magang}', [MagangController::class, 'update'])->name('admin.magang.update');
     Route::delete('/magang/{magang}', [MagangController::class, 'destroy'])->name('admin.magang.destroy');
 });
+
 
 
 

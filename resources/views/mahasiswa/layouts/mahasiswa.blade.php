@@ -11,11 +11,21 @@
     <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+            <a class="navbar-brand fw-bold ms-5 text-white"href="/">
+                <i class="fas fa-briefcase me-2 text-white"></i>VocIntern
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         <div class="container">
             <a class="navbar-brand" href="#">Portal Mahasiswa</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -28,24 +38,29 @@
                         <a class="nav-link {{ request()->routeIs('mahasiswa.magang.search') ? 'active' : '' }}"
                             href="{{ route('mahasiswa.magang.search') }}">Cari Lowongan</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('mahasiswa.profile.*') ? 'active' : '' }}"
-                            href="{{ route('mahasiswa.profile.edit') }}">Profil</a>
-                    </li>
+
                     <!-- Add more links as needed -->
                 </ul>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav"> 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ Auth::user()->name }}
+                        <a class="nav-link dropdown-toggle btn btn-outline-dark  text-white" href="#" id="userDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user me-2"></i>Profil{{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            {{-- <li><a class="dropdown-item" href="{{ route('mahasiswa.dashboard') }}">Dashboard</a></li> --}}
                             <li>
-                                <form action="{{ route('logout') }}" method="POST">
+                                <a class="dropdown-item {{ request()->routeIs('mahasiswa.profile.*') ? 'active' : '' }}"
+                                href="{{ route('mahasiswa.profile.edit') }}">
+                                    <i class="fas fa-edit me-2"></i>Edit Profil
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="dropdown-item">Logout</button>
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
                                 </form>
                             </li>
                         </ul>
