@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
 
     <title>{{ config('app.name', 'VocIntern') }} - Daftar</title>
 
@@ -19,120 +20,246 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Custom CSS -->
-    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container register-container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="register-form">
-                    <div class="login-logo">
-                        {{-- <a href="/" class="d-flex align-items-center justify-content-center">
-                            <i class="fas fa-briefcase"></i>
-                        </a> --}}
-                        <h1 class="mt-2 mb-0">VocIntern</h1>
-                        <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
-                    </div>
+    <div class="container-fluid register-container">
 
-                    <h2 class="text-center">Buat Akun Baru</h2>
+        <div class="register-card">
+            <!-- Header -->
+            <div class="register-header">
+                <h1>VocIntern</h1>
+                <p>Platform Magang Khusus Mahasiswa Vokasi USU</p>
+            </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger mb-3">
-                            
-                                @foreach ($errors->all() as $error)
-                                    <a>{{ $error }}</a>
-                                @endforeach
-                            <
-                        </div>
-                    @endif
-
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        {{-- Hidden role --}}
-                        <input type="hidden" name="role" value="{{ $role }}">
-
-                        {{-- Tentukan judul & input khusus berdasarkan role --}}
-                        @php
-                            $role = $role ?? request('role', 'mahasiswa');
-                        @endphp
-
-                        @if ($role === 'mahasiswa')
-                            <h2 class="text-center">Daftar Sebagai Mahasiswa</h2>
-                            {{-- Misal: NIM --}}
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input id="email" type="email" class="form-control" name="email"
-                                        value="{{ old('email') }}" required>
-                                </div>
-                            </div>
-                            {{-- Tambahkan field lain seperti jurusan, fakultas, dll. --}}
-                        @elseif($role === 'perusahaan')
-                            <h2 class="text-center">Daftar Sebagai Perusahaan</h2>
-                            {{-- Misal: Nama Perusahaan --}}
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email Perusahaan</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                    <input id="email" type="email" class="form-control" name="email"
-                                        value="{{ old('email') }}" required>
-                                </div>
-                            </div>
-                            {{-- Field tambahan: alamat, website, deskripsi, dll. --}}
-                        @endif
-
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input id="password" type="password" class="form-control" name="password" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input id="password_confirmation" type="password" class="form-control"
-                                    name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-register w-100">Daftar</button>
-                    </form>
-
-                    <div class="divider">
-                        <span>atau daftar dengan</span>
-                    </div>
-
-                    <div class="social-login">
-                        <a href="#" class="btn btn-google">
-                            <i class="fab fa-google me-2"></i> Google
-                        </a>
-                        <a href="#" class="btn btn-linkedin">
-                            <i class="fab fa-linkedin-in me-2"></i> LinkedIn
-                        </a>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <p class="mb-0">Sudah punya akun?
-                            @if (request('role') == 'perusahaan')
-                                <a href="{{ route('login') }}">Masuk Sekarang</a>
-                            @else
-                                <a href="{{ route('login') }}">Masuk Sekarang</a>
-                            @endif
-                        </p>
-                    </div>
+            <!-- Body -->
+            <div class="register-body">
+                <!-- Role Selector -->
+                <div class="role-selector">
+                    <button type="button" class="role-btn active" data-role="mahasiswa">
+                        Mahasiswa
+                    </button>
+                    <button type="button" class="role-btn" data-role="perusahaan">
+                        Perusahaan
+                    </button>
                 </div>
+
+                <h3 class="text-center mb-4" id="form-title">Daftar Sebagai Mahasiswa</h3>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger mb-3">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
+
+                <!-- Form Mahasiswa -->
+                <form id="mahasiswaForm" method="POST" action="{{ route('register') }}">
+                    @csrf
+                    <input type="hidden" name="role" value="mahasiswa">
+
+                    <div class="mb-3">
+                        <label for="nama_mahasiswa" class="form-label">Nama Lengkap</label>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" name="nama" id="nama_mahasiswa"
+                                value="{{ old('nama') }}" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email_mahasiswa" class="form-label">Email</label>
+                        <div class="input-group">
+
+                            <input type="email" class="form-control" name="email" id="email_mahasiswa"
+                                value="{{ old('email') }}" placeholder="Masukkan email anda" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_mahasiswa" class="form-label">Kata Sandi</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" name="password" id="password_mahasiswa"
+                                placeholder="Buat kata sandi (min. 8 karakter)" required>
+                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                data-target="password_mahasiswa">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password_confirmation_mahasiswa" class="form-label">Konfirmasi Kata Sandi</label>
+                        <div class="input-group">
+
+                            <input type="password" class="form-control" name="password_confirmation"
+                                id="password_confirmation_mahasiswa" placeholder="Konfirmasi kata sandi" required>
+                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                data-target="password_confirmation_mahasiswa">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-register w-100">Daftar sebagai Mahasiswa</button>
+                </form>
+
+                <!-- Form Perusahaan -->
+                <form id="perusahaanForm" method="POST" action="{{ route('register') }}" style="display: none;">
+                    @csrf
+                    <input type="hidden" name="role" value="perusahaan">
+
+                    <div class="mb-3">
+                        <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" name="nama_perusahaan" id="nama_perusahaan"
+                                value="{{ old('nama_perusahaan') }}" placeholder="Masukkan nama perusahaan" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nama_pendaftar" class="form-label">Nama Pendaftar (PIC)</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="nama_pendaftar" id="nama_pendaftar"
+                                value="{{ old('nama_pendaftar') }}" placeholder="Nama person in charge" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email_perusahaan" class="form-label">Email Perusahaan</label>
+                        <div class="input-group">
+
+                            <input type="email" class="form-control" name="email" id="email_perusahaan"
+                                value="{{ old('email') }}" placeholder="Email perusahaan" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_perusahaan" class="form-label">Kata Sandi</label>
+                        <div class="input-group">
+
+                            <input type="password" class="form-control" name="password" id="password_perusahaan"
+                                placeholder="Buat kata sandi (min. 8 karakter)" required>
+                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                data-target="password_perusahaan">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password_confirmation_perusahaan" class="form-label">Konfirmasi Kata Sandi</label>
+                        <div class="input-group">
+
+                            <input type="password" class="form-control" name="password_confirmation"
+                                id="password_confirmation_perusahaan" placeholder="Konfirmasi kata sandi" required>
+                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                data-target="password_confirmation_perusahaan">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-register w-100">Daftar sebagai Perusahaan</button>
+                </form>
+                <p class="text-end mb-0">Sudah punya akun? <a href="{{ route('login') }}">Masuk Sekarang</a></p>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>atau daftar dengan</span>
+                </div>
+
+                <!-- Social Login -->
+                <div class="social-login">
+                    <a href="#" class="btn-google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </a>
+                    <a href="#" class="btn-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        Facebook
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="register-footer">
+
+                <small class="text-muted d-block mt-1">© 2025 VocIntern - Platform Magang. All rights reserved.</small>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Role Selector Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleButtons = document.querySelectorAll('.role-btn');
+            const mahasiswaForm = document.getElementById('mahasiswaForm');
+            const perusahaanForm = document.getElementById('perusahaanForm');
+            const formTitle = document.getElementById('form-title');
+
+            // Debug: Cek apakah elemen ditemukan
+            console.log('Role buttons:', roleButtons.length);
+            console.log('Mahasiswa form:', mahasiswaForm);
+            console.log('Perusahaan form:', perusahaanForm);
+            console.log('Form title:', formTitle);
+
+            roleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log('Button clicked:', this.getAttribute('data-role'));
+
+                    // Hapus class 'active' dari semua tombol
+                    roleButtons.forEach(btn => btn.classList.remove('active'));
+
+                    // Tambahkan class 'active' ke tombol yang diklik
+                    this.classList.add('active');
+
+                    const role = this.getAttribute('data-role');
+
+                    // Tampilkan form sesuai role
+                    if (role === 'mahasiswa') {
+                        console.log('Menampilkan form mahasiswa');
+                        mahasiswaForm.style.display = 'block';
+                        perusahaanForm.style.display = 'none';
+                        formTitle.textContent = 'Daftar Sebagai Mahasiswa';
+                    } else if (role === 'perusahaan') {
+                        console.log('Menampilkan form perusahaan');
+                        mahasiswaForm.style.display = 'none';
+                        perusahaanForm.style.display = 'block';
+                        formTitle.textContent = 'Daftar Sebagai Perusahaan';
+                    }
+                });
+            });
+
+            // Password toggle functionality
+            const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+
+            togglePasswordButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const passwordInput = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
+
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                        this.setAttribute('title', 'Sembunyikan password');
+                    } else {
+                        passwordInput.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                        this.setAttribute('title', 'Tampilkan password');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

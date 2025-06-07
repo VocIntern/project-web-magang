@@ -1,223 +1,538 @@
 /* public/css/auth.css */
 
+/* General Styles */
 body {
+    min-height: 100vh;
+    font-family: "Figtree", sans-serif;
+}
+
+/* ===== REGISTER FORM STYLES ===== */
+.register-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f8f9fa;
-    padding: 20px;
+    padding: 2rem 1rem;
 }
 
-.role-selector {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    border-radius: 50px;
+.register-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    border: 1px solid #ddd;
+    max-width: 800px;
+    width: 100%;
 }
 
-.role-btn {
-    flex: 1;
+.register-header {
+    color: #0d7926;
     text-align: center;
-    padding: 10px 15px;
-    border: none;
+    padding: 2rem 1.5rem 1rem;
+}
+
+.register-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.register-header p {
+    opacity: 0.9;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.register-body {
+    padding: 2rem 1.5rem;
+}
+
+.register-footer {
+    text-align: center;
+    padding: 1rem 1.5rem;
     background: #f8f9fa;
-    cursor: pointer;
-    transition: all 0.3s;
+    color: #6c757d;
 }
 
-.role-btn.active {
-    background-color: #006c2f;
-    color: white;
-}
-
-.login-container {
-    max-width: 500px;
-    margin: 40px auto;
-}
-
-.login-container,
-.register-container,
-.forgot-password-container,
-.reset-password-container,
-.confirm-password-container,
-.verify-email-container {
-    max-width: 500px;
-}
-
-.login-form,
-.register-form,
-.forgot-password-form,
-.reset-password-form,
-.confirm-password-form,
-.verify-email-form {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-}
-
-.login-logo {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.login-logo a {
-    width: 60px;
-    height: 60px;
-    background-color: #007040;
-    border-radius: 50%;
-    display: inline-flex;
-    color: white;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.login-logo h1 {
-    font-weight: 600;
-    color: #333;
-    font-size: 24px;
-}
-
-h2 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 25px;
-    color: #333;
-}
-
-.btn-login,
-.btn-register,
-.btn-reset,
-.btn-confirm,
-.btn-verify {
-    background-color: #007f28;
-    border-color: #ffffff;
-    color: white;
-    padding: 10px 15px;
-    font-weight: 500;
-    transition: all 0.3s;
-}
-
-.btn-login:hover,
-.btn-register:hover,
-.btn-reset:hover,
-.btn-confirm:hover,
-.btn-verify:hover {
-    background-color: #006120;
-    border-color: #005828;
-    color: white;
-}
-
-.forgot-link {
-    color: #4f46e5;
+.register-footer a {
+    color: #0d7926;
     text-decoration: none;
-    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-.forgot-link:hover {
+.register-footer a:hover {
+    color: #20c997;
     text-decoration: underline;
 }
 
-.divider {
+/* ===== LOGIN FORM STYLES ===== */
+.login-container {
+    min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.login-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 750px;
+    width: 100%;
+}
+
+.login-header {
+    color: #0d7926;
     text-align: center;
-    margin: 25px 0;
+    padding: 2rem 1.5rem 1rem;
 }
 
-.divider::before,
-.divider::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid #e2e8f0;
+.login-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
-.divider span {
-    padding: 0 10px;
-    color: #64748b;
-    font-size: 14px;
+.login-header p {
+    opacity: 0.9;
+    margin-bottom: 0;
+    font-size: 0.9rem;
 }
 
-.social-login {
+.login-body {
+    padding: 2rem 1.5rem 1.5rem;
+}
+
+.login-footer {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.login-footer a {
+    color: #0d7926;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.login-footer a:hover {
+    color: #20c997;
+    text-decoration: underline;
+}
+
+/* Role Selector (Register specific) */
+.role-selector {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 2rem; /* beri jarak antar tombol */
+    margin-bottom: 1.5rem;
+    background: transparent;
+    padding: 0.25rem;
+    justify-content: center;
 }
 
-.social-login .btn {
-    flex: 1;
-    padding: 8px 15px;
-    font-size: 14px;
+.role-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: #2e8b57; /* hijau */
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.btn-google {
-    background-color: #db4437;
-    border-color: #db4437;
-    color: white;
+.role-btn::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background-color: #2e8b57; /* hijau */
+    transition: width 0.3s ease;
 }
 
-.btn-google:hover {
-    background-color: #c53929;
-    border-color: #c53929;
-    color: white;
+.role-btn.active::after {
+    width: 100%;
 }
 
-.btn-linkedin {
-    background-color: #0077b5;
-    border-color: #0077b5;
-    color: white;
+.role-btn:hover {
+    color: #1e6b47;
 }
 
-.btn-linkedin:hover {
-    background-color: #006699;
-    border-color: #006699;
-    color: white;
+/* Form Elements */
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.input-group {
+    margin-bottom: 1rem;
 }
 
 .input-group-text {
-    background-color: #f8f9fa;
-    border-right: none;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
 }
 
-.input-group .form-control {
-    border-left: none;
+.form-control {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
 }
 
-.input-group .form-control:focus {
-    box-shadow: none;
-    border-color: #ced4da;
+.form-control:focus {
+    border-color: #0d7926;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
 
-.register-form {
-    max-height: none;
-    overflow-y: visible;
+.form-select {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
 }
 
-.role-fields {
-    padding-top: 10px;
-    border-top: 1px solid #e2e8f0;
-    margin-top: 15px;
+.form-select:focus {
+    border-color: #0d7926;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
 
-.verify-icon {
-    color: #4f46e5;
+/* Login specific form elements */
+.login-body .form-check {
+    margin-bottom: 1rem;
 }
 
-/* Responsive adjustments */
+.login-body .form-check-input {
+    border: 1px solid #dee2e6;
+    margin-top: 0.25rem;
+}
+
+.login-body .form-check-input:checked {
+    background-color: #0d7926;
+    border-color: #0d7926;
+}
+
+.login-body .form-check-input:focus {
+    border-color: #0d7926;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.login-body .form-check-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-left: 0.25rem;
+}
+
+/* Forgot password link */
+.forgot-password-link {
+    color: #0d7926;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.forgot-password-link:hover {
+    color: #20c997;
+    text-decoration: underline;
+}
+
+/* Button Styles */
+.btn-register,
+.btn-login {
+    background-color: #0d7926 !important; /* hijau */
+    color: white !important; /* putih */
+    border: none;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    cursor: pointer;
+}
+
+.btn-register:hover,
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(40, 167, 69, 0.4);
+}
+
+.btn-register:active,
+.btn-login:active {
+    transform: translateY(0);
+}
+
+/* Divider */
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+    color: #6c757d;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #dee2e6;
+}
+
+.divider span {
+    background: white;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+}
+
+/* Social Login */
+.social-login {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-google,
+.btn-facebook {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #495057;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+    border-color: #db4437;
+    color: #db4437;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(219, 68, 55, 0.2);
+}
+
+.btn-facebook:hover {
+    border-color: #4267b2;
+    color: #4267b2;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(66, 103, 178, 0.2);
+}
+
+/* Footer */
+.register-footer {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    color: #6c757d;
+}
+
+.register-footer a {
+    color: #0d7926;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.register-footer a:hover {
+    color: #20c997;
+    text-decoration: underline;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-success {
+    background: #d1eddd;
+    color: #155724;
+    border-left: 4px solid #0d7926;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Animation for form transition */
+.form-transition {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Tambahkan CSS ini ke file auth.css Anda */
+
+/* Password Toggle Button Styles */
+.toggle-password {
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    padding: 0.75rem 0.75rem;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.toggle-password:hover {
+    background: #0d7926;
+    color: #0d7926;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.toggle-password:focus {
+    border: none !important;
+    box-shadow: none !important;
+    color: #0d7926;
+}
+
+.toggle-password:active {
+    border: none !important;
+    box-shadow: none !important;
+    color: #0d7926;
+}
+
+.toggle-password i {
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.toggle-password:hover i {
+    transform: scale(1.1);
+}
+
+/* Styling khusus untuk input group dengan toggle */
+.input-group .toggle-password {
+    border-radius: 0;
+    margin-left: -1px;
+}
+
+/* Pastikan input group tetap rapi */
+.input-group .form-control:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive untuk mobile */
 @media (max-width: 576px) {
-    .login-form,
-    .register-form,
-    .forgot-password-form,
-    .reset-password-form,
-    .confirm-password-form,
-    .verify-email-form {
-        padding: 20px;
+    .toggle-password {
+        padding: 0.625rem 0.5rem;
+    }
+
+    .toggle-password i {
+        font-size: 0.85rem;
+    }
+}
+/* Responsive Design */
+@media (max-width: 576px) {
+    .register-container,
+    .login-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .register-header,
+    .login-header {
+        padding: 1.5rem 1rem 0.5rem;
+    }
+
+    .register-body,
+    .login-body {
+        padding: 1.5rem 1rem;
+    }
+
+    .register-header h1,
+    .login-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .register-header p,
+    .login-header p {
+        font-size: 0.85rem;
     }
 
     .social-login {
         flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .role-selector {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .role-btn {
+        padding: 0.625rem 1rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .register-card,
+    .login-card {
+        margin: 0.5rem;
+        border-radius: 15px;
+    }
+
+    .register-header,
+    .login-header {
+        padding: 1.25rem 0.75rem 0.5rem;
+    }
+
+    .register-body,
+    .login-body {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .btn-register,
+    .btn-login {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
     }
 }
