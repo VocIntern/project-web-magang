@@ -24,9 +24,6 @@ class Mahasiswa extends Model
         'semester',
         'bio',
         'foto',
-        'no_telepon',
-        'alamat',
-        'email',
     ];
 
     /**
@@ -62,7 +59,7 @@ class Mahasiswa extends Model
      */
     public function getProfileCompletionAttribute()
     {
-        $fields = ['nama', 'nim', 'jurusan', 'semester', 'no_telepon', 'alamat', 'bio', 'foto'];
+        $fields = ['nama', 'nim', 'jurusan', 'semester', 'bio', 'foto'];
         $filledFields = 0;
 
         foreach ($fields as $field) {
