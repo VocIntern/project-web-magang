@@ -9,11 +9,6 @@ class Mahasiswa extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'mahasiswa';
 
     /**
@@ -29,10 +24,25 @@ class Mahasiswa extends Model
         'semester',
         'bio',
         'foto',
+        'no_telepon',
+        'alamat',
+        'email',
     ];
 
     /**
-     * Get the user that owns the mahasiswa.
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'nim' => 'integer',
+        ];
+    }
+
+    /**
+     * Get the user that owns the mahasiswa profile.
      */
     public function user()
     {
@@ -40,7 +50,7 @@ class Mahasiswa extends Model
     }
 
     /**
-     * Get the pendaftaran magang for the mahasiswa.
+     * Get all pendaftaran magang for this mahasiswa.
      */
     public function pendaftaranMagang()
     {
@@ -48,14 +58,27 @@ class Mahasiswa extends Model
     }
 
     /**
-     * Get foto URL attribute
+     * Get profile completion percentage
      */
-    public function getFotoUrlAttribute()
+    public function getProfileCompletionAttribute()
     {
-        if ($this->foto) {
-            return asset('storage/' . $this->foto);
+        $fields = ['nama', 'nim', 'jurusan', 'semester', 'no_telepon', 'alamat', 'bio', 'foto'];
+        $filledFields = 0;
+
+        foreach ($fields as $field) {
+            if (!empty($this->$field)) {
+                $filledFields++;
+            }
         }
 
-        return asset('images/default-profile.png');
+        return round(($filledFields / count($fields)) * 100);
+    }
+
+    /**
+     * Get the mahasiswa's full name with NIM
+     */
+    public function getFullIdentityAttribute()
+    {
+        return $this->nama . ' (' . $this->nim . ')';
     }
 }
