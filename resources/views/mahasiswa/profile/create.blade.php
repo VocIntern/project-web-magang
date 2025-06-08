@@ -1,6 +1,6 @@
 @extends('mahasiswa.layouts.mahasiswa')
 
-@section('title', 'Create Profil - VocIntern')
+@section('title', 'Create Profil Mahasiswa - VocIntern')
 
 @section('content')
     <div class="container-fluid profile-container">
