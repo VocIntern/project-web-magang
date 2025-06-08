@@ -17,6 +17,71 @@ use Illuminate\View\View;
 class MahasiswaProfileController extends Controller
 {
     /**
+     * Display the profile creation form for new users.
+     */
+    public function create(): View|RedirectResponse
+    {
+        $user = Auth::user();
+        
+        // Cek apakah user sudah memiliki profil mahasiswa
+        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+        
+        // Jika sudah ada profil, redirect ke pencarian magang
+        if ($mahasiswa) {
+            return redirect()->route('mahasiswa.magang.search')
+                ->with('info', 'Profil Anda sudah lengkap.');
+        }
+        
+        return view('mahasiswa.profile.create', compact('user'));
+    }
+
+    /**
+     * Store the newly created profile.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        
+        // Cek apakah user sudah memiliki profil mahasiswa
+        $existingMahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+        if ($existingMahasiswa) {
+            return redirect()->route('mahasiswa.magang.search')
+                ->with('info', 'Profil Anda sudah ada.');
+        }
+
+        // Validasi input untuk pembuatan profil baru
+        $validated = $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'nama' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'integer', 'unique:mahasiswa,nim,' . ($user->mahasiswa->id ?? 'NULL')],
+            'jurusan' => ['required', 'string', 'in:Teknik Informatika,Sistem Informasi,Teknik Komputer,Manajemen Informatika,Akuntansi,Administrasi Bisnis,Teknik Mesin,Teknik Elektro'],
+            'semester' => ['required', 'string'],
+            'bio' => ['nullable', 'string'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Max 2MB
+        ]);
+
+        // Handle foto upload
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
+        }
+
+        // Buat data mahasiswa baru
+        $mahasiswa = Mahasiswa::create([
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'nama' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'integer', 'unique:mahasiswa,nim,' . ($user->mahasiswa->id ?? 'NULL')],
+            'jurusan' => ['required', 'string', 'in:Teknik Informatika,Sistem Informasi,Teknik Komputer,Manajemen Informatika,Akuntansi,Administrasi Bisnis,Teknik Mesin,Teknik Elektro'],
+            'semester' => ['required', 'string'],
+            'bio' => ['nullable', 'string'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Max 2MB
+        ]);
+
+        return redirect()->route('mahasiswa.magang.search')
+            ->with('success', 'Selamat! Profil mahasiswa Anda berhasil dibuat. Selamat datang di VocIntern!');
+    }
+
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View

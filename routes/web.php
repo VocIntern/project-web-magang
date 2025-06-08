@@ -32,6 +32,12 @@ Route::get('/', [MagangController::class, 'index'])->name('welcome');
 */
 
 Route::middleware(['auth', 'verified', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+    
+     // TAMBAHAN ROUTE baru
+    Route::get('/profile/create', [MahasiswaProfileController::class, 'create'])->name('profile.create');
+    // Route::post('/profile', [MahasiswaProfileController::class, 'store'])->name('profile.store');
+    
+    
     // Profile management untuk mahasiswa - menggunakan controller yang spesifik
     Route::get('/profile/edit', [MahasiswaProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [MahasiswaProfileController::class, 'update'])->name('profile.update');
