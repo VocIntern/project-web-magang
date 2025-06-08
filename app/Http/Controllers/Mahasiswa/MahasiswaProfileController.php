@@ -22,16 +22,16 @@ class MahasiswaProfileController extends Controller
     public function create(): View|RedirectResponse
     {
         $user = Auth::user();
-
+        
         // Cek apakah user sudah memiliki profil mahasiswa
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-
-        // Jika sudah ada profil, redirect ke dashboard mahasiswa
+        
+        // Jika sudah ada profil, redirect ke pencarian magang
         if ($mahasiswa) {
             return redirect()->route('mahasiswa.magang.search')
                 ->with('info', 'Profil Anda sudah lengkap.');
         }
-
+        
         return view('mahasiswa.profile.create', compact('user'));
     }
 
@@ -41,7 +41,7 @@ class MahasiswaProfileController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $user = Auth::user();
-
+        
         // Cek apakah user sudah memiliki profil mahasiswa
         $existingMahasiswa = Mahasiswa::where('user_id', $user->id)->first();
         if ($existingMahasiswa) {
@@ -53,7 +53,7 @@ class MahasiswaProfileController extends Controller
         $validated = $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'nama' => ['required', 'string', 'max:255'],
-            'nim' => ['required', 'integer', 'unique:mahasiswa,nim'],
+            'nim' => ['required', 'integer', 'unique:mahasiswa,nim,' . ($user->mahasiswa->id ?? 'NULL')],
             'jurusan' => ['required', 'string', 'in:Teknik Informatika,Sistem Informasi,Teknik Komputer,Manajemen Informatika,Akuntansi,Administrasi Bisnis,Teknik Mesin,Teknik Elektro'],
             'semester' => ['required', 'string'],
             'bio' => ['nullable', 'string'],
@@ -66,22 +66,15 @@ class MahasiswaProfileController extends Controller
             $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
         }
 
-        // Update email user jika berbeda
-        if ($user->email !== $validated['email']) {
-            $user->email = $validated['email'];
-            $user->email_verified_at = null; // Reset verifikasi email jika email diubah
-            $user->save();
-        }
-
         // Buat data mahasiswa baru
         $mahasiswa = Mahasiswa::create([
-            'user_id' => $user->id,
-            'nama' => $validated['nama'],
-            'nim' => $validated['nim'],
-            'jurusan' => $validated['jurusan'],
-            'semester' => $validated['semester'],
-            'bio' => $validated['bio'],
-            'foto' => $fotoPath,
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'nama' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'integer', 'unique:mahasiswa,nim,' . ($user->mahasiswa->id ?? 'NULL')],
+            'jurusan' => ['required', 'string', 'in:Teknik Informatika,Sistem Informasi,Teknik Komputer,Manajemen Informatika,Akuntansi,Administrasi Bisnis,Teknik Mesin,Teknik Elektro'],
+            'semester' => ['required', 'string'],
+            'bio' => ['nullable', 'string'],
+            'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Max 2MB
         ]);
 
         return redirect()->route('mahasiswa.magang.search')
@@ -98,12 +91,6 @@ class MahasiswaProfileController extends Controller
         // Ambil data mahasiswa berdasarkan user_id
         $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
-        // Jika belum ada profil mahasiswa, redirect ke create
-        if (!$mahasiswa) {
-            return redirect()->route('mahasiswa.profile.create')
-                ->with('info', 'Silakan lengkapi profil Anda terlebih dahulu.');
-        }
-
         return view('mahasiswa.profile.edit', [
             'user' => $user,
             'mahasiswa' => $mahasiswa
@@ -116,26 +103,20 @@ class MahasiswaProfileController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $user = $request->user();
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-
-        // Jika belum ada profil mahasiswa, redirect ke create
-        if (!$mahasiswa) {
-            return redirect()->route('mahasiswa.profile.create')
-                ->with('info', 'Silakan lengkapi profil Anda terlebih dahulu.');
-        }
 
         // Validasi input - sesuaikan dengan field yang ada di database
         $validated = $request->validate([
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'nama' => ['required', 'string', 'max:255'],
-            'nim' => ['required', 'integer', 'unique:mahasiswa,nim,' . $mahasiswa->id],
+            'nim' => ['required', 'integer', 'unique:mahasiswa,nim,' . ($user->mahasiswa->id ?? 'NULL')],
             'jurusan' => ['required', 'string', 'in:Teknik Informatika,Sistem Informasi,Teknik Komputer,Manajemen Informatika,Akuntansi,Administrasi Bisnis,Teknik Mesin,Teknik Elektro'],
             'semester' => ['required', 'string'],
             'bio' => ['nullable', 'string'],
             'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Max 2MB
         ]);
 
-        // Update data user (email)
+        // Update data user
+        // $user->mahasiswa->nama = $validated['nama'];
         $user->email = $validated['email'];
 
         // Jika email diubah, maka atur ulang waktu verifikasi email
@@ -144,6 +125,9 @@ class MahasiswaProfileController extends Controller
         }
 
         $user->save();
+
+        // Update atau buat data mahasiswa
+        $mahasiswa = Mahasiswa::firstOrNew(['user_id' => $user->id]);
 
         // Handle foto upload
         if ($request->hasFile('foto')) {
@@ -196,11 +180,10 @@ class MahasiswaProfileController extends Controller
         ]);
 
         $user = $request->user();
-        $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
         // Hapus foto jika ada
-        if ($mahasiswa && $mahasiswa->foto) {
-            Storage::delete('public/' . $mahasiswa->foto);
+        if ($user->mahasiswa && $user->mahasiswa->foto) {
+            Storage::delete('public/' . $user->mahasiswa->foto);
         }
 
         Auth::logout();
