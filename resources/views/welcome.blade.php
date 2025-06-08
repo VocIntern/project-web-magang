@@ -6,7 +6,7 @@
             header('Location: ' . route('admin.dashboard'));
             exit();
         } elseif (auth()->user()->isMahasiswa()) {
-            header('Location: ' . route('mahasiswa.magang.search'));
+            header('Location: ' . route('mahasiswa.profile.create'));
             exit();
         } elseif (auth()->user()->isPerusahaan()) {
             header('Location: ' . route('perusahaan.dashboard'));
@@ -69,7 +69,7 @@
                                     <a href="{{ route('admin.dashboard') }}"
                                         class="btn btn-outline-success me-2">Dashboard</a>
                                 @elseif(auth()->user()->isMahasiswa())
-                                    <a href="{{ route('mahasiswa.magang.search') }}"
+                                    <a href="{{ route('mahasiswa.profile.create') }}"
                                         class="btn btn-outline-success me-2">Cari Magang</a>
                                 @elseif(auth()->user()->isPerusahaan())
                                     <a href="{{ route('perusahaan.dashboard') }}"

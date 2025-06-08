@@ -39,7 +39,7 @@ Route::middleware(['auth', 'verified', 'role:mahasiswa'])->prefix('mahasiswa')->
     
      // TAMBAHAN ROUTE baru
     Route::get('/profile/create', [MahasiswaProfileController::class, 'create'])->name('profile.create');
-    // Route::post('/profile', [MahasiswaProfileController::class, 'store'])->name('profile.store');
+    Route::post('/profile', [MahasiswaProfileController::class, 'store'])->name('profile.store');
     
     
     // Profile management untuk mahasiswa - menggunakan controller yang spesifik
