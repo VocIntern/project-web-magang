@@ -188,7 +188,7 @@ return [
         'display_type'             => 'tipe tampilan',
         'district'                 => 'daerah',
         'duration'                 => 'durasi',
-        'email'                    => 'surel',
+        'email'                    => 'email',
         'excerpt'                  => 'kutipan',
         'filter'                   => 'Saring',
         'finished_at'              => 'selesai pada',

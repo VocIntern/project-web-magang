@@ -39,8 +39,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom py-3 fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-warning"href="/">
-                <i class="fas fa-briefcase me-2 text-warning"></i>VocIntern
+            <a class="navbar-brand fw-bold text-success"href="/">
+                <i class="fas fa-briefcase me-2 text-success"></i>VocIntern
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,9 +76,9 @@
                                         class="btn btn-outline-success me-2">Dashboard</a>
                                 @endif
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-outline-warning me-2">Masuk</a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-success me-2">Masuk</a>
                                 @if (Route::has('register'))
-                                    <a href="{{ route('register') }}" class="btn btn-warning">Daftar</a>
+                                    <a href="{{ route('register') }}" class="btn btn-success">Daftar</a>
                                 @endif
                             @endauth
                         </div>
@@ -100,7 +100,7 @@
                         perusahaan terkemuka. Raih pengalaman kerja berharga sebelum lulus!</p>
                     <div class="d-flex gap-3">
                         <a href="{{ route('register') }}" class="btn btn-light btn-lg">Daftar Sekarang</a>
-                        <a href="/magang" class="btn btn-outline-warning btn-lg">Lihat Lowongan</a>
+                        <a href="/magang" class="btn btn-outline-success btn-lg">Lihat Lowongan</a>
                     </div>
                 </div>
             </div>

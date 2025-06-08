@@ -6,6 +6,22 @@ body {
     font-family: "Figtree", sans-serif;
 }
 
+a.auth-link {
+    color: #198754;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+a.auth-link:hover {
+    color: #0a3622;
+}
+
+p.definisi {
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 /* ===== REGISTER FORM STYLES ===== */
 .register-container {
     min-height: 100vh;
@@ -20,14 +36,14 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    max-width: 800px;
+    max-width: 650px;
     width: 100%;
 }
 
 .register-header {
     color: #0d7926;
     text-align: center;
-    padding: 2rem 1.5rem 1rem;
+    padding: 1rem 0.5rem 1rem;
 }
 
 .register-header h1 {
@@ -46,25 +62,6 @@ body {
     padding: 2rem 1.5rem;
 }
 
-.register-footer {
-    text-align: center;
-    padding: 1rem 1.5rem;
-    background: #f8f9fa;
-    color: #6c757d;
-}
-
-.register-footer a {
-    color: #0d7926;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.register-footer a:hover {
-    color: #20c997;
-    text-decoration: underline;
-}
-
 /* ===== LOGIN FORM STYLES ===== */
 .login-container {
     min-height: 100vh;
@@ -79,14 +76,14 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    max-width: 750px;
+    max-width: 650px;
     width: 100%;
 }
 
 .login-header {
     color: #0d7926;
     text-align: center;
-    padding: 2rem 1.5rem 1rem;
+    padding: 1rem 0.5rem 1rem;
 }
 
 .login-header h1 {
@@ -103,25 +100,6 @@ body {
 
 .login-body {
     padding: 2rem 1.5rem 1.5rem;
-}
-
-.login-footer {
-    text-align: center;
-    padding: 1rem 1.5rem;
-    background: #f8f9fa;
-    color: #6c757d;
-}
-
-.login-footer a {
-    color: #0d7926;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.login-footer a:hover {
-    color: #20c997;
-    text-decoration: underline;
 }
 
 /* Role Selector (Register specific) */
@@ -172,15 +150,10 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.input-group {
+/* .input-group {
     margin-bottom: 1rem;
 }
-
-.input-group-text {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    color: #6c757d;
-}
+*/
 
 .form-control {
     border: 1px solid #dee2e6;
@@ -233,7 +206,7 @@ body {
 }
 
 /* Forgot password link */
-.forgot-password-link {
+a.forgot-password-link {
     color: #0d7926;
     text-decoration: none;
     font-size: 0.9rem;
@@ -241,7 +214,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.forgot-password-link:hover {
+a.forgot-password-link:hover {
     color: #20c997;
     text-decoration: underline;
 }
@@ -294,6 +267,8 @@ body {
     background: white;
     padding: 0 1rem;
     font-size: 0.9rem;
+    position: relative; /* Tambahkan ini */
+    z-index: 1;
 }
 
 /* Social Login */
@@ -336,14 +311,14 @@ body {
 }
 
 /* Footer */
-.register-footer {
+.footer {
     text-align: center;
     padding: 1rem 1.5rem;
     background: #f8f9fa;
-    color: #6c757d;
+    color: #ffffff;
 }
 
-.register-footer a {
+.footer a {
     color: #0d7926;
     text-decoration: none;
     font-weight: 500;
@@ -401,47 +376,32 @@ body {
 
 /* Password Toggle Button Styles */
 .toggle-password {
-    background: transparent !important;
-    border: none !important;
-    color: #ffffff;
-    transition: all 0.3s ease;
-    padding: 0.75rem 0.75rem;
-    outline: none !important;
-    box-shadow: none !important;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    z-index: 5;
+    background: white; /* penting agar tidak terpotong box-shadow */
+    padding: 0 4px;
 }
 
 .toggle-password:hover {
-    background: #0d7926;
-    color: #0d7926;
-    border: none !important;
-    box-shadow: none !important;
+    color: #198754;
 }
 
 .toggle-password:focus {
-    border: none !important;
     box-shadow: none !important;
     color: #0d7926;
 }
 
-.toggle-password:active {
-    border: none !important;
-    box-shadow: none !important;
-    color: #0d7926;
+input.form-control {
+    border-radius: 8px; /* atau sesuai border-radius global kamu */
 }
 
-.toggle-password i {
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-}
-
-.toggle-password:hover i {
-    transform: scale(1.1);
-}
-
-/* Styling khusus untuk input group dengan toggle */
-.input-group .toggle-password {
-    border-radius: 0;
-    margin-left: -1px;
+.form-control:focus {
+    box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
 }
 
 /* Pastikan input group tetap rapi */

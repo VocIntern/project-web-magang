@@ -26,14 +26,20 @@
     <div class="container-fluid register-container">
 
         <div class="register-card">
+            <div class="text-left pe-5 position-absolute">
+                <a href="{{ route('welcome') }}" class="btn">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
             <!-- Header -->
             <div class="register-header">
                 <h1>VocIntern</h1>
-                <p>Platform Magang Khusus Mahasiswa Vokasi USU</p>
+                <p class="definisi">Platform Magang Khusus Mahasiswa Vokasi USU</p>
             </div>
 
             <!-- Body -->
             <div class="register-body">
+
                 <!-- Role Selector -->
                 <div class="role-selector">
                     <button type="button" class="role-btn active" data-role="mahasiswa">
@@ -79,30 +85,35 @@
 
                     <div class="mb-3">
                         <label for="password_mahasiswa" class="form-label">Kata Sandi</label>
-                        <div class="input-group">
+                        <div class="input-group position-relative">
                             <input type="password" class="form-control" name="password" id="password_mahasiswa"
                                 placeholder="Buat kata sandi (min. 8 karakter)" required>
-                            <button class="btn btn-outline-secondary toggle-password" type="button"
-                                data-target="password_mahasiswa">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                            <span class="toggle-password" onclick="togglePassword('password_mahasiswa')">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
                         </div>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-4 ">
                         <label for="password_confirmation_mahasiswa" class="form-label">Konfirmasi Kata Sandi</label>
-                        <div class="input-group">
+                        <div class="input-group position-relative">
 
                             <input type="password" class="form-control" name="password_confirmation"
                                 id="password_confirmation_mahasiswa" placeholder="Konfirmasi kata sandi" required>
-                            <button class="btn btn-outline-secondary toggle-password" type="button"
-                                data-target="password_confirmation_mahasiswa">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                            <span class="toggle-password" onclick="togglePassword('password_confirmation_mahasiswa')">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
+
                         </div>
+                        <small id="passwordMatchMessage_mahasiswa" class="text-danger mt-2"
+                            style="display: none;">Password
+                            tidak cocok</small>
+                        <small id="passwordMatchSuccess_mahasiswa" class="text-success mt-2" style="display: none;">
+                            Password cocok
+                        </small>
                     </div>
 
-                    <button type="submit" class="btn btn-register w-100">Daftar sebagai Mahasiswa</button>
+                    <button type="submit" class="btn btn-register w-100 mb-3">Daftar sebagai Mahasiswa</button>
                 </form>
 
                 <!-- Form Perusahaan -->
@@ -136,35 +147,45 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 ">
                         <label for="password_perusahaan" class="form-label">Kata Sandi</label>
-                        <div class="input-group">
+                        <div class="input-group position-relative">
 
                             <input type="password" class="form-control" name="password" id="password_perusahaan"
                                 placeholder="Buat kata sandi (min. 8 karakter)" required>
-                            <button class="btn btn-outline-secondary toggle-password" type="button"
-                                data-target="password_perusahaan">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                            <span class="toggle-password" onclick="togglePassword('password_perusahaan')">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
                         </div>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label for="password_confirmation_perusahaan" class="form-label">Konfirmasi Kata Sandi</label>
-                        <div class="input-group">
+                        <div class="input-group position-relative">
 
                             <input type="password" class="form-control" name="password_confirmation"
                                 id="password_confirmation_perusahaan" placeholder="Konfirmasi kata sandi" required>
-                            <button class="btn btn-outline-secondary toggle-password" type="button"
-                                data-target="password_confirmation_perusahaan">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                            <span class="toggle-password"
+                                onclick="togglePassword('password_confirmation_perusahaan')">
+                                <i class="fas fa-eye-slash"></i>
+                            </span>
                         </div>
+                        <small id="passwordMatchMessage_perusahaan" class="text-danger mt-1"
+                            style="display: none;">Password tidak
+                            cocok</small>
+                        <small id="passwordMatchSuccess_perusahaan" class="text-success mt-1" style="display: none;">
+                            Password cocok
+                        </small>
                     </div>
 
-                    <button type="submit" class="btn btn-register w-100">Daftar sebagai Perusahaan</button>
+                    <button type="submit" class="btn btn-register w-100 mb-3">Daftar sebagai Perusahaan</button>
+
                 </form>
-                <p class="text-end mb-0">Sudah punya akun? <a href="{{ route('login') }}">Masuk Sekarang</a></p>
+                <div class="d-flex justify-content-end mb-3">
+                    <p class="mb-0">Sudah punya akun? <a href="{{ route('login') }}" class="auth-link">Masuk
+                            Sekarang</a>
+                    </p>
+                </div>
 
                 <!-- Divider -->
                 <div class="divider">
@@ -185,7 +206,7 @@
             </div>
 
             <!-- Footer -->
-            <div class="register-footer">
+            <div class="footer">
 
                 <small class="text-muted d-block mt-1">© 2025 VocIntern - Platform Magang. All rights reserved.</small>
             </div>
@@ -202,12 +223,6 @@
             const mahasiswaForm = document.getElementById('mahasiswaForm');
             const perusahaanForm = document.getElementById('perusahaanForm');
             const formTitle = document.getElementById('form-title');
-
-            // Debug: Cek apakah elemen ditemukan
-            console.log('Role buttons:', roleButtons.length);
-            console.log('Mahasiswa form:', mahasiswaForm);
-            console.log('Perusahaan form:', perusahaanForm);
-            console.log('Form title:', formTitle);
 
             roleButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -236,29 +251,117 @@
                 });
             });
 
-            // Password toggle functionality
-            const togglePasswordButtons = document.querySelectorAll('.toggle-password');
 
-            togglePasswordButtons.forEach(button => {
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            function checkPasswordMatch(prefix) {
+                const passwordInput = document.getElementById(`password_${prefix}`);
+                const confirmPasswordInput = document.getElementById(`password_confirmation_${prefix}`);
+                const errorMsg = document.getElementById(`passwordMatchMessage_${prefix}`);
+                const successMsg = document.getElementById(`passwordMatchSuccess_${prefix}`);
+                const submitBtn = document.querySelector(`#${prefix}Form button[type="submit"]`);
+
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+
+                // Jika dua-duanya kosong, jangan tampilkan apa-apa
+                if (confirmPassword === "") {
+                    errorMsg.style.display = 'none';
+                    successMsg.style.display = 'none';
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                if (password !== confirmPassword) {
+                    errorMsg.style.display = 'block';
+                    successMsg.style.display = 'none';
+                    submitBtn.disabled = true;
+                } else {
+                    errorMsg.style.display = 'none';
+                    successMsg.style.display = 'block';
+                    submitBtn.disabled = false;
+                }
+            }
+
+            ['mahasiswa', 'perusahaan'].forEach(prefix => {
+                const password = document.getElementById(`password_${prefix}`);
+                const confirmPassword = document.getElementById(`password_confirmation_${prefix}`);
+
+                if (password && confirmPassword) {
+                    password.addEventListener('input', () => checkPasswordMatch(prefix));
+                    confirmPassword.addEventListener('input', () => checkPasswordMatch(prefix));
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil parameter 'role' dari URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleParam = urlParams.get('role');
+
+            // Fungsi untuk mengubah tampilan form berdasarkan role
+            function switchRole(role) {
+                const mahasiswaBtn = document.querySelector('.role-btn[data-role="mahasiswa"]');
+                const perusahaanBtn = document.querySelector('.role-btn[data-role="perusahaan"]');
+                const mahasiswaForm = document.getElementById('mahasiswaForm');
+                const perusahaanForm = document.getElementById('perusahaanForm');
+                const formTitle = document.getElementById('form-title');
+
+                // Reset semua button dan form
+                mahasiswaBtn.classList.remove('active');
+                perusahaanBtn.classList.remove('active');
+                mahasiswaForm.style.display = 'none';
+                perusahaanForm.style.display = 'none';
+
+                // Tampilkan form sesuai role yang dipilih
+                if (role === 'perusahaan') {
+                    perusahaanBtn.classList.add('active');
+                    perusahaanForm.style.display = 'block';
+                    formTitle.textContent = 'Daftar Sebagai Perusahaan';
+                } else {
+                    // Default ke mahasiswa
+                    mahasiswaBtn.classList.add('active');
+                    mahasiswaForm.style.display = 'block';
+                    formTitle.textContent = 'Daftar Sebagai Mahasiswa';
+                }
+            }
+
+            // Jika ada parameter role di URL, langsung switch ke role tersebut
+            if (roleParam) {
+                switchRole(roleParam);
+            }
+
+            // Event listener untuk button role selector (untuk interaksi manual)
+            document.querySelectorAll('.role-btn').forEach(button => {
                 button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const passwordInput = document.getElementById(targetId);
-                    const icon = this.querySelector('i');
+                    const selectedRole = this.getAttribute('data-role');
+                    switchRole(selectedRole);
 
-                    if (passwordInput.type === 'password') {
-                        passwordInput.type = 'text';
-                        icon.classList.remove('fa-eye');
-                        icon.classList.add('fa-eye-slash');
-                        this.setAttribute('title', 'Sembunyikan password');
-                    } else {
-                        passwordInput.type = 'password';
-                        icon.classList.remove('fa-eye-slash');
-                        icon.classList.add('fa-eye');
-                        this.setAttribute('title', 'Tampilkan password');
-                    }
+                    // Update URL tanpa reload halaman (opsional)
+                    const newUrl = new URL(window.location);
+                    newUrl.searchParams.set('role', selectedRole);
+                    window.history.replaceState(null, '', newUrl);
                 });
             });
         });
+
+
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const span = input.parentElement.querySelector('.toggle-password');
+            const icon = span.querySelector('i');
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            }
+        }
     </script>
 </body>
 

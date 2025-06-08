@@ -26,10 +26,15 @@
     <div class="container-fluid login-container">
 
         <div class="login-card">
+            <div class="text-left pe-5 position-absolute">
+                <a href="{{ route('welcome') }}" class="btn">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
             <!-- Header -->
             <div class="login-header">
                 <h1>VocIntern</h1>
-                <p>Platform Magang Khusus Mahasiswa Vokasi USU</p>
+                <p class="definisi">Platform Magang Khusus Mahasiswa Vokasi USU</p>
             </div>
 
             <!-- Body -->
@@ -69,16 +74,14 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 ">
                         <label for="password" class="form-label">Kata Sandi</label>
-                        <div class="input-group">
-                            {{-- <span class="input-group-text"><i class="fas fa-lock"></i></span> --}}
-                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                        <div class="input-group position-relative">
+                            <input type="password" class="form-control pe-5 @error('password') is-invalid @enderror"
                                 name="password" id="password" placeholder="Masukkan kata sandi" required>
-                            <button class="btn btn-outline-secondary toggle-password" type="button"
-                                data-target="password_perusahaan">
+                            <span class="toggle-password" onclick="togglePassword('password')">
                                 <i class="fas fa-eye"></i>
-                            </button>
+                            </span>
                         </div>
                         @error('password')
                             <div class="invalid-feedback">
@@ -99,11 +102,13 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-decoration-none">
+                            <a href="{{ route('password.request') }}"
+                                class="text-decoration-none forgot-password-link">
                                 Lupa kata sandi?
                             </a>
                         @endif
-                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
+                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}" class="auth-link">Daftar
+                                Sekarang</a></p>
                     </div>
                 </form>
 
@@ -126,7 +131,7 @@
             </div>
 
             <!-- Footer -->
-            <div class="login-footer">
+            <div class="footer">
 
                 <small class="text-muted d-block mt-1">© 2025 VocIntern - Platform Magang. All rights reserved.</small>
             </div>
@@ -137,30 +142,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Password toggle functionality
-            const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = input.nextElementSibling.querySelector('i');
 
-            togglePasswordButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const passwordInput = document.getElementById(targetId);
-                    const icon = this.querySelector('i');
-
-                    if (passwordInput.type === 'password') {
-                        passwordInput.type = 'text';
-                        icon.classList.remove('fa-eye');
-                        icon.classList.add('fa-eye-slash');
-                        this.setAttribute('title', 'Sembunyikan password');
-                    } else {
-                        passwordInput.type = 'password';
-                        icon.classList.remove('fa-eye-slash');
-                        icon.classList.add('fa-eye');
-                        this.setAttribute('title', 'Tampilkan password');
-                    }
-                });
-            });
-        });
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
     </script>
 </body>
 
