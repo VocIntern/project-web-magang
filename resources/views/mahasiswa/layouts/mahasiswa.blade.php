@@ -9,6 +9,7 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     <!-- Page-specific CSS -->
     <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <link rel="stylesheet" href="{{ asset('css/register_profile.css') }}">
     <!-- Bootstrap CSS -->
