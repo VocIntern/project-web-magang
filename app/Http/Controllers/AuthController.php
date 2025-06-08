@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         // Redirect based on role for profile completion
         if ($user->role === 'mahasiswa') {
-            return redirect()->route('mahasiswa.magang.search');
+            return redirect()->route('mahasiswa.profile.create');
             // return redirect()->route('mahasiswa.profile.create');
         } elseif ($user->role === 'perusahaan') {
             return redirect()->route('perusahaan.profile.create');
@@ -83,7 +83,7 @@ class AuthController extends Controller
             if ($user->isAdmin()) {
                 return redirect()->intended('/admin/dashboard');
             } elseif ($user->isMahasiswa()) {
-                return redirect()->intended('/magang/search');
+                return redirect()->intended('/profile/create');
             } elseif ($user->isPerusahaan()) {
                 return redirect()->intended('/perusahaan/dashboard');
             }
