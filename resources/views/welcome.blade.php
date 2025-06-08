@@ -324,65 +324,28 @@
     <!-- Script minimal untuk scroll jika ada session flash -->
     @if (session('scroll_to_results'))
         <script>
-            // Tambahkan script ini di bagian bawah halaman register atau dalam file JavaScript terpisah
-
             document.addEventListener('DOMContentLoaded', function() {
-                // Ambil parameter 'role' dari URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const roleParam = urlParams.get('role');
-
-                // Fungsi untuk mengubah tampilan form berdasarkan role
-                function switchRole(role) {
-                    const mahasiswaBtn = document.querySelector('.role-btn[data-role="mahasiswa"]');
-                    const perusahaanBtn = document.querySelector('.role-btn[data-role="perusahaan"]');
-                    const mahasiswaForm = document.getElementById('mahasiswaForm');
-                    const perusahaanForm = document.getElementById('perusahaanForm');
-                    const formTitle = document.getElementById('form-title');
-
-                    // Reset semua button dan form
-                    mahasiswaBtn.classList.remove('active');
-                    perusahaanBtn.classList.remove('active');
-                    mahasiswaForm.style.display = 'none';
-                    perusahaanForm.style.display = 'none';
-
-                    // Tampilkan form sesuai role yang dipilih
-                    if (role === 'perusahaan') {
-                        perusahaanBtn.classList.add('active');
-                        perusahaanForm.style.display = 'block';
-                        formTitle.textContent = 'Daftar Sebagai Perusahaan';
-                    } else {
-                        // Default ke mahasiswa
-                        mahasiswaBtn.classList.add('active');
-                        mahasiswaForm.style.display = 'block';
-                        formTitle.textContent = 'Daftar Sebagai Mahasiswa';
-                    }
-                }
-
-                // Jika ada parameter role di URL, langsung switch ke role tersebut
-                if (roleParam) {
-                    switchRole(roleParam);
-                }
-
-                // Event listener untuk button role selector (untuk interaksi manual)
-                document.querySelectorAll('.role-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const selectedRole = this.getAttribute('data-role');
-                        switchRole(selectedRole);
-
-                        // Update URL tanpa reload halaman (opsional)
-                        const newUrl = new URL(window.location);
-                        newUrl.searchParams.set('role', selectedRole);
-                        window.history.replaceState(null, '', newUrl);
+                setTimeout(() => {
+                    document.getElementById('hasil-pencarian').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
-                });
+                }, 100);
             });
-            @endif
 
-                <
-                !--Bootstrap Bundle with Popper-- >
-                <
-                script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" >
+            window.addEventListener('scroll', function() {
+                var navbar = document.querySelector('.navbar');
+                if (window.scrollY > 10) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
         </script>
+    @endif
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
