@@ -113,7 +113,8 @@
     <section class="py-5">
         <div class="container">
             <div class="search-box bg-white p-4">
-                <form class="row g-3" action="{{ route('welcome') }}" method="GET">
+                <!-- Update form untuk menggunakan route search -->
+                <form class="row g-3" action="{{ route('search') }}" method="GET">
                     <div class="col-md-5">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0">
@@ -320,16 +321,28 @@
             </div>
         </div>
     </footer>
-    <script>
-        window.addEventListener('scroll', function() {
-            var navbar = document.querySelector('.navbar');
-            if (window.scrollY > 10) {
-                navbar.classList.add('navbar-scrolled');
-            } else {
-                navbar.classList.remove('navbar-scrolled');
-            }
-        });
-    </script>
+    <!-- Script minimal untuk scroll jika ada session flash -->
+    @if (session('scroll_to_results'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(() => {
+                    document.getElementById('hasil-pencarian').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            });
+
+            window.addEventListener('scroll', function() {
+                var navbar = document.querySelector('.navbar');
+                if (window.scrollY > 10) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+            });
+        </script>
+    @endif
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

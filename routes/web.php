@@ -24,7 +24,11 @@ Route::get('/', function () {
 // untuk refresh role
 Route::get('/refresh-session', [SessionController::class, 'refresh'])->name('session.refresh');
 
+// routes/web.php
 Route::get('/', [MagangController::class, 'index'])->name('welcome');
+Route::get('/search', [MagangController::class, 'search'])->name('search');
+// Atau jika ingin tetap menggunakan POST untuk pencarian
+Route::post('/search', [MagangController::class, 'search'])->name('search');
 /*
 |--------------------------------------------------------------------------
 | Mahasiswa Routes
