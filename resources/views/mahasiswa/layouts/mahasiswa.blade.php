@@ -9,6 +9,9 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     <!-- Page-specific CSS -->
     <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/register_profile.css') }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
