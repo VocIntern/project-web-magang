@@ -42,6 +42,7 @@ a {
 .navbar {
     background-color: rgba(255, 255, 255, 0.3) !important;
     backdrop-filter: blur(10px);
+    color: #006767 !important;
 }
 
 .navbar-custom {
@@ -57,14 +58,28 @@ a {
     font-size: 1.5rem;
 }
 
-.usu-logo {
-    height: 40px;
-    margin-right: 10px;
+.navbar-light-scroll {
+    background-color: white !important;
+    transition: background-color 0.3s ease;
 }
 
-.nav-link {
-    font-weight: 600;
-    padding: 0.5rem 1rem;
+.navbar-light-scroll .nav-link,
+.navbar-light-scroll .navbar-brand {
+    color: black !important;
+}
+
+.navbar-light-scroll .nav-link.active {
+    color: green !important;
+}
+
+.navbar-light-scroll .btn-outline-success {
+    color: black !important;
+    border-color: black !important;
+}
+
+.navbar-light-scroll .btn-outline-success:hover {
+    background-color: black !important;
+    color: white !important;
 }
 
 .nav-link:hover {
@@ -288,7 +303,7 @@ a {
 }
 
 /* Pagination */
-.pagination {
+/* .pagination {
     justify-content: center;
     margin-top: 2rem;
 }
@@ -299,11 +314,38 @@ a {
     margin: 0 3px;
     border: 1px solid var(--border-color);
     padding: 0.5rem 0.75rem;
+} */
+
+/* Pagination */
+.pagination {
+    gap: 5px;
+}
+
+.pagination .page-item .page-link {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dark-green);
+    border: 1px solid var(--light-green);
+    font-weight: 500;
 }
 
 .pagination .page-item.active .page-link {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: white;
+}
+.pagination .page-item.active .page-link {
     background-color: #006633;
     border-color: var(--secondary-color);
+}
+
+.pagination .page-item .page-link:hover {
+    transition: 1.2s ease;
+    color: var(--dark-green);
 }
 
 /* Responsive adjustments */

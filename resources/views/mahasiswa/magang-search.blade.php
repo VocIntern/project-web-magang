@@ -53,15 +53,14 @@
                                     <!-- Company Section at Top -->
                                     <div class="card-header bg-white">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <div class="company-logo me-2">
+                                            <div
+                                                class="company-logo me-3 d-flex align-items-center justify-content-center text-success">
                                                 @if ($item->perusahaan->logo)
                                                     <img src="{{ asset('storage/' . $item->perusahaan->logo) }}"
-                                                        class="rounded" width="40" height="40" alt="Logo">
+                                                        alt="{{ $item->perusahaan->nama_perusahaan }}"
+                                                        class="img-fluid rounded">
                                                 @else
-                                                    <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                                                        style="width: 40px; height: 40px;">
-                                                        <i class="bi bi-building"></i>
-                                                    </div>
+                                                    {{ substr($item->perusahaan->nama_perusahaan, 0, 3) }}
                                                 @endif
                                             </div>
                                             <div class="text-center">

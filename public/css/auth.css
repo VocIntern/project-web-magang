@@ -23,7 +23,8 @@ p.definisi {
 }
 
 /* ===== REGISTER FORM STYLES ===== */
-.register-container {
+.register-container,
+.reset-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -31,7 +32,8 @@ p.definisi {
     padding: 2rem 1rem;
 }
 
-.register-card {
+.register-card,
+.reset-card {
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -40,30 +42,36 @@ p.definisi {
     width: 100%;
 }
 
-.register-header {
+.register-header,
+.reset-header {
     color: #0d7926;
     text-align: center;
     padding: 1rem 0.5rem 1rem;
 }
 
-.register-header h1 {
+.register-header h1,
+.reset-header h1 {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.register-header p {
+.register-header p,
+.reset-header p {
     opacity: 0.9;
     margin-bottom: 0;
     font-size: 0.9rem;
 }
 
-.register-body {
+.register-body,
+.reset-body {
     padding: 2rem 1.5rem;
 }
 
-/* ===== LOGIN FORM STYLES ===== */
-.login-container {
+/* Container style untuk login dan lupa password */
+.login-container,
+.forgot-password-container,
+.reset-password-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -71,35 +79,55 @@ p.definisi {
     padding: 2rem 1rem;
 }
 
-.login-card {
+/* Card/Form style untuk login dan lupa password */
+.login-card,
+.forgot-password-form,
+.reset-password-form {
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     max-width: 650px;
     width: 100%;
+    padding: 2rem 1.5rem 1.5rem;
 }
 
-.login-header {
+/* Header/logo style */
+.login-header,
+.login-logo {
     color: #0d7926;
     text-align: center;
     padding: 1rem 0.5rem 1rem;
 }
 
-.login-header h1 {
+.login-header h1,
+.login-logo h1 {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.login-header p {
+.login-header p,
+.login-logo p {
     opacity: 0.9;
     margin-bottom: 0;
     font-size: 0.9rem;
 }
 
-.login-body {
-    padding: 2rem 1.5rem 1.5rem;
+/* Tombol submit */
+.btn-reset {
+    background-color: #0d7926;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-reset:hover {
+    background-color: #0b5d1f;
+    color: white;
 }
 
 /* Role Selector (Register specific) */

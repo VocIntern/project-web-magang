@@ -9,10 +9,12 @@ use App\Http\Controllers\MagangController;
 use App\Http\Controllers\Mahasiswa\MahasiswaMagangController;
 use App\Http\Controllers\Mahasiswa\MahasiswaProfileController;
 // use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Perusahaan\PerusahaanProfileController;
+
 use App\Http\Controllers\PerusahaanController;
-use App\Http\Controllers\PerusahaanProfileController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -24,11 +26,30 @@ Route::get('/', function () {
 // untuk refresh role
 Route::get('/refresh-session', [SessionController::class, 'refresh'])->name('session.refresh');
 
-// routes/web.php
+// Route utama untuk halaman welcome
 Route::get('/', [MagangController::class, 'index'])->name('welcome');
-Route::get('/search', [MagangController::class, 'search'])->name('search');
-// Atau jika ingin tetap menggunakan POST untuk pencarian
-Route::post('/search', [MagangController::class, 'search'])->name('search');
+
+// Route untuk pencarian AJAX (tidak akan refresh halaman)
+Route::post('/ajax-search', [MagangController::class, 'ajaxSearch'])->name('ajax.search');
+
+// Route untuk AJAX pagination (tanpa search)
+Route::get('/ajax/paginate', [MagangController::class, 'ajaxPaginate'])->name('ajax.paginate');
+
+// Route untuk live search (pencarian real-time saat mengetik)
+Route::get('/live-search', [MagangController::class, 'liveSearch'])->name('live.search');
+
+// Route lainnya...
+Route::get('/magang', function () {
+    return view('magang.index');
+});
+
+Route::get('/perusahaan', function () {
+    return view('perusahaan.index');
+});
+
+Route::get('/tentang', function () {
+    return view('tentang');
+});
 /*
 |--------------------------------------------------------------------------
 | Mahasiswa Routes
@@ -36,12 +57,12 @@ Route::post('/search', [MagangController::class, 'search'])->name('search');
 */
 
 Route::middleware(['auth', 'verified', 'role:mahasiswa'])->prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-    
-     // TAMBAHAN ROUTE baru
+
+    // TAMBAHAN ROUTE baru
     Route::get('/profile/create', [MahasiswaProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile', [MahasiswaProfileController::class, 'store'])->name('profile.store');
-    
-    
+
+
     // Profile management untuk mahasiswa - menggunakan controller yang spesifik
     Route::get('/profile/edit', [MahasiswaProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [MahasiswaProfileController::class, 'update'])->name('profile.update');
@@ -70,10 +91,10 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
     Route::get('/profile/edit', [PerusahaanProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [PerusahaanProfileController::class, 'update'])->name('profile.update');
 
-    // // Dashboard
-    // Route::get('/dashboard', function () {
-    //     return view('perusahaan.dashboard');
-    // })->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('perusahaan.dashboard');
+    })->name('dashboard');
 });
 
 /*

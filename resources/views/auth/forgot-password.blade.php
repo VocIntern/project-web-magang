@@ -33,10 +33,10 @@
                             <i class="fas fa-briefcase"></i>
                         </a> --}}
                         <h1 class="mt-2 mb-0">VocIntern</h1>
-                        <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
+                        <p class=" small definisi">Platform Magang Khusus Mahasiswa Vokasi USU</p>
                     </div>
 
-                    <h2 class="text-center">Lupa Password</h2>
+                    <h3 class="text-center mt-3">Lupa Password</h3>
                     <p class="text-center text-muted mb-4">
                         Masukkan email Anda dan kami akan mengirimkan tautan untuk mengatur ulang password Anda.
                     </p>
@@ -76,8 +76,9 @@
                         </div>
                     </form>
 
-                    <div class="text-center mt-4">
-                        <p class="mb-0"><a href="{{ route('login') }}"><i class="fas fa-arrow-left me-2"></i>Kembali
+                    <div class="text-end mt-4">
+                        <p class="mb-0"><a href="{{ route('login') }}" class="auth-link"><i
+                                    class="fas fa-arrow-left me-2"></i>Kembali
                                 ke Halaman Login</a></p>
                     </div>
                 </div>

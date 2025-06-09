@@ -20,6 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>VocIntern - Platform Magang Khusus Mahasiswa Vokasi USU</title>
 
     <!-- Custom CSS -->
@@ -33,13 +34,16 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body class="antialiased">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom py-3 fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-success"href="/">
+            <a class="navbar-brand fw-bold text-success" href="/">
                 <i class="fas fa-briefcase me-2 text-success"></i>VocIntern
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -52,11 +56,11 @@
                         <a class="nav-link active" href="/">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/magang">Cari Magang</a>
+                        <a class="nav-link" href="/magang/search">Cari Magang</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="/perusahaan">Untuk Perusahaan</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="/tentang">Tentang Kami</a>
                     </li>
@@ -100,28 +104,26 @@
                         perusahaan terkemuka. Raih pengalaman kerja berharga sebelum lulus!</p>
                     <div class="d-flex gap-3">
                         <a href="{{ route('register') }}" class="btn btn-light btn-lg">Daftar Sekarang</a>
-                        <a href="/magang" class="btn btn-outline-success btn-lg">Lihat Lowongan</a>
+                        <a href="{{ route('mahasiswa.magang.search') }}" class="btn btn-outline-success btn-lg">Lihat
+                            Lowongan</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-
     <!-- Search Section -->
-    <!-- resources/views/welcome.blade.php (bagian search section) -->
-    <section class="py-5">
+    <section class="search-section py-5">
         <div class="container">
             <div class="search-box bg-white p-4">
-                <!-- Update form untuk menggunakan route search -->
-                <form class="row g-3" action="{{ route('search') }}" method="GET">
+                <form id="searchForm" class="row g-3">
                     <div class="col-md-5">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" name="keyword" class="form-control border-start-0"
-                                placeholder="Posisi atau kata kunci" value="{{ request('keyword') }}">
+                            <input type="text" id="posisiInput" name="posisi" class="form-control border-start-0"
+                                placeholder="Posisi atau kata kunci">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -129,26 +131,52 @@
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="fas fa-map-marker-alt text-muted"></i>
                             </span>
-                            <input type="text" name="lokasi" class="form-control border-start-0"
-                                placeholder="Lokasi" value="{{ request('lokasi') }}">
+                            <input type="text" id="lokasiInput" name="lokasi" class="form-control border-start-0"
+                                placeholder="Lokasi">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-outline-success w-100">Cari Lowongan</button>
+                        <button type="submit" class="btn btn-outline-success w-100">
+                            <span class="btn-text">Cari Lowongan</span>
+                            <span class="btn-loading d-none">
+                                <i class="fas fa-spinner fa-spin me-2"></i>Mencari...
+                            </span>
+                        </button>
                     </div>
                 </form>
+
+                <!-- Filter tambahan (opsional) -->
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-link text-decoration-none" id="resetSearch">
+                            <i class="fas fa-refresh me-1"></i>Reset Pencarian
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Featured Internships -->
-    <!-- Featured Internships Section -->
-    <section class="py-5">
+    <section class="py-5" id="magang-section">
         <div class="container">
-            <h2 class="text-center text-white mb-5">Lowongan Magang Terbaru</h2>
-            <div class="row">
+            <h2 class="text-center text-white mb-5">
+                <span id="section-title" class="text-success">Lowongan Magang Terbaru</span>
+                <span id="search-count" class="d-none badge text-success ms-2"></span>
+            </h2>
+
+            <!-- Loading indicator -->
+            <div id="loading-indicator" class="text-center d-none">
+                <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 text-white">Sedang mencari lowongan...</p>
+            </div>
+
+            <!-- Container untuk hasil magang -->
+            <div class="row" id="magang-container">
                 @forelse($magang as $item)
-                    <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="col-md-6 col-lg-4 mb-4 magang-item">
                         <div class="job-card bg-light">
                             <div class="d-flex mb-3">
                                 <div
@@ -166,7 +194,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <span class="badge bg-sucess text-dark me-2">
+                                <span class="badge bg-success text-white me-2">
                                     <i class="fas fa-map-marker-alt me-1"></i>
                                     {{ $item->lokasi }}
                                 </span>
@@ -180,27 +208,37 @@
                                 <small class="text-muted">
                                     Dibuka hingga {{ $item->tanggal_selesai->format('d M Y') }}
                                 </small>
-                                {{-- <a href="{{ route('magang.show', $item->id) }}"
-                                    class="btn btn-sm btn-outline-primary">Lihat Detail</a> --}}
-                                <a href="#" class="btn btn-sm btn-outline-success">Lihat Detail</a>
+
+                                <a href="{{ route('mahasiswa.magang.show', $item->id) }}"
+                                    class="btn btn-sm btn-outline-success">Lihat Detail</a>
+
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="col-12 text-center">
+                    <div class="col-12 text-center" id="no-results">
                         <p class="text-muted">Tidak ada lowongan magang yang tersedia saat ini.</p>
                     </div>
                 @endforelse
             </div>
 
-            @if ($magang->hasPages())
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $magang->withQueryString()->links('vendor.pagination.bootstrap-5') }}
-                </div>
-            @endif
+            <!-- Pagination -->
+            <!-- Pagination -->
+            <div id="pagination-container" class="col-12">
+                @if ($magang->hasPages())
+                    <div class="d-flex justify-content-center mt-4">
+                        {{ $magang->withQueryString()->links('vendor.pagination.bootstrap-5') }}
+                    </div>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            Menampilkan {{ $magang->firstItem() }} - {{ $magang->lastItem() }} dari
+                            {{ $magang->total() }} hasil
+                        </small>
+                    </div>
+                @endif
+            </div>
 
             <div class="text-center mt-4">
-                {{-- <a href="{{ route('magang.index') }}" class="btn btn-outline-primary">Lihat Semua Lowongan</a> --}}
                 <a href="#" class="btn btn-outline-success">Lihat Semua Lowongan</a>
             </div>
         </div>
@@ -267,7 +305,6 @@
                     <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>VocIntern</h5>
                     <p class="text-muted">Platform magang khusus untuk mahasiswa vokasi USU, menghubungkan talenta
                         berbakat dengan perusahaan terkemuka.</p>
-
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Magang</h6>
@@ -310,7 +347,6 @@
                     <ul class="list-unstyled">
                         <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Kampus USU, Medan</li>
                         <li class="mb-2"><i class="fas fa-envelope me-2"></i> vocintern2025@gmail.com</li>
-                        {{-- <li class="mb-2"><i class="fas fa-phone me-2"></i> (061) 82116655</li> --}}
                     </ul>
                 </div>
             </div>
@@ -321,68 +357,29 @@
             </div>
         </div>
     </footer>
-    <!-- Script minimal untuk scroll jika ada session flash -->
-    @if (session('scroll_to_results'))
-        <script>
-            // Tambahkan script ini di bagian bawah halaman register atau dalam file JavaScript terpisah
 
-            document.addEventListener('DOMContentLoaded', function() {
-                // Ambil parameter 'role' dari URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const roleParam = urlParams.get('role');
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                // Fungsi untuk mengubah tampilan form berdasarkan role
-                function switchRole(role) {
-                    const mahasiswaBtn = document.querySelector('.role-btn[data-role="mahasiswa"]');
-                    const perusahaanBtn = document.querySelector('.role-btn[data-role="perusahaan"]');
-                    const mahasiswaForm = document.getElementById('mahasiswaForm');
-                    const perusahaanForm = document.getElementById('perusahaanForm');
-                    const formTitle = document.getElementById('form-title');
-
-                    // Reset semua button dan form
-                    mahasiswaBtn.classList.remove('active');
-                    perusahaanBtn.classList.remove('active');
-                    mahasiswaForm.style.display = 'none';
-                    perusahaanForm.style.display = 'none';
-
-                    // Tampilkan form sesuai role yang dipilih
-                    if (role === 'perusahaan') {
-                        perusahaanBtn.classList.add('active');
-                        perusahaanForm.style.display = 'block';
-                        formTitle.textContent = 'Daftar Sebagai Perusahaan';
-                    } else {
-                        // Default ke mahasiswa
-                        mahasiswaBtn.classList.add('active');
-                        mahasiswaForm.style.display = 'block';
-                        formTitle.textContent = 'Daftar Sebagai Mahasiswa';
-                    }
-                }
-
-                // Jika ada parameter role di URL, langsung switch ke role tersebut
-                if (roleParam) {
-                    switchRole(roleParam);
-                }
-
-                // Event listener untuk button role selector (untuk interaksi manual)
-                document.querySelectorAll('.role-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const selectedRole = this.getAttribute('data-role');
-                        switchRole(selectedRole);
-
-                        // Update URL tanpa reload halaman (opsional)
-                        const newUrl = new URL(window.location);
-                        newUrl.searchParams.set('role', selectedRole);
-                        window.history.replaceState(null, '', newUrl);
-                    });
+    <!-- JavaScript untuk pencarian AJAX -->
+    <script src="{{ asset('js/config.js') }}"></script>
+    <script src="{{ asset('js/welcome.js') }}"></script>
+    <script>
+        // Initialize with Laravel routes
+        $(document).ready(function() {
+            if (window.welcomePage) {
+                window.welcomePage.setRoutes({
+                    ajaxSearch: '{{ route('ajax.search') }}',
+                    ajaxPaginate: '{{ route('ajax.paginate') }}',
+                    magangShow: '{{ route('mahasiswa.magang.show', ['id' => 'MAGANG_ID']) }}'.replace(
+                        'MAGANG_ID', ':id'),
+                    liveSearch: '{{ route('live.search') }}'
                 });
-            });
-            @endif
-
-                <
-                !--Bootstrap Bundle with Popper-- >
-                <
-                script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" >
-        </script>
+            }
+        });
+    </script>
 </body>
 
 </html>
