@@ -1,0 +1,448 @@
+/* General Body and Font Styling */
+body {
+    font-family: 'Arial', sans-serif; /* Prioritas Arial, lalu sans-serif generik */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Light grey background */
+    display: flex;
+    color: #333;
+    font-size: 14px; /* Default font size for body */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    height: 100vh;
+    position: fixed; /* Fixed position */
+    overflow-y: auto;
+    z-index: 1000; /* Pastikan di atas konten lain */
+}
+
+.sidebar .logo {
+    padding: 0 20px 20px;
+    font-weight: bold;
+    color: #4CAF50; /* Green color for logo */
+    font-size: 18px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    text-align: center; /* Sesuaikan jika perlu rata tengah */
+}
+
+.sidebar .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar .menu li {
+    margin-bottom: 5px;
+}
+
+.sidebar .menu a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: #555;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    font-size: 15px; /* Sedikit lebih besar dari default body */
+}
+
+.sidebar .menu a:hover {
+    background-color: #f5f5f5;
+    color: #4CAF50;
+}
+
+.sidebar .menu li.active a {
+    background-color: #e6f7e6; /* Lighter green for active state */
+    color: #4CAF50;
+    border-right: 3px solid #4CAF50;
+    font-weight: bold; /* Sedikit lebih tebal untuk active */
+}
+
+.sidebar .menu a .material-icons {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 250px; /* Offset by sidebar width */
+    flex-grow: 1;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Untuk menata header dan content-area */
+}
+
+/* Header Styling */
+.header {
+    background-color: #fff;
+    padding: 15px 30px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.05);
+    z-index: 999; /* Di bawah sidebar tapi di atas content area */
+}
+
+.header .user-info {
+    display: flex;
+    align-items: center;
+    color: #555;
+    font-size: 14px;
+}
+
+.header .user-info .material-icons {
+    margin-right: 5px;
+    font-size: 24px;
+    color: #777; /* Warna ikon user */
+}
+
+.header .user-info span {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Content Area within Main Content */
+.content-area {
+    padding: 30px;
+    background-color: #f0f2f5;
+    flex-grow: 1; /* Agar mengisi sisa ruang vertikal */
+}
+
+.content-area h1 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 600; /* Lebih tebal dari normal, tapi tidak full bold */
+}
+
+/* Section Card Styling (for each form section) */
+.section-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 25px 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08); /* Sedikit lebih lembut */
+}
+
+.section-card h2 {
+    color: #333;
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+    font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea,
+.form-group input[type="date"] { /* Tambahkan input type="date" di sini */
+    width: calc(100% - 20px); /* Account for 10px padding on each side */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box; /* Include padding in width */
+    color: #333;
+    background-color: #fcfcfc; /* Sedikit off-white */
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #999;
+}
+
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.form-group input[type="date"]:focus { /* Tambahkan input type="date" di sini */
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    background-color: #fff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #777;
+    font-size: 12px;
+}
+
+/* Date input with icon - BAGIAN INI SUDAH DIHAPUS KARENA MENGGUNAKAN TYPE="DATE" BAWAAN BROWSER */
+/* .form-group.date-input {
+    position: relative;
+}
+
+.form-group.date-input input {
+    padding-right: 35px;
+}
+
+.form-group.date-input .date-icon {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    color: #888;
+    pointer-events: none;
+} */
+
+
+/* Tags Input Container */
+.tags-input-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    min-height: 40px;
+    background-color: #fcfcfc;
+}
+
+.tags-input-container:focus-within {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    background-color: #fff;
+}
+
+.tags-input-container .tag {
+    background-color: #e6f7e6;
+    color: #4CAF50;
+    padding: 5px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    white-space: nowrap; /* Mencegah tag pecah baris */
+}
+
+.tags-input-container .tag .material-icons {
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #4CAF50;
+}
+
+.tags-input-container input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 5px 0;
+    width: auto; /* Allow input to grow */
+    background-color: transparent; /* Pastikan input di dalam tag container tidak memiliki background sendiri */
+}
+
+/* Checkbox Group */
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: normal; /* Override bold from form-group label */
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #4CAF50; /* Green checkbox */
+    transform: scale(1.1); /* Slightly larger checkbox */
+}
+
+/* Drop Area for File Upload */
+.drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    color: #888;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    display: flex; /* Untuk rata tengah konten */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop-area:hover {
+    border-color: #4CAF50;
+    background-color: #f0fdf0;
+}
+
+.drop-area .material-icons {
+    font-size: 48px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.drop-area p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.drop-area a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.drop-area small {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* Toggle Switch Group */
+.toggle-switch-group {
+    margin-bottom: 20px; /* This creates space between the toggle group and the next form-group */
+}
+
+.toggle-switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px; /* Space below content before border */
+    border-bottom: 1px solid #eee;
+}
+
+/* Apply margin-bottom only to toggle switches that are NOT the last one */
+.toggle-switch:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+/* Ensure the last toggle switch has correct spacing without extra margin */
+.toggle-switch:last-child {
+    margin-bottom: 0;
+    padding-bottom: 15px; /* Keep padding-bottom for visual consistency with the border */
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #4CAF50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+/* Action Buttons */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 25px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    white-space: nowrap; /* Pastikan teks tombol tidak pecah baris */
+}
+
+.btn-secondary {
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0);
+}
+.btn-primary {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #45a049;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.btn-primary:disabled:hover {
+    background-color: #ccc;
+    box-shadow: none;
+}

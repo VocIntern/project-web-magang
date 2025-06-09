@@ -17,7 +17,7 @@ class PerusahaanProfileController extends Controller
      */
     public function create(): View
     {
-        return view('perusahaan.profile.create');
+        return view('perusahaan.profile.index');
     }
 
     /**

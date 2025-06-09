@@ -1,183 +1,399 @@
-<!-- resources/views/layouts/admin.blade.php -->
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Dashboard') - VocIntern</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - VocIntern</title>
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
-    <!-- Custom styles -->
-    <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 100;
-            padding: 0;
-            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-            background-color: #008a0c;
-            color: white;
-        }
-
-        .sidebar-sticky {
-            position: sticky;
-            top: 0;
-            height: calc(100vh);
-            padding-top: 1rem;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: rgba(255, 255, 255, .75);
-            padding: 0.75rem 1rem;
-            border-left: 3px solid transparent;
-        }
-
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            color: #fff;
-            background-color: rgba(255, 255, 255, .1);
-            border-left: 3px solid #fff;
-        }
-
-        .sidebar .nav-link i {
-            margin-right: 0.5rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        .content {
-            margin-left: 250px;
-        }
-
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 99;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
-        }
-
-        .card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, .05);
-            border-radius: 10px;
-            border: none;
-        }
-
-        .card-stats {
-            transition: transform 0.3s;
-        }
-
-        .card-stats:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-stats .icon {
-            font-size: 2rem;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-        }
-
-        @media (max-width: 767.98px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-
-            .content {
-                margin-left: 0;
-            }
-
-            .sidebar-sticky {
-                height: auto;
-            }
-        }
-    </style>
-
-    @stack('styles')
 </head>
-
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            @include('admin.layouts.sidebar')
-
-            <!-- Main Content -->
-            <main class="content px-4">
-                <!-- Navbar -->
-                @include('admin.layouts.navbar')
-
-                <!-- Page Content -->
-                <div class="py-4">
-                    @yield('content')
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div>
+                    <h6 style="margin: 0; font-size: 14px;">Admin Utama</h6>
+                    <small style="color: rgba(255,255,255,0.7);">Super Admin</small>
                 </div>
-            </main>
+            </div>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Menu Utama</div>
+            <a href="#" class="nav-link active">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-user-graduate"></i>
+                Kelola Pengguna
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-building"></i>
+                Kelola Perusahaan
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-briefcase"></i>
+                Kelola Magang
+                <span class="badge-notification">23</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-users"></i>
+                Kelola Mahasiswa
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-chart-bar"></i>
+                Laporan
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Pengaturan</div>
+            <a href="#" class="nav-link">
+                <i class="fas fa-cog"></i>
+                Pengaturan Sistem
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-bell"></i>
+                Notifikasi
+                <span class="badge-notification">1</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-file-alt"></i>
+                Log Aktivitas
+            </a>
+        </div>
+        
+        <div class="nav-section">
+            <div class="nav-section-title">Akun</div>
+            <a href="#" class="nav-link">
+                <i class="fas fa-user"></i>
+                Profil Admin
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-key"></i>
+                Ubah Password
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <div class="top-navbar">
+            <h1 class="page-title">Dashboard Admin</h1>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari...">
+                </div>
+                <button class="add-btn">
+                    <i class="fas fa-plus"></i>
+                    Tambah Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon students">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>326</h3>
+                        <p>Total Mahasiswa</p>
+                        <div class="change">+5 dari kemarin terakhir</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon companies">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>42</h3>
+                        <p>Total Perusahaan</p>
+                        <div class="change">+1 dalam seminggu terakhir</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon internships">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>78</h3>
+                        <p>Lowongan Magang</p>
+                        <div class="change">Aktif dari Motivate 20</div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon applications">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>145</h3>
+                        <p>Aplikasi Magang</p>
+                        <div class="change">Selama ini Pending 65</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Applications Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Aplikasi Magang Terbaru</h5>
+                        <button class="export-btn">
+                            <i class="fas fa-download"></i>
+                            Export Data
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Perusahaan</th>
+                                    <th>Posisi</th>
+                                    <th>Tanggal Apply</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Ahmad Rizky</td>
+                                    <td>PT Maju Bersama</td>
+                                    <td>Web Developer</td>
+                                    <td>12 Apr 2025</td>
+                                    <td><span class="status-badge status-menunggu">Menunggu</span></td>
+                                    <td>
+                                        <button class="action-btn">Detail</button>
+                                        <button class="action-btn">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Siti Nurlaili</td>
+                                    <td>PT Digital Kreatif</td>
+                                    <td>UI/UX Designer</td>
+                                    <td>10 Apr 2025</td>
+                                    <td><span class="status-badge status-diterima">Diterima</span></td>
+                                    <td>
+                                        <button class="action-btn">Detail</button>
+                                        <button class="action-btn">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Budi Santoso</td>
+                                    <td>PT Tech Indonesia</td>
+                                    <td>Mobile Developer</td>
+                                    <td>9 Apr 2025</td>
+                                    <td><span class="status-badge status-ditolak">Ditolak</span></td>
+                                    <td>
+                                        <button class="action-btn">Detail</button>
+                                        <button class="action-btn">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Diana Putri</td>
+                                    <td>PT Solusi Digital</td>
+                                    <td>Digital Marketing</td>
+                                    <td>8 Apr 2025</td>
+                                    <td><span class="status-badge status-diterima">Diterima</span></td>
+                                    <td>
+                                        <button class="action-btn">Detail</button>
+                                        <button class="action-btn">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Farhan Wijaya</td>
+                                    <td>PT Inovasi Teknologi</td>
+                                    <td>Data Analyst</td>
+                                    <td>7 Apr 2025</td>
+                                    <td><span class="status-badge status-selesai">Selesai</span></td>
+                                    <td>
+                                        <button class="action-btn">Detail</button>
+                                        <button class="action-btn">Edit</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <div class="pagination-nav">
+                            <button>‹</button>
+                            <button class="active">1</button>
+                            <button>2</button>
+                            <button>3</button>
+                            <button>›</button>
+                        </div>
+                        <a href="#" style="color: #28a745; text-decoration: none;">Lihat Semua Aplikasi</a>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar -->
+                <div>
+                    <!-- Recent Activities -->
+                    <div class="card" style="margin-bottom: 20px;">
+                        <div class="card-header">
+                            <h5 class="card-title">Aktivitas Terbaru</h5>
+                        </div>
+                        <div>
+                            <div class="activity-item">
+                                <div class="activity-icon success">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-time">Mei 10, 10:45</div>
+                                    <div class="activity-text">PT Tech Indonesia menambahkan lowongan magang baru</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon info">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-time">Mei 10, 09:30</div>
+                                    <div class="activity-text">3 mahasiswa baru mendaftar akun</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon warning">
+                                    <i class="fas fa-exclamation"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-time">Mei 10, 08:15</div>
+                                    <div class="activity-text">Permintaan verifikasi dari PT Maju Digital</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon danger">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-time">Mei 9, 16:20</div>
+                                    <div class="activity-text">Laporan masalah login dari 2 pengguna</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon info">
+                                    <i class="fas fa-sync"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-time">Mei 9, 14:30</div>
+                                    <div class="activity-text">Update sistem berhasil dilakukan</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-link">Lihat Semua Aktivitas</a>
+                    </div>
+
+                    <!-- Companies List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Daftar Perusahaan</h5>
+                            <button class="add-btn" style="font-size: 12px; padding: 6px 12px;">
+                                <i class="fas fa-plus"></i>
+                                Tambah Perusahaan
+                            </button>
+                        </div>
+                        <div>
+                            <div class="company-item">
+                                <div class="company-info">
+                                    <h6>PT Maju Bersama</h6>
+                                    <p>Teknologi Informasi</p>
+                                    <p>Jakarta</p>
+                                </div>
+                                <div class="company-stats">
+                                    <div class="count">5</div>
+                                    <span class="status-badge status-diterima">Terverifikasi</span>
+                                </div>
+                            </div>
+                            <div class="company-item">
+                                <div class="company-info">
+                                    <h6>PT Digital Kreatif</h6>
+                                    <p>Digital Marketing</p>
+                                    <p>Bandung</p>
+                                </div>
+                                <div class="company-stats">
+                                    <div class="count">3</div>
+                                    <span class="status-badge status-diterima">Terverifikasi</span>
+                                </div>
+                            </div>
+                            <div class="company-item">
+                                <div class="company-info">
+                                    <h6>PT Solusi Fintech</h6>
+                                    <p>Financial Technology</p>
+                                    <p>Jakarta</p>
+                                </div>
+                                <div class="company-stats">
+                                    <div class="count">0</div>
+                                    <span class="status-badge status-menunggu">Menunggu</span>
+                                </div>
+                            </div>
+                            <div class="company-item">
+                                <div class="company-info">
+                                    <h6>PT Tech Indonesia</h6>
+                                    <p>Teknologi Informasi</p>
+                                    <p>Surabaya</p>
+                                </div>
+                                <div class="company-stats">
+                                    <div class="count">4</div>
+                                    <span class="status-badge status-diterima">Terverifikasi</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination">
+                            <div class="pagination-nav">
+                                <button>‹</button>
+                                <button class="active">1</button>
+                                <button>2</button>
+                                <button>›</button>
+                            </div>
+                        </div>
+                        <a href="#" class="view-all-link">Lihat Semua Perusahaan</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-    <!-- ChartJS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Common script -->
     <script>
-        // Initialize all tooltips
+        // Simple demo functionality
         document.addEventListener('DOMContentLoaded', function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-
-            // Initialize DataTables
-            if ($.fn.DataTable) {
-                $('.datatable').DataTable({
-                    language: {
-                        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json"
-                    }
+            // Mobile sidebar toggle
+            const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.querySelector('.sidebar-toggle');
+            
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('show');
                 });
             }
+            
+            // Table row hover effect
+            const tableRows = document.querySelectorAll('.modern-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    console.log('Row clicked:', this);
+                });
+            });
         });
     </script>
-
-    @stack('scripts')
 </body>
-
 </html>
