@@ -36,7 +36,7 @@
                         <p class=" small definisi">Platform Magang Khusus Mahasiswa Vokasi USU</p>
                     </div>
 
-                    <h3 class="text-center mt-3">Lupa Password</h3>
+                    <h3 class="text-center mt-4">Lupa Password</h3>
                     <p class="text-center text-muted mb-4">
                         Masukkan email Anda dan kami akan mengirimkan tautan untuk mengatur ulang password Anda.
                     </p>
@@ -63,7 +63,7 @@
                         <div class="mb-4">
                             <label for="email" class="form-label">Email</label>
                             <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+
                                 <input id="email" type="email" class="form-control" name="email"
                                     value="{{ old('email') }}" required autofocus>
                             </div>

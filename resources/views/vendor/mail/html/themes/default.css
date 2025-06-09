@@ -28,7 +28,7 @@ blockquote {
 }
 
 a {
-    color: #3869d4;
+    color: #000000;
 }
 
 a img {
@@ -38,7 +38,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #3d4852;
+    color: #000000;
     font-size: 18px;
     font-weight: bold;
     margin-top: 0;
@@ -265,18 +265,18 @@ img {
 /* Panels */
 
 .panel {
-    border-left: #2d3748 solid 4px;
+    border-left: #0d7926 solid 4px;
     margin: 21px 0;
 }
 
 .panel-content {
     background-color: #edf2f7;
-    color: #718096;
+    color: #3a3a3a;
     padding: 16px;
 }
 
 .panel-content p {
-    color: #718096;
+    color: #000000;
 }
 
 .panel-item {

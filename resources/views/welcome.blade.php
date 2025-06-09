@@ -58,9 +58,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/magang/search">Cari Magang</a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="/perusahaan">Untuk Perusahaan</a>
-                    </li> --}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}?role=perusahaan">Untuk Perusahaan</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/tentang">Tentang Kami</a>
                     </li>

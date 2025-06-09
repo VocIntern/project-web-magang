@@ -40,6 +40,14 @@
             <!-- Body -->
             <div class="login-body">
                 <h3 class="text-center mb-4">Masuk ke Akun Anda</h3>
+                <div class="role-selector">
+                    <button type="button" class="role-btn active" data-role="mahasiswa">
+                        Mahasiswa
+                    </button>
+                    <button type="button" class="role-btn" data-role="perusahaan">
+                        Perusahaan
+                    </button>
+                </div>
 
                 @if ($errors->any())
                     <div class="alert alert-danger mb-3">
@@ -62,7 +70,6 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <div class="input-group">
-                            {{-- <span class="input-group-text"><i class="fas fa-envelope"></i></span> --}}
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                 name="email" id="email" value="{{ old('email') }}"
                                 placeholder="Masukkan email anda" required autofocus>
@@ -142,6 +149,74 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // Role Selector Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleButtons = document.querySelectorAll('.role-btn');
+            const selectedRoleInput = document.getElementById('selected-role');
+            const emailInput = document.getElementById('email');
+
+            // Function to get URL parameter
+            function getUrlParameter(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            // Function to update email placeholder based on role
+            function updateEmailPlaceholder(role) {
+                if (role === 'mahasiswa') {
+                    emailInput.placeholder = 'Masukkan email anda';
+                } else if (role === 'perusahaan') {
+                    emailInput.placeholder = 'Masukkan email perusahaan';
+                }
+            }
+
+            // Function to set active role
+            function setActiveRole(role) {
+                // Remove active class from all buttons
+                roleButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Find and activate the target button
+                const targetButton = document.querySelector(`[data-role="${role}"]`);
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                    selectedRoleInput.value = role;
+                    updateEmailPlaceholder(role);
+                    return true;
+                }
+                return false;
+            }
+
+            // Add click event listeners
+            roleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const selectedRole = this.getAttribute('data-role');
+                    setActiveRole(selectedRole);
+                });
+            });
+
+            // Determine initial role priority:
+            // 1. URL parameter (?role=perusahaan)
+            // 2. Old input (for form validation errors)
+            // 3. Default (mahasiswa)
+
+            const urlRole = getUrlParameter('role');
+            const oldRole = '{{ old('role') }}';
+
+            let initialRole = 'mahasiswa'; // default
+
+            if (urlRole && (urlRole === 'mahasiswa' || urlRole === 'perusahaan')) {
+                initialRole = urlRole;
+                console.log('Using URL role:', initialRole);
+            } else if (oldRole && (oldRole === 'mahasiswa' || oldRole === 'perusahaan')) {
+                initialRole = oldRole;
+                console.log('Using old role:', initialRole);
+            }
+
+            // Set the initial active role
+            setActiveRole(initialRole);
+        });
+
+
         function togglePassword(id) {
             const input = document.getElementById(id);
             const icon = input.nextElementSibling.querySelector('i');

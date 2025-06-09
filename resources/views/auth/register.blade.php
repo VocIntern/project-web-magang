@@ -238,12 +238,12 @@
 
                     // Tampilkan form sesuai role
                     if (role === 'mahasiswa') {
-                        console.log('Menampilkan form mahasiswa');
+
                         mahasiswaForm.style.display = 'block';
                         perusahaanForm.style.display = 'none';
                         formTitle.textContent = 'Daftar Sebagai Mahasiswa';
                     } else if (role === 'perusahaan') {
-                        console.log('Menampilkan form perusahaan');
+
                         mahasiswaForm.style.display = 'none';
                         perusahaanForm.style.display = 'block';
                         formTitle.textContent = 'Daftar Sebagai Perusahaan';

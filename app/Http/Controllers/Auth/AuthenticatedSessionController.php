@@ -31,61 +31,25 @@ class AuthenticatedSessionController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $role = $request->input('role', 'mahasiswa');
-
         // Attempt login
         if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-
             $user = Auth::user();
-
-            // Validasi role sesuai dengan form yang digunakan
-            $roleValid = false;
-
-            if ($role === 'mahasiswa' && $user->isMahasiswa()) {
-                $roleValid = true;
-            } elseif ($role === 'perusahaan' && $user->isPerusahaan()) {
-                $roleValid = true;
-            } elseif ($user->isAdmin()) {
-                // Admin bisa login dari mana saja
-                $roleValid = true;
-            }
-
-            // Jika role tidak sesuai, logout dan kembalikan error
-            if (!$roleValid) {
-                Auth::logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
-
-                if ($role === 'mahasiswa') {
-                    return back()->withErrors([
-                        'email' => 'Email ini tidak terdaftar sebagai akun mahasiswa atau role tidak sesuai.',
-                    ])->onlyInput('email');
-                } else {
-                    return back()->withErrors([
-                        'email' => 'Email ini tidak terdaftar sebagai akun perusahaan atau role tidak sesuai.',
-                    ])->onlyInput('email');
-                }
-            }
-
-            // Jika role valid, regenerate session dan redirect
             $request->session()->regenerate();
 
-            // Redirect berdasarkan role
-            if (Auth::user()->isAdmin()) {
+            // Auto redirect berdasarkan role user
+            if ($user->isAdmin()) {
                 return redirect()->route('admin.dashboard');
-            } elseif (Auth::user()->isMahasiswa()) {
+            } elseif ($user->isMahasiswa()) {
                 // Cek apakah mahasiswa sudah memiliki profil lengkap
                 $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
                 if (!$mahasiswa) {
-                    // Jika belum ada profil mahasiswa, redirect ke form create profile
                     return redirect()->route('mahasiswa.profile.create')
                         ->with('info', 'Silakan lengkapi profil Anda terlebih dahulu untuk melanjutkan.');
                 } else {
-                    // Jika sudah ada profil, redirect ke dashboard mahasiswa
                     return redirect()->intended(route('mahasiswa.magang.search'));
                 }
-            } elseif (Auth::user()->isPerusahaan()) {
+            } elseif ($user->isPerusahaan()) {
                 return redirect()->route('perusahaan.dashboard');
             }
 
