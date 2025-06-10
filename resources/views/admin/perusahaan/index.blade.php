@@ -1,5 +1,5 @@
 <!-- resources/views/admin/perusahaan/index.blade.php -->
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 
 @section('title', 'Daftar Perusahaan')
 
@@ -73,7 +73,7 @@
                                                 aria-expanded="false">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
+                                            {{-- <ul class="dropdown-menu dropdown-menu-end">
                                                 <li><a class="dropdown-item"
                                                         href="{{ route('admin.perusahaan.show', $p->id) }}">
                                                         <i class="fas fa-eye me-2"></i> Detail
@@ -99,7 +99,7 @@
                                                             <i class="fas fa-trash me-2"></i> Hapus
                                                         </button>
                                                     </form>
-                                                </li>
+                                                </li> --}}
                                             </ul>
                                         </div>
                                     </td>
@@ -113,7 +113,7 @@
     </div>
 
     <!-- Export Modal -->
-    <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -189,7 +189,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @push('scripts')

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOCintern - Pendaftaran Perusahaan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="daftarprofil.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <img src="https://i.imgur.com/your-logo.png" alt="VOCintern Logo"> </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                <li><a href="#"><i class="fas fa-briefcase"></i> <span>Lowongan Magang</span></a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Pendaftar</span></a></li>
+                <li><a href="#"><i class="fas fa-users-cog"></i> <span>Magang Aktif</span></a></li>
+                <li><a href="#"><i class="fas fa-user-graduate"></i> <span>Seleksi Mahasiswa</span></a></li>
+                <li><a href="#" class="active"><i class="fas fa-cog"></i> <span>Pengaturan</span></a></li> </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h1>Pendaftaran Perusahaan</h1>
+            <div class="header-right">
+                <i class="fas fa-user-circle"></i> Admin <i class="fas fa-caret-down"></i>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <p class="form-description">Isi informasi perusahaan Anda di platform magang VOCintern.</p>
+
+            <form id="companyRegistrationForm">
+                <section class="form-section">
+                    <h3>Informasi Dasar Perusahaan</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="namaPerusahaan">Nama Perusahaan *</label>
+                            <input type="text" id="namaPerusahaan" placeholder="Masukkan nama perusahaan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bidangIndustri">Bidang Industri *</label>
+                            <select id="bidangIndustri" required>
+                                <option value="">Pilih bidang industri</option>
+                                <option value="Teknologi">Teknologi</option>
+                                <option value="Manufaktur">Manufaktur</option>
+                                <option value="Pendidikan">Pendidikan</option>
+                                <option value="Kesehatan">Kesehatan</option>
+                                <option value="Finansial">Finansial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="lokasiPerusahaan">Lokasi Perusahaan *</label>
+                            <input type="text" id="lokasiPerusahaan" placeholder="Pilih lokasi perusahaan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="websitePerusahaan">Website Perusahaan</label>
+                            <input type="url" id="websitePerusahaan" placeholder="https://www.perusahaan.com">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="fileAkta">Pilih akta perusahaan *</label>
+                            <input type="file" id="fileAkta" accept=".pdf,.doc,.docx" required>
+                            <span class="file-info">
+                                <i class="fas fa-info-circle"></i> Upload dokumen akta perusahaan.
+                            </span>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="tentangPerusahaan">Tentang Perusahaan *</label>
+                            <textarea id="tentangPerusahaan" rows="4" placeholder="Deskripsikan perusahaan Anda, visi, misi, dan bidang usaha yang dijalani..." required></textarea>
+                            <span class="char-count">Maksimal 500 karakter</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3>Alamat Perusahaan</h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="alamatLengkap">Alamat Lengkap *</label>
+                            <input type="text" id="alamatLengkap" placeholder="Masukkan alamat lengkap perusahaan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kodePos">Kode Pos *</label>
+                            <input type="text" id="kodePos" placeholder="12345" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kota">Kota *</label>
+                            <input type="text" id="kota" placeholder="Contoh: Jakarta Selatan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="provinsi">Provinsi *</label>
+                            <select id="provinsi" required>
+                                <option value="">Pilih provinsi</option>
+                                <option value="DKI Jakarta">DKI Jakarta</option>
+                                <option value="Jawa Barat">Jawa Barat</option>
+                                <option value="Jawa Tengah">Jawa Tengah</option>
+                                <option value="Jawa Timur">Jawa Timur</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3>Informasi Kontak</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="emailPerusahaan">Email Perusahaan *</label>
+                            <input type="email" id="emailPerusahaan" placeholder="pt@perusahaan.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nomorTelepon">Nomor Telepon *</label>
+                            <input type="tel" id="nomorTelepon" placeholder="021-1234567" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="namaPIC">Nama PIC (Person in Charge) *</label>
+                            <input type="text" id="namaPIC" placeholder="Nama lengkap PIC" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="jabatanPIC">Jabatan PIC *</label>
+                            <input type="text" id="jabatanPIC" placeholder="Contoh: HR Manager" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="emailPIC">Email PIC *</label>
+                            <input type="email" id="emailPIC" placeholder="pic@perusahaan.com" required>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3>Dokumen Perusahaan</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="npwp">NPWP *</label>
+                            <input type="text" id="npwp" placeholder="XX.XXX.XXX.X-XXX.XXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="siupNIB">SIUP/NIB *</label>
+                            <input type="text" id="siupNIB" placeholder="Nomor SIUP/NIB" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="dokumenLegalitas">Dokumen Legalitas Perusahaan *</label>
+                            <div class="file-upload-dropzone" id="dokumenLegalitasDropzone">
+                                <i class="fas fa-upload"></i>
+                                <p>Drag and drop file di sini atau <a href="#" id="browseFile">klik untuk memilih file</a></p>
+                                <input type="file" id="dokumenLegalitas" class="hidden-file-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                                <ul id="fileList" class="file-list"></ul>
+                            </div>
+                            <span class="file-info">
+                                <i class="fas fa-info-circle"></i> Upload dokumen seperti Akta Pendirian, SIUP, dan dokumen lain yang dibutuhkan.
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h3>Media Sosial (Opsional)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn</label>
+                            <input type="url" id="linkedin" placeholder="https://linkedin.com/company/namaperusahaan">
+                        </div>
+                        <div class="form-group">
+                            <label for="instagram">Instagram</label>
+                            <input type="url" id="instagram" placeholder="https://instagram.com/perusahaan">
+                        </div>
+                        <div class="form-group">
+                            <label for="facebook">Facebook</label>
+                            <input type="url" id="facebook" placeholder="https://facebook.com/perusahaan">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel">Batal</button>
+                    <button type="submit" class="btn-submit">Daftar Perusahaan</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // JavaScript untuk fungsionalitas dasar dan drag & drop file
+        const dokumenLegalitasDropzone = document.getElementById('dokumenLegalitasDropzone');
+        const dokumenLegalitasInput = document.getElementById('dokumenLegalitas');
+        const fileList = document.getElementById('fileList');
+        const browseFileLink = document.getElementById('browseFile');
+
+        // Mengaktifkan input file tersembunyi saat link "klik untuk memilih file" diklik
+        browseFileLink.addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah link navigasi
+            dokumenLegalitasInput.click();
+        });
+
+        // Menangani pemilihan file melalui input
+        dokumenLegalitasInput.addEventListener('change', function() {
+            handleFiles(this.files);
+        });
+
+        // Menangani drag over event
+        dokumenLegalitasDropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+
+        // Menangani drag leave event
+        dokumenLegalitasDropzone.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+
+        // Menangani drop event
+        dokumenLegalitasDropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            fileList.innerHTML = ''; // Kosongkan daftar file sebelumnya
+            if (files.length === 0) {
+                fileList.innerHTML = '<li>Tidak ada file yang dipilih.</li>';
+                return;
+            }
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const listItem = document.createElement('li');
+                listItem.textContent = file.name;
+                fileList.appendChild(listItem);
+            }
+        }
+
+        // Contoh Aksi Tombol (tanpa backend)
+        document.querySelector('.btn-cancel').addEventListener('click', () => {
+            alert('Form dibatalkan. (Aksi nyata akan mengarahkan ke halaman sebelumnya atau mereset form)');
+            document.getElementById('companyRegistrationForm').reset(); // Mereset form
+            fileList.innerHTML = ''; // Kosongkan daftar file
+        });
+
+        document.querySelector('.btn-submit').addEventListener('click', (e) => {
+            e.preventDefault(); // Mencegah form submit secara default
+            // Di sini Anda akan menambahkan validasi form sebelum mengirim ke backend
+            alert('Form berhasil dikirim! (Aksi nyata akan mengirim data ke backend)');
+            // Contoh validasi sederhana
+            const form = document.getElementById('companyRegistrationForm');
+            if (form.checkValidity()) {
+                 console.log('Form data siap dikirim:', new FormData(form));
+                 // Lanjutkan dengan mengirim data ke API backend
+            } else {
+                 alert('Harap isi semua kolom yang wajib diisi.');
+            }
+        });
+
+        // Karakter Counter untuk textarea
+        const tentangPerusahaanTextarea = document.getElementById('tentangPerusahaan');
+        const charCountSpan = document.querySelector('.char-count');
+        const maxChars = 500;
+
+        tentangPerusahaanTextarea.addEventListener('input', () => {
+            const currentLength = tentangPerusahaanTextarea.value.length;
+            charCountSpan.textContent = `Maksimal ${maxChars - currentLength} karakter tersisa`;
+            if (currentLength > maxChars) {
+                charCountSpan.style.color = 'red';
+            } else {
+                charCountSpan.style.color = ''; // Reset warna
+            }
+        });
+    </script>
+</body>
+</html>

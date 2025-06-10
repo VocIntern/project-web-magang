@@ -6,39 +6,53 @@ use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class MahasiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        $mahasiswas = Mahasiswa::with('user')->paginate(10);
-        return view('admin.mahasiswa.index', compact('mahasiswas'));
+        $query = Mahasiswa::with('user');
+
+        // Search functionality
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('nim', 'like', "%{$search}%")
+                    ->orWhere('jurusan', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('email', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // Filter by jurusan
+        if ($request->has('jurusan') && $request->jurusan) {
+            $query->where('jurusan', $request->jurusan);
+        }
+
+        // Filter by semester
+        if ($request->has('semester') && $request->semester) {
+            $query->where('semester', $request->semester);
+        }
+
+        $mahasiswas = $query->paginate(10);
+
+        // Get unique jurusan for filter
+        $jurusan_list = Mahasiswa::distinct()->pluck('jurusan')->filter();
+        $semester_list = Mahasiswa::distinct()->pluck('semester')->filter();
+
+        return view('admin.mahasiswa.index', compact('mahasiswas', 'jurusan_list', 'semester_list'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.mahasiswa.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -53,130 +67,108 @@ class MahasiswaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        DB::beginTransaction();
-        try {
-            // Create user
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => 'mahasiswa',
-            ]);
+        // Create user first
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'mahasiswa',
+        ]);
 
-            // Handle file upload
-            $fotoPath = null;
-            if ($request->hasFile('foto')) {
-                $fotoPath = $request->file('foto')->store('mahasiswa', 'public');
-            }
-
-            // Create mahasiswa
-            $mahasiswa = Mahasiswa::create([
-                'user_id' => $user->id,
-                'nama' => $request->nama,
-                'nim' => $request->nim,
-                'jurusan' => $request->jurusan,
-                'semester' => $request->semester,
-                'bio' => $request->bio,
-                'foto' => $fotoPath,
-            ]);
-
-            DB::commit();
-            return redirect()->route('admin.mahasiswa.index')
-                ->with('success', 'Data mahasiswa berhasil ditambahkan');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                ->withInput();
+        // Handle photo upload
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
         }
+
+        // Create mahasiswa record
+        Mahasiswa::create([
+            'user_id' => $user->id,
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'jurusan' => $request->jurusan,
+            'semester' => $request->semester,
+            'bio' => $request->bio,
+            'foto' => $fotoPath,
+        ]);
+
+        return redirect()->route('admin.mahasiswa.index')
+            ->with('success', 'Mahasiswa berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
     public function show(Mahasiswa $mahasiswa)
     {
+        $mahasiswa->load('user');
         return view('admin.mahasiswa.show', compact('mahasiswa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Mahasiswa $mahasiswa)
     {
+        $mahasiswa->load('user');
         return view('admin.mahasiswa.edit', compact('mahasiswa'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Mahasiswa $mahasiswa)
     {
         $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($mahasiswa->user_id)],
+            'password' => 'nullable|string|min:8',
             'nama' => 'required|string|max:255',
-            'nim' => 'required|integer|unique:mahasiswa,nim,' . $mahasiswa->id,
+            'nim' => ['required', 'integer', Rule::unique('mahasiswa')->ignore($mahasiswa->id)],
             'jurusan' => 'required|string|max:255',
             'semester' => 'required|string|max:255',
             'bio' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle file upload
+        // Update user
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+
+        if ($request->filled('password')) {
+            $userData['password'] = Hash::make($request->password);
+        }
+
+        $mahasiswa->user->update($userData);
+
+        // Handle photo upload
+        $fotoPath = $mahasiswa->foto;
         if ($request->hasFile('foto')) {
-            // Delete old file if exists
+            // Delete old photo if exists
             if ($mahasiswa->foto) {
                 Storage::disk('public')->delete($mahasiswa->foto);
             }
-            $fotoPath = $request->file('foto')->store('mahasiswa', 'public');
-            $mahasiswa->foto = $fotoPath;
+            $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
         }
 
-        $mahasiswa->nama = $request->nama;
-        $mahasiswa->nim = $request->nim;
-        $mahasiswa->jurusan = $request->jurusan;
-        $mahasiswa->semester = $request->semester;
-        $mahasiswa->bio = $request->bio;
-        $mahasiswa->save();
+        // Update mahasiswa record
+        $mahasiswa->update([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'jurusan' => $request->jurusan,
+            'semester' => $request->semester,
+            'bio' => $request->bio,
+            'foto' => $fotoPath,
+        ]);
 
         return redirect()->route('admin.mahasiswa.index')
             ->with('success', 'Data mahasiswa berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Mahasiswa  $mahasiswa
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Mahasiswa $mahasiswa)
     {
-        try {
-            // Get the user associated with this mahasiswa
-            $user = $mahasiswa->user;
-
-            // Delete the mahasiswa record
-            $mahasiswa->delete();
-
-            // Delete the user if it exists
-            if ($user) {
-                $user->delete();
-            }
-
-            return redirect()->route('admin.mahasiswa.index')
-                ->with('success', 'Data mahasiswa berhasil dihapus');
-        } catch (\Exception $e) {
-            return redirect()->route('admin.mahasiswa.index')
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        // Delete photo if exists
+        if ($mahasiswa->foto) {
+            Storage::disk('public')->delete($mahasiswa->foto);
         }
+
+        // Delete user (will cascade delete mahasiswa)
+        $mahasiswa->user->delete();
+
+        return redirect()->route('admin.mahasiswa.index')
+            ->with('success', 'Mahasiswa berhasil dihapus');
     }
 }
