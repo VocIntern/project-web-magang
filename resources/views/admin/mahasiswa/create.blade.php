@@ -74,7 +74,7 @@
 
                     <div class="d-flex justify-content-end">
                         <a href="{{ route('admin.mahasiswa.index') }}" class="btn btn-secondary me-2">Batal</a>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
                     </div>
                 </form>
             </div>

@@ -140,19 +140,13 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
     // === MANAJEMEN DATA (menggunakan Route::resource) ===
     // Definisikan route resource untuk mahasiswa
     // Routes untuk manajemen mahasiswa
-    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-        Route::get('/', [App\Http\Controllers\Admin\MahasiswaController::class, 'index'])->name('index');
-        Route::get('/create', [App\Http\Controllers\Admin\MahasiswaController::class, 'create'])->name('create');
-        Route::post('/', [App\Http\Controllers\Admin\MahasiswaController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [App\Http\Controllers\Admin\MahasiswaController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [App\Http\Controllers\Admin\MahasiswaController::class, 'update'])->name('update');
-        Route::delete('/{id}', [App\Http\Controllers\Admin\MahasiswaController::class, 'destroy'])->name('destroy');
-        Route::post('/export', [App\Http\Controllers\Admin\MahasiswaController::class, 'export'])->name('export');
-    });
-    // Route::resource('mahasiswa', MahasiswaController::class);
+
+    Route::post('/export', [MahasiswaController::class, 'export'])->name('mahasiswa.export');
+    Route::resource('mahasiswa', MahasiswaController::class);
 
 
     // Manajemen Magang
+    Route::post('magang/export', [AdminMagangController::class, 'export'])->name('magang.export');
     Route::resource('magang', AdminMagangController::class);
 
     // Definisikan route resource untuk perusahaan

@@ -53,8 +53,8 @@
                                     <td>{{ $mahasiswa->user->email ?? 'N/A' }}</td>
                                     <td class="text-center">
                                         <div class="action-buttons">
-                                            <a href="{{ route('admin.mahasiswa.edit', $mahasiswa->id) }}"
-                                                class="action-icon" title="Edit">
+                                            <a href="{{ route('admin.mahasiswa.edit', $mahasiswa->id) }}" class="action-icon"
+                                                title="Edit">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
                                             <form action="{{ route('admin.mahasiswa.destroy', $mahasiswa->id) }}"

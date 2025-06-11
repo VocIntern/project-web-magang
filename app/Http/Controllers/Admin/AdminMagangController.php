@@ -42,13 +42,13 @@ class AdminMagangController extends Controller
             $query->where('perusahaan_id', $request->perusahaan);
         }
 
-        $magang = $query->latest()->paginate(10);
+        $magangs = $query->latest()->paginate(10);
 
         // Get filter options
         $bidang_list = Magang::distinct()->pluck('bidang')->filter();
         $perusahaan_list = Perusahaan::select('id', 'nama_perusahaan')->get();
 
-        return view('admin.magang.index', compact('magang', 'bidang_list', 'perusahaan_list'));
+        return view('admin.magang.index', compact('magangs', 'bidang_list', 'perusahaan_list'));
     }
 
     public function create()
@@ -80,8 +80,8 @@ class AdminMagangController extends Controller
 
     public function edit(Magang $magang)
     {
-        $perusahaan = Perusahaan::select('id', 'nama_perusahaan')->get();
-        return view('admin.magang.edit', compact('magang', 'perusahaan'));
+        $perusahaans = Perusahaan::select('id', 'nama_perusahaan')->get();
+        return view('admin.magang.edit', compact('magang', 'perusahaans'));
     }
 
     public function update(Request $request, Magang $magang)
@@ -110,5 +110,48 @@ class AdminMagangController extends Controller
 
         return redirect()->route('admin.magang.index')
             ->with('success', 'Lowongan magang berhasil dihapus');
+    }
+
+
+    public function export(Request $request)
+    {
+        $fileName = 'data-magang-' . date('Y-m-d') . '.csv';
+        $query = Magang::with('perusahaan');
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('judul', 'like', "%{$search}%")
+                    ->orWhere('lokasi', 'like', "%{$search}%")
+                    ->orWhere('bidang', 'like', "%{$search}%")
+                    ->orWhereHas('perusahaan', function ($perusahaanQuery) use ($search) {
+                        $perusahaanQuery->where('nama_perusahaan', 'like', "%{$search}%");
+                    });
+            });
+        }
+        $magangs = $query->get();
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+        $columns = ['NIM', 'Nama', 'Email', 'Jurusan', 'Semester'];
+        $callback = function () use ($magangs, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+            foreach ($magangs as $magang) {
+                fputcsv($file, [
+                    $magang->judul,
+                    $magang->perusahaan->nama_perusahaan,
+                    $magang->lokasi,
+                    $magang->tipe, // Pengaman ?? 'N/A' sudah bagus di sini
+                    $magang->status,
+
+                ]);
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
     }
 }

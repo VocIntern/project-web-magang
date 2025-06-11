@@ -12,10 +12,12 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-            if (Auth::check()) {
+            if (Auth::check() && Auth::user()->isMahasiswa()) { // Hanya jalankan jika rolenya mahasiswa
                 $user = Auth::user();
-                $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-                $view->with('mahasiswa', $mahasiswa);
+                // Gunakan nama variabel yang lebih spesifik
+                $authMahasiswaProfile = Mahasiswa::where('user_id', $user->id)->first();
+                // Bagikan dengan nama yang spesifik
+                $view->with('authMahasiswaProfile', $authMahasiswaProfile);
             }
         });
     }

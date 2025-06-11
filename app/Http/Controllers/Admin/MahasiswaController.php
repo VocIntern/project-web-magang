@@ -99,15 +99,20 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function edit($id): View
+    public function edit($id)
     {
-        $mahasiswa = Mahasiswa::with('user')->findOrFail($id);
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
+        if (!$mahasiswa) {
+            abort(404);
+        }
+
         return view('admin.mahasiswa.edit', compact('mahasiswa'));
     }
 
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, Mahasiswa $mahasiswa): RedirectResponse
     {
-        $mahasiswa = Mahasiswa::with('user')->findOrFail($id);
+        $mahasiswa->load('user');
 
         $request->validate([
             'nama' => 'required|string|max:255',

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mahasiswa extends Model
 {
@@ -41,7 +43,7 @@ class Mahasiswa extends Model
     /**
      * Get the user that owns the mahasiswa profile.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -49,7 +51,7 @@ class Mahasiswa extends Model
     /**
      * Get all pendaftaran magang for this mahasiswa.
      */
-    public function pendaftaranMagang()
+    public function pendaftaranMagang(): HasMany
     {
         return $this->hasMany(PendaftaranMagang::class);
     }
@@ -57,7 +59,7 @@ class Mahasiswa extends Model
     /**
      * Get profile completion percentage
      */
-    public function getProfileCompletionAttribute()
+    public function getProfileCompletionAttribute(): int
     {
         $fields = ['nama', 'nim', 'jurusan', 'semester', 'bio', 'foto'];
         $filledFields = 0;
