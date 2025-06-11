@@ -1,15 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
-
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminMagangController;
 use App\Http\Controllers\Admin\AdminPerusahaanController;
 use App\Http\Controllers\Admin\MahasiswaController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\AdminLoginController;
 // use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Auth\AuthController;
 
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\MagangController;
 use App\Http\Controllers\Mahasiswa\MahasiswaMagangController;
@@ -20,7 +19,6 @@ use App\Http\Controllers\Perusahaan\SeleksiMahasiswaController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
-
 
 
 
@@ -94,7 +92,7 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
     // Dashboard utama
     Route::get('/dashboard', [DashboardPerusahaanController::class, 'index'])->name('dashboard');
 
-    // Profile completion for perusahaan
+    // Profile management
     Route::get('/profile/create', [PerusahaanProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile', [PerusahaanProfileController::class, 'store'])->name('profile.store');
     Route::get('/profile/edit', [PerusahaanProfileController::class, 'edit'])->name('profile.edit');
@@ -102,38 +100,21 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
 
     // Halaman Seleksi Mahasiswa
     Route::get('/seleksi-mahasiswa', [SeleksiMahasiswaController::class, 'index'])->name('seleksi.index');
-
-    // Update status mahasiswa (untuk AJAX)
     Route::put('/seleksi-mahasiswa/{id}/status', [SeleksiMahasiswaController::class, 'updateStatus'])->name('seleksi.update-status');
-
-    // Detail mahasiswa
     Route::get('/seleksi-mahasiswa/{id}/detail', [SeleksiMahasiswaController::class, 'detail'])->name('seleksi.detail');
-    // // Seleksi mahasiswa
-    // Route::get('/seleksi-mahasiswa', [DashboardPerusahaanController::class, 'seleksiMahasiswa'])->name('seleksi-mahasiswa');
-    // Update status pelamar (AJAX)
-    Route::patch('/pelamar/{id}/status', [DashboardPerusahaanController::class, 'updateStatusPelamar'])->name('pelamar.update-status');
-    // Route untuk detail pelamar
-    Route::get('/pelamar/{id}', [DashboardPerusahaanController::class, 'detailPelamar'])->name('pelamar.detail');
-    // Profil perusahaan
-    Route::get('/profil', [DashboardPerusahaanController::class, 'profilPerusahaan'])->name('profil');
-    Route::put('/profil', [DashboardPerusahaanController::class, 'updateProfil'])->name('profil.update');
-    // Lowongan magang
-    Route::get('/lowongan-magang', [DashboardPerusahaanController::class, 'lowonganMagang'])->name('lowongan');
-    Route::get('/lowongan-magang/create', [DashboardPerusahaanController::class, 'createLowongan'])->name('lowongan.create');
-    Route::post('/lowongan-magang', [DashboardPerusahaanController::class, 'storeLowongan'])->name('lowongan.store');
 
-    // Route tambahan untuk manajemen lowongan
-    Route::get('/lowongan-magang/{id}/edit', [DashboardPerusahaanController::class, 'editLowongan'])->name('lowongan.edit');
-    Route::put('/lowongan-magang/{id}', [DashboardPerusahaanController::class, 'updateLowongan'])->name('lowongan.update');
-    Route::delete('/lowongan-magang/{id}', [DashboardPerusahaanController::class, 'deleteLowongan'])->name('lowongan.delete');
+    // Manajemen Lowongan menggunakan Route::resource
+    // Menggantikan 6 baris route manual menjadi 1 baris.
+    // Pastikan method di DashboardPerusahaanController namanya sesuai standar resource (index, create, store, edit, update, destroy)
+    Route::resource('lowongan-magang', DashboardPerusahaanController::class)->names('lowongan');
 
-
-
-    // Route untuk laporan magang
+    // Manajemen Laporan Magang
     Route::get('/laporan-magang', [DashboardPerusahaanController::class, 'laporanMagang'])->name('laporan');
     Route::get('/laporan-magang/{id}', [DashboardPerusahaanController::class, 'detailLaporan'])->name('laporan.detail');
-    // Route untuk memberikan feedback laporan
     Route::post('/laporan/{id}/feedback', [DashboardPerusahaanController::class, 'feedbackLaporan'])->name('laporan.feedback');
+
+    // Hapus route-route lama yang sudah di-cover oleh resource atau yang sudah tidak terpakai
+    // untuk menghindari duplikasi.
 });
 
 /*
@@ -141,37 +122,42 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
 | Admin Routes
 |--------------------------------------------------------------------------
 */
+// Grup untuk login admin (hanya untuk tamu/belum login)
+Route::prefix('admin')->middleware('guest')->group(function () {
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login.form');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('admin.login.submit');
+});
 
-Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
-    // Dashboard
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
+    // === DASHBOARD ===
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-
-    // Lebih Konsisten dan Sesuai dengan View
-    Route::get('/dashboard/api/stats', [AdminDashboardController::class, 'getStats'])->name('admin.dashboard.stats');
-    Route::get('/dashboard/api/recent', [AdminDashboardController::class, 'getRecentData'])->name('admin.dashboard.recent');
-
-    // Mahasiswa management
-    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('admin.mahasiswa.index');
-    Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('admin.mahasiswa.create');
-    Route::post('/mahasiswa', [MahasiswaController::class, 'store'])->name('admin.mahasiswa.store');
-    Route::get('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'show'])->name('admin.mahasiswa.show');
-    Route::get('/mahasiswa/{mahasiswa}/edit', [MahasiswaController::class, 'edit'])->name('admin.mahasiswa.edit');
-    Route::put('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'update'])->name('admin.mahasiswa.update');
-    Route::delete('/mahasiswa/{mahasiswa}', [MahasiswaController::class, 'destroy'])->name('admin.mahasiswa.destroy');
+    // API endpoints untuk update real-time di dashboard
+    Route::get('/dashboard/api/stats', [AdminDashboardController::class, 'getStats'])->name('dashboard.stats');
+    Route::get('/dashboard/api/recent', [AdminDashboardController::class, 'getRecentData'])->name('dashboard.recent');
 
 
-    // Magang management
-    Route::get('/magang', [AdminMagangController::class, 'index'])->name('admin.magang.index');
-    Route::get('/magang/create', [AdminMagangController::class, 'create'])->name('admin.magang.create');
-    Route::post('/magang', [AdminMagangController::class, 'store'])->name('admin.magang.store');
-    Route::get('/magang/{magang}', [AdminMagangController::class, 'show'])->name('admin.magang.show');
-    Route::get('/magang/{magang}/edit', [AdminMagangController::class, 'edit'])->name('admin.magang.edit');
-    Route::put('/magang/{magang}', [AdminMagangController::class, 'update'])->name('admin.magang.update');
-    Route::delete('/magang/{magang}', [AdminMagangController::class, 'destroy'])->name('admin.magang.destroy');
+    // === MANAJEMEN DATA (menggunakan Route::resource) ===
+    // Definisikan route resource untuk mahasiswa
+    // Routes untuk manajemen mahasiswa
+    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\MahasiswaController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\MahasiswaController::class, 'create'])->name('create');
+        Route::post('/', [App\Http\Controllers\Admin\MahasiswaController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [App\Http\Controllers\Admin\MahasiswaController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [App\Http\Controllers\Admin\MahasiswaController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\MahasiswaController::class, 'destroy'])->name('destroy');
+        Route::post('/export', [App\Http\Controllers\Admin\MahasiswaController::class, 'export'])->name('export');
+    });
+    // Route::resource('mahasiswa', MahasiswaController::class);
 
-    //Perusahaan management
-    Route::get('/admin/perusahaan', [AdminPerusahaanController::class, 'index'])->name('admin.perusahaan.index');
+
+    // Manajemen Magang
+    Route::resource('magang', AdminMagangController::class);
+
+    // Definisikan route resource untuk perusahaan
+    Route::post('perusahaan/export', [AdminPerusahaanController::class, 'export'])->name('perusahaan.export');
+    Route::resource('perusahaan', AdminPerusahaanController::class);
 });
 
 

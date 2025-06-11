@@ -71,11 +71,16 @@ class Mahasiswa extends Model
         return round(($filledFields / count($fields)) * 100);
     }
 
-    /**
-     * Get the mahasiswa's full name with NIM
-     */
-    public function getFullIdentityAttribute()
-    {
-        return $this->nama . ' (' . $this->nim . ')';
-    }
+    // /**
+    //  * Get the mahasiswa's full name with NIM
+    //  */
+    // public function getFullIdentityAttribute()
+    // {
+    //     return $this->nama . ' (' . $this->nim . ')';
+    // }
+
+    // public function getRouteKeyName(): string
+    // {
+    //     return 'nim'; // <-- Anda mungkin telah menambahkan ini
+    // }
 }

@@ -18,14 +18,15 @@ class MahasiswaFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(), // Auto-create User
+            'user_id' => User::factory()->mahasiswa(), // Auto-create User
             'nama' => $this->faker->name(),
             'nim' => $this->faker->unique()->numerify('#########'), // NIM 9 digit unik
             'jurusan' => $this->faker->randomElement([
                 'Teknik Informatika',
                 'Sistem Informasi',
                 'Teknik Elektro',
-                'Manajemen'
+                'Manajemen',
+                'Mesin'
             ]),
             'semester' => $this->faker->numberBetween(1, 8),
             'bio' => $this->faker->sentence(),

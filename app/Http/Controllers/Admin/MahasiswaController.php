@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 use Illuminate\Validation\Rule;
 
 class MahasiswaController extends Controller
@@ -16,7 +20,6 @@ class MahasiswaController extends Controller
     {
         $query = Mahasiswa::with('user');
 
-        // Search functionality
         if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -29,146 +32,222 @@ class MahasiswaController extends Controller
             });
         }
 
-        // Filter by jurusan
-        if ($request->has('jurusan') && $request->jurusan) {
-            $query->where('jurusan', $request->jurusan);
-        }
-
-        // Filter by semester
-        if ($request->has('semester') && $request->semester) {
-            $query->where('semester', $request->semester);
-        }
-
-        $mahasiswas = $query->paginate(10);
-
-        // Get unique jurusan for filter
+        $mahasiswas = $query->latest()->paginate(10);
         $jurusan_list = Mahasiswa::distinct()->pluck('jurusan')->filter();
         $semester_list = Mahasiswa::distinct()->pluck('semester')->filter();
 
         return view('admin.mahasiswa.index', compact('mahasiswas', 'jurusan_list', 'semester_list'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.mahasiswa.create');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
             'nama' => 'required|string|max:255',
-            'nim' => 'required|integer|unique:mahasiswa',
+            'nim' => 'required|integer|unique:mahasiswa,nim',
             'jurusan' => 'required|string|max:255',
-            'semester' => 'required|string|max:255',
+            'semester' => 'required|string|max:50',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
             'bio' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Create user first
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'mahasiswa',
-        ]);
+        try {
+            DB::beginTransaction();
 
-        // Handle photo upload
-        $fotoPath = null;
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
+            // Create user first
+            $user = User::create([
+                'name' => $request->nama,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => 'mahasiswa',
+            ]);
+
+            // Handle foto upload
+            $fotoPath = null;
+            if ($request->hasFile('foto')) {
+                $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
+            }
+
+            // Create mahasiswa profile
+            Mahasiswa::create([
+                'user_id' => $user->id,
+                'nama' => $request->nama,
+                'nim' => $request->nim,
+                'jurusan' => $request->jurusan,
+                'semester' => $request->semester,
+                'bio' => $request->bio,
+                'foto' => $fotoPath,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin.mahasiswa.index')
+                ->with('success', 'Data mahasiswa berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error creating mahasiswa: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat menyimpan data.');
         }
-
-        // Create mahasiswa record
-        Mahasiswa::create([
-            'user_id' => $user->id,
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'jurusan' => $request->jurusan,
-            'semester' => $request->semester,
-            'bio' => $request->bio,
-            'foto' => $fotoPath,
-        ]);
-
-        return redirect()->route('admin.mahasiswa.index')
-            ->with('success', 'Mahasiswa berhasil ditambahkan');
     }
 
-    public function show(Mahasiswa $mahasiswa)
+    public function edit($id): View
     {
-        $mahasiswa->load('user');
-        return view('admin.mahasiswa.show', compact('mahasiswa'));
-    }
-
-    public function edit(Mahasiswa $mahasiswa)
-    {
-        $mahasiswa->load('user');
+        $mahasiswa = Mahasiswa::with('user')->findOrFail($id);
         return view('admin.mahasiswa.edit', compact('mahasiswa'));
     }
 
-    public function update(Request $request, Mahasiswa $mahasiswa)
+    public function update(Request $request, $id): RedirectResponse
     {
+        $mahasiswa = Mahasiswa::with('user')->findOrFail($id);
+
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($mahasiswa->user_id)],
-            'password' => 'nullable|string|min:8',
             'nama' => 'required|string|max:255',
-            'nim' => ['required', 'integer', Rule::unique('mahasiswa')->ignore($mahasiswa->id)],
+            'nim' => [
+                'required',
+                'integer',
+                Rule::unique('mahasiswa', 'nim')->ignore($mahasiswa->id)
+            ],
             'jurusan' => 'required|string|max:255',
-            'semester' => 'required|string|max:255',
+            'semester' => 'required|string|max:50',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($mahasiswa->user->id)
+            ],
+            'password' => 'nullable|string|min:8|confirmed',
             'bio' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update user
-        $userData = [
-            'name' => $request->name,
-            'email' => $request->email,
-        ];
+        try {
+            DB::beginTransaction();
 
-        if ($request->filled('password')) {
-            $userData['password'] = Hash::make($request->password);
-        }
+            // Update user data
+            $userData = [
+                'name' => $request->nama,
+                'email' => $request->email,
+            ];
 
-        $mahasiswa->user->update($userData);
-
-        // Handle photo upload
-        $fotoPath = $mahasiswa->foto;
-        if ($request->hasFile('foto')) {
-            // Delete old photo if exists
-            if ($mahasiswa->foto) {
-                Storage::disk('public')->delete($mahasiswa->foto);
+            // Only update password if provided
+            if ($request->filled('password')) {
+                $userData['password'] = Hash::make($request->password);
             }
-            $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
+
+            $mahasiswa->user->update($userData);
+
+            // Handle foto upload
+            $fotoPath = $mahasiswa->foto;
+            if ($request->hasFile('foto')) {
+                // Delete old foto if exists
+                if ($mahasiswa->foto && Storage::disk('public')->exists($mahasiswa->foto)) {
+                    Storage::disk('public')->delete($mahasiswa->foto);
+                }
+                $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
+            }
+
+            // Update mahasiswa profile
+            $mahasiswa->update([
+                'nama' => $request->nama,
+                'nim' => $request->nim,
+                'jurusan' => $request->jurusan,
+                'semester' => $request->semester,
+                'bio' => $request->bio,
+                'foto' => $fotoPath,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin.mahasiswa.index')
+                ->with('success', 'Data mahasiswa berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error updating mahasiswa: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat memperbarui data.');
         }
-
-        // Update mahasiswa record
-        $mahasiswa->update([
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'jurusan' => $request->jurusan,
-            'semester' => $request->semester,
-            'bio' => $request->bio,
-            'foto' => $fotoPath,
-        ]);
-
-        return redirect()->route('admin.mahasiswa.index')
-            ->with('success', 'Data mahasiswa berhasil diperbarui');
     }
 
-    public function destroy(Mahasiswa $mahasiswa)
+    public function destroy($id): RedirectResponse
     {
-        // Delete photo if exists
-        if ($mahasiswa->foto) {
-            Storage::disk('public')->delete($mahasiswa->foto);
+        try {
+            $mahasiswa = Mahasiswa::with('user')->findOrFail($id);
+
+            DB::beginTransaction();
+
+            // Delete foto if exists
+            if ($mahasiswa->foto && Storage::disk('public')->exists($mahasiswa->foto)) {
+                Storage::disk('public')->delete($mahasiswa->foto);
+            }
+
+            // Delete user (this will cascade delete mahasiswa due to foreign key)
+            $mahasiswa->user->delete();
+
+            DB::commit();
+
+            return redirect()->route('admin.mahasiswa.index')
+                ->with('success', 'Data mahasiswa berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Error deleting mahasiswa: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat menghapus data.');
         }
+    }
 
-        // Delete user (will cascade delete mahasiswa)
-        $mahasiswa->user->delete();
 
-        return redirect()->route('admin.mahasiswa.index')
-            ->with('success', 'Mahasiswa berhasil dihapus');
+    // ... (method export() Anda)
+    public function export(Request $request)
+    {
+        $fileName = 'data-mahasiswa-' . date('Y-m-d') . '.csv';
+        $query = Mahasiswa::with('user');
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('nim', 'like', "%{$search}%")
+                    ->orWhere('jurusan', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('email', 'like', "%{$search}%");
+                    });
+            });
+        }
+        $mahasiswas = $query->get();
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+        $columns = ['NIM', 'Nama', 'Email', 'Jurusan', 'Semester'];
+        $callback = function () use ($mahasiswas, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+            foreach ($mahasiswas as $mahasiswa) {
+                fputcsv($file, [
+                    $mahasiswa->nim,
+                    $mahasiswa->nama,
+                    $mahasiswa->user->email ?? 'N/A', // Pengaman ?? 'N/A' sudah bagus di sini
+                    $mahasiswa->jurusan,
+                    $mahasiswa->semester,
+                ]);
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
     }
 }

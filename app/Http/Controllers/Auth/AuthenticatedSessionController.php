@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Mahasiswa;
+use App\Models\Perusahaan;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\Models\User;
-use App\Models\Mahasiswa;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -37,9 +38,7 @@ class AuthenticatedSessionController extends Controller
             $request->session()->regenerate();
 
             // Auto redirect berdasarkan role user
-            if ($user->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->isMahasiswa()) {
+            if ($user->isMahasiswa()) {
                 // Cek apakah mahasiswa sudah memiliki profil lengkap
                 $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
 
@@ -50,7 +49,13 @@ class AuthenticatedSessionController extends Controller
                     return redirect()->intended(route('mahasiswa.magang.search'));
                 }
             } elseif ($user->isPerusahaan()) {
-                return redirect()->route('perusahaan.dashboard');
+                $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+
+                if (!$perusahaan) {
+                    return redirect()->route('perusahaan.profile.create')->with('info', 'Silakan lengkapi profil Anda terlebih dahulu untuk melanjutkan.');
+                } else {
+                    return redirect()->route('perusahaan.dashboard');
+                }
             }
 
             // Fallback

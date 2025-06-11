@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'role' => $this->faker->randomElement(['admin','mahasiswa','perusahaan']),
+            'role' => 'mahasiswa',
         ];
 
     }
@@ -41,6 +41,36 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Create user with mahasiswa role
+     */
+    public function mahasiswa(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'mahasiswa',
+        ]);
+    }
+
+    /**
+     * Create user with perusahaan role
+     */
+    public function perusahaan(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'perusahaan',
+        ]);
+    }
+
+    /**
+     * Create user with admin role
+     */
+    public function admin(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'admin',
         ]);
     }
 }

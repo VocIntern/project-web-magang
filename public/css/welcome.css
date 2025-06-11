@@ -19,7 +19,7 @@ body {
     font-family: "Nunito", sans-serif;
     color: var(--light-color);
     line-height: 1.6;
-    background-color: green;
+    /* background-color: green; */
 }
 
 a {

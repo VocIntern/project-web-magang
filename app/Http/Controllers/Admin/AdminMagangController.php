@@ -77,11 +77,6 @@ class AdminMagangController extends Controller
             ->with('success', 'Lowongan magang berhasil ditambahkan');
     }
 
-    public function show(Magang $magang)
-    {
-        $magang->load(['perusahaan', 'pendaftaranMagang.mahasiswa.user']);
-        return view('admin.magang.show', compact('magang'));
-    }
 
     public function edit(Magang $magang)
     {
