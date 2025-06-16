@@ -219,42 +219,30 @@
     <!-- Role Selector Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- SEMUA VARIABEL DI SATU TEMPAT ---
             const roleButtons = document.querySelectorAll('.role-btn');
             const mahasiswaForm = document.getElementById('mahasiswaForm');
             const perusahaanForm = document.getElementById('perusahaanForm');
             const formTitle = document.getElementById('form-title');
 
-            roleButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    console.log('Button clicked:', this.getAttribute('data-role'));
+            // --- FUNGSI UNTUK MENGGANTI FORM ---
+            function switchRoleForm(role) {
+                const isMahasiswa = role === 'mahasiswa';
 
-                    // Hapus class 'active' dari semua tombol
-                    roleButtons.forEach(btn => btn.classList.remove('active'));
+                // Atur tombol aktif
+                document.querySelector('.role-btn[data-role="mahasiswa"]').classList.toggle('active', isMahasiswa);
+                document.querySelector('.role-btn[data-role="perusahaan"]').classList.toggle('active', !
+                isMahasiswa);
 
-                    // Tambahkan class 'active' ke tombol yang diklik
-                    this.classList.add('active');
+                // Tampilkan/sembunyikan form
+                mahasiswaForm.style.display = isMahasiswa ? 'block' : 'none';
+                perusahaanForm.style.display = isMahasiswa ? 'none' : 'block';
 
-                    const role = this.getAttribute('data-role');
+                // Ubah judul form
+                formTitle.textContent = isMahasiswa ? 'Daftar Sebagai Mahasiswa' : 'Daftar Sebagai Perusahaan';
+            }
 
-                    // Tampilkan form sesuai role
-                    if (role === 'mahasiswa') {
-
-                        mahasiswaForm.style.display = 'block';
-                        perusahaanForm.style.display = 'none';
-                        formTitle.textContent = 'Daftar Sebagai Mahasiswa';
-                    } else if (role === 'perusahaan') {
-
-                        mahasiswaForm.style.display = 'none';
-                        perusahaanForm.style.display = 'block';
-                        formTitle.textContent = 'Daftar Sebagai Perusahaan';
-                    }
-                });
-            });
-
-
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
+            // --- FUNGSI UNTUK VALIDASI PASSWORD ---
             function checkPasswordMatch(prefix) {
                 const passwordInput = document.getElementById(`password_${prefix}`);
                 const confirmPasswordInput = document.getElementById(`password_confirmation_${prefix}`);
@@ -262,91 +250,59 @@
                 const successMsg = document.getElementById(`passwordMatchSuccess_${prefix}`);
                 const submitBtn = document.querySelector(`#${prefix}Form button[type="submit"]`);
 
-                const password = passwordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-
-                // Jika dua-duanya kosong, jangan tampilkan apa-apa
-                if (confirmPassword === "") {
+                if (confirmPasswordInput.value === "") {
                     errorMsg.style.display = 'none';
                     successMsg.style.display = 'none';
                     submitBtn.disabled = false;
                     return;
                 }
 
-                if (password !== confirmPassword) {
-                    errorMsg.style.display = 'block';
-                    successMsg.style.display = 'none';
-                    submitBtn.disabled = true;
-                } else {
-                    errorMsg.style.display = 'none';
-                    successMsg.style.display = 'block';
-                    submitBtn.disabled = false;
-                }
+                const isMatch = passwordInput.value === confirmPasswordInput.value;
+                errorMsg.style.display = isMatch ? 'none' : 'block';
+                successMsg.style.display = isMatch ? 'block' : 'none';
+                submitBtn.disabled = !isMatch;
             }
 
-            ['mahasiswa', 'perusahaan'].forEach(prefix => {
-                const password = document.getElementById(`password_${prefix}`);
-                const confirmPassword = document.getElementById(`password_confirmation_${prefix}`);
-
-                if (password && confirmPassword) {
-                    password.addEventListener('input', () => checkPasswordMatch(prefix));
-                    confirmPassword.addEventListener('input', () => checkPasswordMatch(prefix));
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ambil parameter 'role' dari URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const roleParam = urlParams.get('role');
-
-            // Fungsi untuk mengubah tampilan form berdasarkan role
-            function switchRole(role) {
-                const mahasiswaBtn = document.querySelector('.role-btn[data-role="mahasiswa"]');
-                const perusahaanBtn = document.querySelector('.role-btn[data-role="perusahaan"]');
-                const mahasiswaForm = document.getElementById('mahasiswaForm');
-                const perusahaanForm = document.getElementById('perusahaanForm');
-                const formTitle = document.getElementById('form-title');
-
-                // Reset semua button dan form
-                mahasiswaBtn.classList.remove('active');
-                perusahaanBtn.classList.remove('active');
-                mahasiswaForm.style.display = 'none';
-                perusahaanForm.style.display = 'none';
-
-                // Tampilkan form sesuai role yang dipilih
-                if (role === 'perusahaan') {
-                    perusahaanBtn.classList.add('active');
-                    perusahaanForm.style.display = 'block';
-                    formTitle.textContent = 'Daftar Sebagai Perusahaan';
-                } else {
-                    // Default ke mahasiswa
-                    mahasiswaBtn.classList.add('active');
-                    mahasiswaForm.style.display = 'block';
-                    formTitle.textContent = 'Daftar Sebagai Mahasiswa';
-                }
-            }
-
-            // Jika ada parameter role di URL, langsung switch ke role tersebut
-            if (roleParam) {
-                switchRole(roleParam);
-            }
-
-            // Event listener untuk button role selector (untuk interaksi manual)
-            document.querySelectorAll('.role-btn').forEach(button => {
+            // --- EVENT LISTENER UNTUK TOMBOL ROLE ---
+            roleButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const selectedRole = this.getAttribute('data-role');
-                    switchRole(selectedRole);
+                    switchRoleForm(selectedRole);
 
-                    // Update URL tanpa reload halaman (opsional)
+                    // Opsional: Update URL tanpa reload
                     const newUrl = new URL(window.location);
                     newUrl.searchParams.set('role', selectedRole);
                     window.history.replaceState(null, '', newUrl);
                 });
             });
+
+            // --- EVENT LISTENER UNTUK VALIDASI PASSWORD ---
+            ['mahasiswa', 'perusahaan'].forEach(prefix => {
+                const password = document.getElementById(`password_${prefix}`);
+                const confirmPassword = document.getElementById(`password_confirmation_${prefix}`);
+                if (password && confirmPassword) {
+                    password.addEventListener('input', () => checkPasswordMatch(prefix));
+                    confirmPassword.addEventListener('input', () => checkPasswordMatch(prefix));
+                }
+            });
+
+            // --- SET FORM AWAL SAAT HALAMAN DIBUKA ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const roleFromUrl = urlParams.get('role');
+            const roleFromOldInput = '{{ old('role') }}';
+
+            // Prioritas: URL > Old Input > Default (mahasiswa)
+            let initialRole = 'mahasiswa';
+            if (roleFromUrl === 'perusahaan') {
+                initialRole = 'perusahaan';
+            } else if (roleFromOldInput === 'perusahaan') {
+                initialRole = 'perusahaan';
+            }
+
+            switchRoleForm(initialRole);
         });
 
-
+        // --- FUNGSI UNTUK TOGGLE PASSWORD (TETAP SAMA) ---
         function togglePassword(id) {
             const input = document.getElementById(id);
             const span = input.parentElement.querySelector('.toggle-password');

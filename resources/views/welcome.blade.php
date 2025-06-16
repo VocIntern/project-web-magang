@@ -56,13 +56,13 @@
                         <a class="nav-link active" href="/">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/magang/search">Cari Magang</a>
+                        <a class="nav-link" href="{{ route('mahasiswa.magang.search') }}">Cari Magang</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}?role=perusahaan">Untuk Perusahaan</a>
+                        <a class="nav-link" href="{{ route('login.perusahaan') }}">Untuk Perusahaan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/tentang">Tentang Kami</a>
+                        <a class="nav-link" href="#">Tentang Kami</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -301,7 +301,7 @@
     <footer class="footer" style="background-color: #006633;">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 mb-4 mb-lg-0">
+                <div class="col-lg-3 mb-4 mb-lg-0">
                     <h5 class="fw-bold"><i class="fas fa-briefcase me-2"></i>VocIntern</h5>
                     <p class="text-muted">Platform magang khusus untuk mahasiswa vokasi USU, menghubungkan talenta
                         berbakat dengan perusahaan terkemuka.</p>
@@ -342,7 +342,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-lg-2 col-md-4">
+                <div class="col-lg-3 col-md-4 mb-md-0">
                     <h6 class="fw-bold mb-3">Kontak</h6>
                     <ul class="list-unstyled">
                         <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Kampus USU, Medan</li>
@@ -352,8 +352,7 @@
             </div>
             <hr class="my-4">
             <div class="text-center text-muted">
-                <p>&copy; {{ date('Y') }} VocIntern - Universitas Sumatera Utara. All rights reserved.</p>
-                <p class="small">Dikembangkan oleh Mahasiswa Vokasi USU</p>
+                <p>&copy; {{ date('Y') }} VocIntern. All rights reserved.</p>
             </div>
         </div>
     </footer>

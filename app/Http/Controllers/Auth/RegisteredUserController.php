@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Mahasiswa; // Import model Mahasiswa
+use App\Models\Perusahaan;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,28 +32,42 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'string', 'in:mahasiswa,perusahaan'],
-        ]);
+        // 1. Validasi berdasarkan role
+        $role = $request->input('role', 'mahasiswa');
+
+        if ($role === 'mahasiswa') {
+            $request->validate([
+                'nama' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'role' => ['required', 'string', 'in:mahasiswa'],
+            ]);
+        } else { // if ($role === 'perusahaan')
+            $request->validate([
+                'nama_perusahaan' => ['required', 'string', 'max:255'],
+                'nama_pendaftar' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'role' => ['required', 'string', 'in:perusahaan'],
+            ]);
+        }
+
+        // 2. Buat User baru
+        // Untuk Perusahaan, kita simpan nama PIC sebagai nama user.
+        $userName = ($role === 'mahasiswa') ? $request->nama : $request->nama_pendaftar;
 
         $user = User::create([
+            'name' => $userName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => $role,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
         // Redirect based on role for profile completion
-        if ($user->role === 'mahasiswa') {
-            return redirect()->route('mahasiswa.profile.create'); //mahasiswa.profile.complete
-        } elseif ($user->role === 'perusahaan') {
-            return redirect()->route('login'); //perusahaan.profile.complete
-        }
-
-        return redirect('/');
+        // Karena kedua role redirect ke tempat yang sama, kita bisa sederhanakan
+        return redirect()->route('login')->with('status', 'Pendaftaran Berahasil! Silakan periksa email Anda untuk melakukan verifikasi sebelum login.');
     }
 }

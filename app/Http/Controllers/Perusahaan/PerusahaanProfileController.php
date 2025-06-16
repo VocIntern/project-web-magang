@@ -15,9 +15,13 @@ class PerusahaanProfileController extends Controller
     /**
      * Display the form to create perusahaan profile.
      */
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
-        return view('perusahaan.profile.index');
+        // Cek jika perusahaan sudah punya profil, redirect ke dashboard
+        if (Auth::user()->perusahaan) {
+            return redirect()->route('perusahaan.dashboard')->with('info', 'Anda sudah memiliki profil perusahaan.');
+        }
+        return view('perusahaan.profile.create');
     }
 
     /**
@@ -25,7 +29,7 @@ class PerusahaanProfileController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_perusahaan' => ['required', 'string', 'max:255'],
             'alamat' => ['required', 'string'],
             'bidang' => ['required', 'string', 'max:255'],
@@ -35,21 +39,17 @@ class PerusahaanProfileController extends Controller
             'deskripsi' => ['nullable', 'string'],
         ]);
 
-        $logoPath = null;
+        // 2. Hubungkan dengan user yang sedang login
+        $validatedData['user_id'] = Auth::id();
+
+        // 3. Proses upload logo jika ada
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('perusahaan/logo', 'public');
+            // Simpan file di 'storage/app/public/logos' dan dapatkan path-nya
+            $path = $request->file('logo')->store('logos', 'public');
+            $validatedData['logo'] = $path;
         }
 
-        Perusahaan::create([
-            'user_id' => Auth::id(),
-            'nama_perusahaan' => $request->nama_perusahaan,
-            'alamat' => $request->alamat,
-            'bidang' => $request->bidang,
-            'nama_pendaftar' => $request->nama_pendaftar,
-            'website' => $request->website,
-            'logo' => $logoPath,
-            'deskripsi' => $request->deskripsi,
-        ]);
+        Perusahaan::create($validatedData);
 
         return redirect()->route('perusahaan.dashboard')
             ->with('success', 'Profil perusahaan berhasil dibuat!');
@@ -58,9 +58,15 @@ class PerusahaanProfileController extends Controller
     /**
      * Display the form to edit perusahaan profile.
      */
-    public function edit(): View
+    public function edit(): View|RedirectResponse
     {
         $perusahaan = Auth::user()->perusahaan;
+
+        // Tambahkan pengecekan ini
+        if (!$perusahaan) {
+            return redirect()->route('perusahaan.profile.create')
+                ->with('info', 'Silakan lengkapi profil Anda terlebih dahulu.');
+        }
 
         return view('perusahaan.profile.edit', compact('perusahaan'));
     }
@@ -72,7 +78,7 @@ class PerusahaanProfileController extends Controller
     {
         $perusahaan = Auth::user()->perusahaan;
 
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_perusahaan' => ['required', 'string', 'max:255'],
             'alamat' => ['required', 'string'],
             'bidang' => ['required', 'string', 'max:255'],
@@ -82,14 +88,7 @@ class PerusahaanProfileController extends Controller
             'deskripsi' => ['nullable', 'string'],
         ]);
 
-        $data = [
-            'nama_perusahaan' => $request->nama_perusahaan,
-            'alamat' => $request->alamat,
-            'bidang' => $request->bidang,
-            'nama_pendaftar' => $request->nama_pendaftar,
-            'website' => $request->website,
-            'deskripsi' => $request->deskripsi,
-        ];
+        unset($validatedData['logo']);
 
         if ($request->hasFile('logo')) {
             // Delete old logo if exists
@@ -97,10 +96,10 @@ class PerusahaanProfileController extends Controller
                 Storage::disk('public')->delete($perusahaan->logo);
             }
 
-            $data['logo'] = $request->file('logo')->store('perusahaan/logo', 'public');
+            $validatedData['logo'] = $request->file('logo')->store('perusahaan/logo', 'public');
         }
 
-        $perusahaan->update($data);
+        $perusahaan->update($validatedData);
 
         return redirect()->route('perusahaan.dashboard')
             ->with('success', 'Profil perusahaan berhasil diperbarui!');

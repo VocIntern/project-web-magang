@@ -22,21 +22,62 @@ class MagangFactory extends Factory
      */
     public function definition(): array
     {
-        // Generate tanggal mulai antara sekarang dan 1 bulan ke depan
-        $mulai = $this->faker->dateTimeBetween('now', '+1 month');             
-        // Generate tanggal selesai antara tanggal mulai dan +3 bulan
-        $selesai = $this->faker->dateTimeBetween($mulai, (clone $mulai)->modify('+3 months')); 
+        // --- Kumpulan Data Realistis dalam Bahasa Indonesia ---
+
+        // 1. Opsi untuk Bidang Pekerjaan (10 Pilihan)
+        $bidangPekerjaan = [
+            'Teknologi Informasi',
+            'Pemasaran Digital',
+            'Keuangan & Akuntansi',
+            'Sumber Daya Manusia',
+            'Desain Grafis',
+            'Administrasi & Operasional',
+            'Manufaktur & Produksi',
+            'Logistik & Rantai Pasok',
+            'Hubungan Masyarakat',
+            'Analisis Bisnis'
+        ];
+
+        // 2. Opsi untuk Judul (Digabung dari Template + Posisi)
+        $templateJudul = ['Staf Magang', 'Internship', 'Peserta Magang', 'Junior Associate', 'Intern'];
+        $posisi = [
+            'Web Developer (Backend)',
+            'Web Developer (Frontend)',
+            'Social Media Specialist',
+            'Content Writer',
+            'Akuntan',
+            'Staff Rekrutmen',
+            'UI/UX Designer',
+            'Analis Data',
+            'Quality Control',
+            'Asisten Manajer Proyek'
+        ];
+
+        // 3. Template Deskripsi (10+ Kombinasi)
+        $deskripsiTemplates = [
+            "Kami mencari {$this->faker->randomElement($posisi)} yang bersemangat untuk bergabung dengan tim kami. Anda akan terlibat langsung dalam proyek-proyek penting, membantu pengembangan produk, dan berkolaborasi dengan tim lintas fungsi. Kualifikasi: Mahasiswa tingkat akhir, memiliki pemahaman dasar tentang pengembangan perangkat lunak, dan mampu bekerja dalam tim.",
+            "Posisi magang ini menawarkan kesempatan untuk belajar tentang {$this->faker->randomElement($bidangPekerjaan)}. Tanggung jawab utama termasuk membantu tugas harian tim, melakukan riset pasar, dan menyiapkan laporan. Keuntungan: Uang saku bulanan, sertifikat magang, dan lingkungan kerja yang suportif.",
+            "Bergabunglah sebagai {$this->faker->randomElement($templateJudul)} {$this->faker->randomElement($posisi)} di perusahaan kami. Anda akan mendapatkan pengalaman praktis di industri {$this->faker->randomElement($bidangPekerjaan)}, mengerjakan tugas-tugas yang menantang, dan dibimbing oleh para profesional. Syarat: Komunikatif, proaktif, dan memiliki keinginan belajar yang tinggi.",
+            "Kesempatan magang di bidang {$this->faker->randomElement($bidangPekerjaan)}. Anda akan membantu dalam mengelola kampanye iklan digital dan menganalisis data performa. Kami mencari individu yang teliti, kreatif, dan menguasai alat-alat analisis media sosial.",
+            "Posisi terbuka untuk {$this->faker->randomElement($posisi)} dengan fokus pada analisis dan pelaporan keuangan. Tanggung jawab meliputi rekonsiliasi bank, entri jurnal, dan membantu persiapan laporan bulanan. Mahasiswa Jurusan Akuntansi atau Keuangan diutamakan."
+        ];
+
+        // --- Akhir dari Kumpulan Data ---
+
+        $mulai = $this->faker->dateTimeBetween('now', '+1 month');
+        $selesai = $this->faker->dateTimeBetween($mulai, (clone $mulai)->modify('+3 months'));
 
         return [
-            'perusahaan_id'   => Perusahaan::factory(),                          // relasi ke Perusahaan :contentReference[oaicite:3]{index=3}
-            'judul'           => $this->faker->sentence(),                       // kalimat acak
-            'deskripsi'       => $this->faker->paragraph(),                      // paragraf acak
-            'lokasi'          => $this->faker->city(),                           // kota acak
-            'bidang'          => $this->faker->word(),                           // kata acak
-            'tanggal_mulai'   => $mulai->format('Y-m-d'),                        // format Y-m-d :contentReference[oaicite:4]{index=4}
-            'tanggal_selesai' => $selesai->format('Y-m-d'),                      // format Y-m-d :contentReference[oaicite:5]{index=5}
-            'kuota'           => $this->faker->numberBetween(1, 20),             // integer antara 1–20
-            'status_aktif'    => $this->faker->randomElement([0, 1]),             // boolean 0 atau 1 :contentReference[oaicite:6]{index=6}
+            'perusahaan_id'   => Perusahaan::factory(),
+            'judul'           => $this->faker->randomElement($templateJudul) . ' ' . $this->faker->randomElement($posisi),
+            'deskripsi'       => $this->faker->randomElement($deskripsiTemplates), // Menggunakan template deskripsi baru
+            'lokasi'          => $this->faker->city(),
+            'bidang'          => $this->faker->randomElement($bidangPekerjaan),
+            'tanggal_mulai'   => $mulai->format('Y-m-d'),
+            'tanggal_selesai' => $selesai->format('Y-m-d'),
+            // Gunakan kuota yang sudah kita set default-nya di migrasi
+            'kuota'           => $this->faker->numberBetween(1, 5), // Kuota magang antara 1 s/d 5
+            'status_aktif'    => $this->faker->boolean(80),
         ];
     }
 }

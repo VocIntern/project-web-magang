@@ -8,6 +8,7 @@ use App\Models\Mahasiswa;
 use App\Models\Perusahaan;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -22,50 +23,74 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+    public function createPerusahaan(): View
+    {
+        return view('auth.login-perusahaan');
+    }
+
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
+        // 1. Validasi input dasar
         $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'role' => ['required', 'string', 'in:mahasiswa,perusahaan'],
         ]);
 
-        // Attempt login
-        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-            $user = Auth::user();
-            $request->session()->regenerate();
+        // 2. Cari user berdasarkan email
+        $user = User::where('email', $request->email)->first();
 
-            // Auto redirect berdasarkan role user
-            if ($user->isMahasiswa()) {
-                // Cek apakah mahasiswa sudah memiliki profil lengkap
-                $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
-
-                if (!$mahasiswa) {
-                    return redirect()->route('mahasiswa.profile.create')
-                        ->with('info', 'Silakan lengkapi profil Anda terlebih dahulu untuk melanjutkan.');
-                } else {
-                    return redirect()->intended(route('mahasiswa.magang.search'));
-                }
-            } elseif ($user->isPerusahaan()) {
-                $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-
-                if (!$perusahaan) {
-                    return redirect()->route('perusahaan.profile.create')->with('info', 'Silakan lengkapi profil Anda terlebih dahulu untuk melanjutkan.');
-                } else {
-                    return redirect()->route('perusahaan.dashboard');
-                }
-            }
-
-            // Fallback
-            return redirect('/');
+        // 3. Pengecekan baru dengan pesan error spesifik
+        // Case 1: User tidak ditemukan sama sekali.
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'email' => __('auth.failed'), // Tampilkan pesan error umum untuk keamanan
+            ]);
         }
 
-        // Login gagal
-        return back()->withErrors([
-            'email' => 'Email atau password tidak valid.',
-        ])->onlyInput('email');
+        // Case 2: User ditemukan, TAPI role tidak sesuai dengan form yang diisi.
+        if ($user->role !== $request->role) {
+            // Tentukan role yang seharusnya dalam format yang mudah dibaca
+            $expectedRole = ($user->role === 'mahasiswa') ? 'Mahasiswa' : 'Perusahaan';
+
+            // Buat pesan error yang spesifik
+            $errorMessage = "Akun Anda terdaftar sebagai {$expectedRole}. Silakan gunakan form login {$expectedRole}.";
+
+            throw ValidationException::withMessages([
+                'email' => $errorMessage, // Tampilkan pesan spesifik ini
+            ]);
+        }
+
+        // 4. Jika user dan role cocok, baru coba autentikasi password (Case 3: Password salah)
+        if (!Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'email' => __('auth.failed'), // Tampilkan pesan error umum
+            ]);
+        }
+
+        // 5. Jika semua berhasil, regenerasi session dan redirect
+        $request->session()->regenerate();
+
+        if ($user->isMahasiswa()) {
+            $mahasiswa = Mahasiswa::where('user_id', $user->id)->first();
+            if (!$mahasiswa) {
+                return redirect()->route('mahasiswa.profile.create')
+                    ->with('info', 'Silakan lengkapi profil Anda terlebih dahulu untuk melanjutkan.');
+            }
+            return redirect()->intended(route('mahasiswa.magang.search'));
+        } elseif ($user->isPerusahaan()) {
+            $perusahaan = Perusahaan::where('user_id', $user->id)->first();
+            if (!$perusahaan) {
+                return redirect()->route('perusahaan.profile.create')
+                    ->with('info', 'Silakan lengkapi profil perusahaan Anda terlebih dahulu.');
+            }
+            return redirect()->intended(route('perusahaan.dashboard'));
+        }
+
+        return redirect('/');
     }
 
     /**

@@ -36,7 +36,7 @@ class Magang extends Model
         return $this->belongsTo(Perusahaan::class);
     }
 
-    public function pendaftaranMagang()
+    public function pendaftarans()
     {
         return $this->hasMany(PendaftaranMagang::class);
     }

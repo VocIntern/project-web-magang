@@ -44,24 +44,18 @@ class SeleksiMahasiswaController extends Controller
             });
         }
 
-        $pendaftaranMagang = $query->latest()->get();
+        $pendaftarans = $query->latest()->paginate(15);
 
-        // Hitung statistik
-        $totalPelamar = PendaftaranMagang::whereHas('magang', function ($q) use ($perusahaan) {
+        // Ambil semua pendaftar yang relevan SATU KALI saja
+        $semuaPendaftar = PendaftaranMagang::whereHas('magang', function ($q) use ($perusahaan) {
             $q->where('perusahaan_id', $perusahaan->id);
-        })->count();
+        })->get();
 
-        $menunggueview = PendaftaranMagang::whereHas('magang', function ($q) use ($perusahaan) {
-            $q->where('perusahaan_id', $perusahaan->id);
-        })->where('status', 'menunggu')->count();
-
-        $tahapInterview = PendaftaranMagang::whereHas('magang', function ($q) use ($perusahaan) {
-            $q->where('perusahaan_id', $perusahaan->id);
-        })->where('status', 'interview')->count();
-
-        $diterima = PendaftaranMagang::whereHas('magang', function ($q) use ($perusahaan) {
-            $q->where('perusahaan_id', $perusahaan->id);
-        })->where('status', 'diterima')->count();
+        // Hitung statistik dari collection yang sudah diambil
+        $totalPelamar = $semuaPendaftar->count();
+        $menunggueview = $semuaPendaftar->where('status', 'menunggu')->count(); // 'menunggu' bukan 'menunggueview'
+        $tahapInterview = $semuaPendaftar->where('status', 'interview')->count();
+        $diterima = $semuaPendaftar->where('status', 'diterima')->count();
 
         // Ambil data untuk dropdown filter
         $jurusanList = Mahasiswa::select('jurusan')->distinct()->pluck('jurusan');
@@ -74,7 +68,7 @@ class SeleksiMahasiswaController extends Controller
         });
 
         return view('perusahaan.seleksi-mahasiswa', compact(
-            'pendaftaranMagang',
+            'pendaftarans',
             'totalPelamar',
             'menunggueview',
             'tahapInterview',
@@ -119,16 +113,16 @@ class SeleksiMahasiswaController extends Controller
         ]);
     }
 
-    public function detail($id)
-    {
-        $pendaftaran = PendaftaranMagang::with(['mahasiswa.user', 'magang'])
-            ->findOrFail($id);
+    // public function detail($id)
+    // {
+    //     $pendaftaran = PendaftaranMagang::with(['mahasiswa.user', 'magang'])
+    //         ->findOrFail($id);
 
-        $perusahaan = Auth::user()->perusahaan;
-        if ($pendaftaran->magang->perusahaan_id !== $perusahaan->id) {
-            return redirect()->back()->with('error', 'Unauthorized');
-        }
+    //     $perusahaan = Auth::user()->perusahaan;
+    //     if ($pendaftaran->magang->perusahaan_id !== $perusahaan->id) {
+    //         return redirect()->back()->with('error', 'Unauthorized');
+    //     }
 
-        return view('perusahaan.detail-mahasiswa', compact('pendaftaran'));
-    }
+    //     return view('perusahaan.detail-mahasiswa', compact('pendaftaran'));
+    // }
 }

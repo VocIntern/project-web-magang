@@ -25,6 +25,7 @@ class Perusahaan extends Model
         'user_id',
         'nama_perusahaan',
         'alamat',
+        'nama_pendaftar',
         'bidang',
         'website',
         'logo',
@@ -56,6 +57,6 @@ class Perusahaan extends Model
             return asset('storage/' . $this->logo);
         }
 
-        return asset('images/default-company.png');
+        // return asset('images/default-company.png');
     }
 }
