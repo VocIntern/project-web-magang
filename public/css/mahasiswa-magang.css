@@ -498,11 +498,11 @@ body {
 }
 
 .nav-link:hover {
-    color: var(--primary-color);
+    color: var(--success-color);
 }
 
 .navbar-dark .navbar-nav .dropdown-menu .dropdown-item:hover,
 .navbar-dark .navbar-nav .dropdown-menu .dropdown-item:focus {
     background-color: #aeb9b4; /* Warna hijau yang sama dengan navbar */
-    color: rgb(35, 35, 35);              /* Warna teks menjadi putih agar kontras */
+    color: rgb(35, 35, 35); /* Warna teks menjadi putih agar kontras */
 }

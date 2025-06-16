@@ -9,7 +9,8 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> --}}
     <!-- Page-specific CSS -->
     <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/mahasiswa-magang.css') }}">
+
+
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <link rel="stylesheet" href="{{ asset('css/register_profile.css') }}">
     <!-- Bootstrap CSS -->
@@ -17,12 +18,14 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    {{-- Tempat untuk CSS spesifik dari halaman anak --}}
+    @stack('styles')
 </head>
 
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+
         <a class="navbar-brand fw-bold ms-5 text-white" href="/">
             <i class="fas fa-briefcase me-2 text-white"></i>VocIntern
         </a>
@@ -55,8 +58,8 @@
 
                             {{-- Foto Profil atau Fallback --}}
                             @if ($currentMahasiswa && $currentMahasiswa->foto && Storage::disk('public')->exists($currentMahasiswa->foto))
-                                <img src="{{ asset('storage/' . $currentMahasiswa->foto) }}" alt="Foto Profil" class="rounded-circle"
-                                    style="width: 32px; height: 32px; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $currentMahasiswa->foto) }}" alt="Foto Profil"
+                                    class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
                             @else
                                 <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
                                     style="width: 32px; height: 32px;">
@@ -66,7 +69,7 @@
 
                             {{-- Nama Pengguna --}}
                             <span>
-                                @if($currentMahasiswa && $currentMahasiswa->nama)
+                                @if ($currentMahasiswa && $currentMahasiswa->nama)
                                     {{ $currentMahasiswa->nama }}
                                 @else
                                     {{ Auth::user()->name }}

@@ -6,7 +6,8 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
     line-height: 1.6;
     background-color: #f8fafc;
     color: #374151;
@@ -39,12 +40,12 @@ body {
     margin: 0 auto;
 }
 
-.internship-form-wrapper {
+#page-apply-wrapper .internship-form-container {
     width: 100%;
 }
 
 /* Header Halaman */
-h1 {
+#page-apply-wrapper h1 {
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--gray-dark);
@@ -62,7 +63,8 @@ h1 + p {
 }
 
 /* Form Section Headers */
-h3, h4 {
+h3,
+h4 {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--gray-dark);
@@ -73,21 +75,23 @@ h3, h4 {
     border-bottom: 2px solid var(--primary-color);
 }
 
-h3 i, h4 i {
+h3 i,
+h4 i {
     margin-right: 0.75rem;
     color: var(--primary-color);
     font-size: 1.2rem;
 }
 
 /* Section subtitle */
-h3 + p, h4 + p {
+h3 + p,
+h4 + p {
     color: var(--gray-medium);
     margin-bottom: 1.5rem;
     font-style: italic;
 }
 
 /* Form Container */
-form {
+#page-apply-wrapper form {
     background: white;
     border-radius: 1rem;
     box-shadow: var(--shadow-lg);
@@ -263,13 +267,21 @@ input[type="file"] + small,
 }
 
 .btn-success {
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    background: linear-gradient(
+        135deg,
+        var(--primary-light),
+        var(--primary-color)
+    );
     color: white;
     box-shadow: var(--shadow);
 }
 
 .btn-success:hover {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--primary-dark)
+    );
     transform: translateY(-1px);
     box-shadow: var(--shadow-lg);
 }
@@ -353,7 +365,11 @@ input[type="file"] + small,
 }
 
 .alert.success {
-    background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+    background: linear-gradient(
+        135deg,
+        var(--success-color),
+        var(--primary-color)
+    );
     color: white;
     border-left: 4px solid var(--primary-dark);
 }
@@ -393,29 +409,29 @@ input[type="file"] + small,
     .container-fluid {
         padding: 1rem 0.5rem;
     }
-    
+
     h1 {
         font-size: 2rem;
     }
-    
+
     .info-grid {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
-    
+
     .btn-container {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .tips-grid {
         grid-template-columns: 1fr;
     }
-    
+
     form {
         padding: 1.5rem;
     }
-    
+
     .btn {
         width: 100%;
     }
@@ -425,15 +441,16 @@ input[type="file"] + small,
     h1 {
         font-size: 1.75rem;
     }
-    
-    h3, h4 {
+
+    h3,
+    h4 {
         font-size: 1.25rem;
     }
-    
+
     form {
         padding: 1rem;
     }
-    
+
     .tips-section {
         padding: 1.5rem;
     }
