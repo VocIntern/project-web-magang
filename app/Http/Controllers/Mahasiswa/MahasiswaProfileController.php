@@ -149,12 +149,13 @@ class MahasiswaProfileController extends Controller
         if ($request->hasFile('foto')) {
             // Hapus foto lama jika ada
             if ($mahasiswa->foto) {
-                Storage::delete('public/' . $mahasiswa->foto);
+                Storage::disk('public')->delete($mahasiswa->foto); 
             }
-
+            
             // Upload foto baru
             $fotoPath = $request->file('foto')->store('mahasiswa/foto', 'public');
             $mahasiswa->foto = $fotoPath;
+            $mahasiswa->save(); 
         }
 
         // Update data mahasiswa sesuai dengan field yang ada di database

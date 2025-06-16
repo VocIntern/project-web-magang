@@ -16,8 +16,8 @@
 }
 
 .profile-header {
-    background: linear-gradient(135deg, #198754 100%, #4a7c59 100%);
-    color: white;
+    /* background: linear-gradient(135deg, #198754 100%, #4a7c59 100%); */
+    color:#198754;
     padding: 30px;
     text-align: center;
 }
@@ -163,7 +163,7 @@
 }
 
 .alert-info {
-    background-color: #e8f5e8;
+    background-color: #dff0d8;
     border-color: #198754;
     color: #2d5a27;
     border-radius: 10px;

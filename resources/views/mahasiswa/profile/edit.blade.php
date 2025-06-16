@@ -9,10 +9,10 @@
                 <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <h2 class="text-primary fw-bold mb-1">Edit Profil</h2>
+                        <h2 class="text-success fw-bold mb-1">Edit Profil</h2>
                         <p class="text-muted mb-0">Kelola informasi profil dan keamanan akun Anda</p>
                     </div>
-                    <a href="{{ route('mahasiswa.magang.search') }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('mahasiswa.magang.search') }}" class="btn btn-outline-success">
                         <i class="fas fa-arrow-left me-2"></i>Kembali
                     </a>
                 </div>
@@ -28,7 +28,7 @@
                     <!-- Profile Information Card -->
                     <div class="col-lg-8 mb-4">
                         <div class="card shadow-sm border-0">
-                            <div class="card-header bg-primary text-white py-3">
+                            <div class="card-header bg-success text-white py-3">
                                 <h5 class="mb-0"><i class="fas fa-user me-2"></i>Informasi Profil</h5>
                             </div>
                             <div class="card-body p-4">
@@ -43,7 +43,7 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="me-4">
                                                     @if ($mahasiswa && $mahasiswa->foto)
-                                                        <img src="{{ Storage::url($mahasiswa->foto) }}" alt="Foto Profil"
+                                                        <img src="{{ asset('storage/' . $mahasiswa->foto) }}" alt="Foto Profil"
                                                             class="rounded-circle img-thumbnail"
                                                             style="width: 80px; height: 80px; object-fit: cover;">
                                                     @else
@@ -169,7 +169,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-end">
-                                        <button type="submit" class="btn btn-primary px-4">
+                                        <button type="submit" class="btn btn-success px-4">
                                             <i class="fas fa-save me-2"></i>Simpan Perubahan
                                         </button>
                                     </div>
@@ -181,7 +181,7 @@
                     <!-- Password & Security Card -->
                     <div class="col-lg-4">
                         <div class="card shadow-sm border-0 mb-4">
-                            <div class="card-header bg-warning text-dark py-3">
+                            <div class="card-header bg-success text-dark py-3">
                                 <h5 class="mb-0"><i class="fas fa-lock me-2"></i>Keamanan</h5>
                             </div>
                             <div class="card-body p-4">
@@ -217,7 +217,7 @@
                                             name="password_confirmation" required>
                                     </div>
 
-                                    <button type="submit" class="btn btn-warning w-100">
+                                    <button type="submit" class="btn btn-success w-100">
                                         <i class="fas fa-key me-2"></i>Update Password
                                     </button>
                                 </form>

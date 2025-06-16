@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pendaftaran_magang', function (Blueprint $table) {
             $table->id();
             $table->foreignId('mahasiswa_id')->references('id')->on('mahasiswa')->onDelete('cascade');
-            $table->foreignId('magang_id')->references('id')->on('magang')->onDelete('cascade');
+            $table->foreignId(column: 'magang_id')->references('id')->on('magang')->onDelete('cascade');
             $table->string('cv');
             $table->string('surat_pengantar')->nullable();
             $table->enum('status', ['menunggu', 'diterima', 'ditolak'])->default('menunggu');
