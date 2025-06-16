@@ -31,17 +31,17 @@
                 @endif
 
                 @if (session('info'))
-                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-info-circle me-2"></i>
                         {{ session('info') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
 
-                <div class="alert alert-info mb-4">
+                {{-- <div class="alert alert-info mb-4">
                     <i class="fas fa-info-circle me-2"></i>
                     Silakan lengkapi informasi profil Anda untuk dapat mengakses platform magang.
-                </div>
+                </div> --}}
 
                 <form method="POST" action="{{ route('mahasiswa.profile.store') }}" enctype="multipart/form-data"
                     id="profileForm">
@@ -186,8 +186,8 @@
         </div>
     </div>
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

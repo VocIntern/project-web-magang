@@ -23,7 +23,7 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
-        <a class="navbar-brand fw-bold ms-5 text-white"href="/">
+        <a class="navbar-brand fw-bold ms-5 text-white" href="/">
             <i class="fas fa-briefcase me-2 text-white"></i>VocIntern
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -32,27 +32,29 @@
         </button>
         <div class="container">
             <a class="navbar-brand" href="#">Portal Mahasiswa</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('mahasiswa.magang.search') ? 'active' : '' }}"
                             href="{{ route('mahasiswa.magang.search') }}">Cari Lowongan</a>
                     </li>
-
-                    <!-- Add more links as needed -->
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 text-white" href="#"
                             id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
+                            {{-- Ambil data mahasiswa secara langsung --}}
+                            @php
+                                $currentMahasiswa = null;
+                                if (Auth::check()) {
+                                    $currentMahasiswa = App\Models\Mahasiswa::where('user_id', Auth::id())->first();
+                                }
+                            @endphp
+
                             {{-- Foto Profil atau Fallback --}}
-                            @if (isset($mahasiswa) && $mahasiswa->foto)
-                                <img src="{{ Storage::url($mahasiswa->foto) }}" alt="Foto Profil" class="rounded-circle"
+                            @if ($currentMahasiswa && $currentMahasiswa->foto && Storage::disk('public')->exists($currentMahasiswa->foto))
+                                <img src="{{ asset('storage/' . $currentMahasiswa->foto) }}" alt="Foto Profil" class="rounded-circle"
                                     style="width: 32px; height: 32px; object-fit: cover;">
                             @else
                                 <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center"
@@ -62,7 +64,13 @@
                             @endif
 
                             {{-- Nama Pengguna --}}
-                            <span>Profil {{ Auth::user()->name }}</span>
+                            <span>
+                                @if($currentMahasiswa && $currentMahasiswa->nama)
+                                    {{ $currentMahasiswa->nama }}
+                                @else
+                                    {{ Auth::user()->name }}
+                                @endif
+                            </span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>

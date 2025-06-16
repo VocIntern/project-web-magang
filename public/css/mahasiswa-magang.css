@@ -274,7 +274,7 @@ body {
 }
 
 .card-title {
-    color: white !important;
+    color: rgb(36, 32, 32) !important;
     font-weight: 600;
     font-size: 1.1rem;
     margin-bottom: 10px;
@@ -499,4 +499,10 @@ body {
 
 .nav-link:hover {
     color: var(--primary-color);
+}
+
+.navbar-dark .navbar-nav .dropdown-menu .dropdown-item:hover,
+.navbar-dark .navbar-nav .dropdown-menu .dropdown-item:focus {
+    background-color: #aeb9b4; /* Warna hijau yang sama dengan navbar */
+    color: rgb(35, 35, 35);              /* Warna teks menjadi putih agar kontras */
 }

@@ -3,12 +3,12 @@
 @section('content')
 <div class="container py-4">
     <!-- Breadcrumb -->
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('mahasiswa.magang.search') }}">Lowongan Magang</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $magang->judul }}</li>
-        </ol>
-    </nav>
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="mb-0">Detail Magang</h2>
+        <a href="{{ route('mahasiswa.magang.search') }}" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left me-2"></i>Kembali 
+        </a>
+    </div>
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -76,13 +76,6 @@
                         <h5 class="mb-3">Tentang Perusahaan</h5>
                         <div class="bg-light p-3 rounded">
                             <p>{!! nl2br(e($magang->perusahaan->deskripsi ?? 'Informasi perusahaan tidak tersedia.')) !!}</p>
-                            
-                            @if($magang->perusahaan->website)
-                            <p class="mb-0">
-                                <strong>Website:</strong> 
-                                <a href="{{ $magang->perusahaan->website }}" target="_blank">{{ $magang->perusahaan->website }}</a>
-                            </p>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -91,7 +84,7 @@
                         @if($hasApplied)
                             <button class="btn btn-secondary" disabled>Anda Sudah Melamar</button>
                         @else
-                            <a href="{{ route('mahasiswa.magang.apply.form', $magang->id) }}" class="btn btn-primary">Lamar Sekarang</a>
+                            <a href="{{ route('mahasiswa.magang.apply.form', $magang->id) }}" class="btn btn-success">Lamar Sekarang</a>
                         @endif
                     </div>
                 </div>
@@ -125,7 +118,7 @@
 
             <!-- Company Info Card -->
             <div class="card mb-4">
-                <div class="card-header bg-light">
+                <div class="card-header bg-success">
                     <h5 class="mb-0">Informasi Kontak</h5>
                 </div>
                 <div class="card-body">
@@ -146,18 +139,12 @@
                     <div class="mb-3">
                         <p class="mb-0"><i class="bi bi-geo-alt me-2"></i> {{ $magang->perusahaan->alamat }}</p>
                     </div>
-                    
-                    @if($magang->perusahaan->website)
-                    <div class="mb-3">
-                        <p class="mb-0"><i class="bi bi-globe me-2"></i> <a href="{{ $magang->perusahaan->website }}" target="_blank">Website</a></p>
-                    </div>
-                    @endif
                 </div>
             </div>
 
             <!-- Application Info Card -->
             <div class="card">
-                <div class="card-header bg-light">
+                <div class="card-header bg-success">
                     <h5 class="mb-0">Info Pendaftaran</h5>
                 </div>
                 <div class="card-body">
@@ -181,7 +168,7 @@
                         @if($hasApplied)
                             <button class="btn btn-secondary" disabled>Anda Sudah Melamar</button>
                         @else
-                            <a href="{{ route('mahasiswa.magang.apply.form', $magang->id) }}" class="btn btn-primary">Lamar Sekarang</a>
+                            <a href="{{ route('mahasiswa.magang.apply.form', $magang->id) }}" class="btn btn-success">Lamar Sekarang</a>
                         @endif
                     </div>
                 </div>
