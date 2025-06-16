@@ -1,4 +1,3 @@
-<!-- resources/views/auth/verify-email.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -9,71 +8,57 @@
 
     <title>{{ config('app.name', 'VocIntern') }} - Verifikasi Email</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Custom CSS -->
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container verify-email-container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="verify-email-form">
-                    <div class="login-logo">
-                        {{-- <a href="/" class="d-flex align-items-center justify-content-center">
-                            <i class="fas fa-briefcase"></i>
-                        </a> --}}
-                        <h1 class="mt-2 mb-0">VocIntern</h1>
-                        <p class="text-muted small">Platform Magang Khusus Mahasiswa Vokasi USU</p>
+    <div class="container-fluid auth-container">
+        <div class="auth-card">
+            <div class="reset-header">
+                <h1>VocIntern</h1>
+                <p class="definisi">Platform Magang Khusus Mahasiswa Vokasi USU</p>
+            </div>
+            <div class="auth-body">
+
+                <h5 class="text-center fw-bold mb-4">Verifikasi Alamat Email Anda</h5>
+
+                <div class="mb-3 text-center text-sm text-muted">
+                    Terima kasih telah mendaftar! Silakan periksa kotak masuk email Anda untuk link verifikasi. Jika
+                    tidak menerima email, kami akan mengirimkannya kembali.
+                </div>
+
+                @if (session('status') == 'verification-link-sent')
+                    <div class="alert alert-success mb-4" role="alert">
+                        Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.
                     </div>
+                @endif
 
-                    <h2 class="text-center">Verifikasi Email</h2>
+                <div class="mt-4 d-grid gap-3">
+                    <form method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-success w-100">
+                            Kirim Ulang Email Verifikasi
+                        </button>
+                    </form>
 
-                    @if (session('status') == 'verification-link-sent')
-                        <div class="alert alert-success mb-4" role="alert">
-                            Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.
-                        </div>
-                    @endif
-
-                    <div class="text-center mb-4">
-                        <div class="verify-icon mb-3">
-                            <i class="fas fa-envelope-open-text fa-4x text-primary"></i>
-                        </div>
-                        <p>
-                            Terima kasih telah mendaftar! Sebelum memulai, bisakah Anda memverifikasi alamat email Anda dengan mengklik tautan yang baru saja kami kirimkan? Jika Anda tidak menerima email tersebut, kami akan dengan senang hati mengirimkan email lainnya.
-                        </p>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <form method="POST" action="{{ route('verification.send') }}" class="mb-3 mb-md-0">
-                            @csrf
-                            <button type="submit" class="btn btn-verify">
-                                <i class="fas fa-paper-plane me-2"></i>Kirim Ulang Email Verifikasi
-                            </button>
-                        </form>
-
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-secondary">
-                                <i class="fas fa-sign-out-alt me-2"></i>Keluar
-                            </button>
-                        </form>
-                    </div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-muted auth-link">
+                            Keluar
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -13,6 +13,13 @@ a.auth-link {
     transition: color 0.2s ease-in-out;
 }
 
+.auth-link {
+    color: #198754;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
 a.auth-link:hover {
     color: #0a3622;
 }
@@ -24,6 +31,7 @@ p.definisi {
 
 /* ===== REGISTER FORM STYLES ===== */
 .register-container,
+.auth-container,
 .reset-container {
     min-height: 100vh;
     display: flex;
@@ -33,6 +41,7 @@ p.definisi {
 }
 
 .register-card,
+.auth-card,
 .reset-card {
     background: white;
     border-radius: 20px;
@@ -50,13 +59,14 @@ p.definisi {
 }
 
 .register-header h1,
-.reset-header h1 {
+.auth-header h1 .reset-header h1 {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
 .register-header p,
+.auth-header p,
 .reset-header p {
     opacity: 0.9;
     margin-bottom: 0;
@@ -64,6 +74,7 @@ p.definisi {
 }
 
 .register-body,
+.auth-body,
 .reset-body {
     padding: 2rem 1.5rem;
 }
@@ -150,13 +161,15 @@ p.definisi {
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .role-btn::after {
     content: "";
     position: absolute;
     bottom: 0;
-    left: 0;
+    /* left: 0; */
+    right: 25%;
     height: 3px;
     width: 0%;
     background-color: #2e8b57; /* hijau */
@@ -164,7 +177,7 @@ p.definisi {
 }
 
 .role-btn.active::after {
-    width: 100%;
+    width: 50%;
 }
 
 .role-btn:hover {
