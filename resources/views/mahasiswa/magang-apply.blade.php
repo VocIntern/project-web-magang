@@ -7,7 +7,7 @@
 
 <div class="container">
     <!-- Breadcrumb -->
-    <nav class="breadcrumb">
+    {{-- <nav class="breadcrumb">
         <ol>
             <li>
                 <a href="{{ route('mahasiswa.magang.search') }}">
@@ -21,7 +21,7 @@
                 <span>Lamar Magang</span>
             </li>
         </ol>
-    </nav>
+    </nav> --}}
 
     <!-- Messages -->
     @if(session('success'))
