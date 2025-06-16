@@ -53,8 +53,8 @@ class SeleksiMahasiswaController extends Controller
 
         // Hitung statistik dari collection yang sudah diambil
         $totalPelamar = $semuaPendaftar->count();
-        $menunggueview = $semuaPendaftar->where('status', 'menunggu')->count(); // 'menunggu' bukan 'menunggueview'
-        $tahapInterview = $semuaPendaftar->where('status', 'interview')->count();
+        $menunggu = $semuaPendaftar->where('status', 'menunggu')->count(); // 'menunggu' bukan 'menunggueview'
+        $ditolak = $semuaPendaftar->where('status', 'ditolak')->count();
         $diterima = $semuaPendaftar->where('status', 'diterima')->count();
 
         // Ambil data untuk dropdown filter
@@ -70,8 +70,8 @@ class SeleksiMahasiswaController extends Controller
         return view('perusahaan.seleksi-mahasiswa', compact(
             'pendaftarans',
             'totalPelamar',
-            'menunggueview',
-            'tahapInterview',
+            'menunggu',
+            'ditolak',
             'diterima',
             'jurusanList',
             'perusahaan'
@@ -81,7 +81,7 @@ class SeleksiMahasiswaController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:menunggu,interview,diterima,ditolak',
+            'status' => 'required|in:menunggu,diterima,ditolak',
             'catatan' => 'nullable|string'
         ]);
 
@@ -90,7 +90,7 @@ class SeleksiMahasiswaController extends Controller
         // Pastikan pendaftaran ini milik perusahaan yang sedang login
         $perusahaan = Auth::user()->perusahaan;
         if ($pendaftaran->magang->perusahaan_id !== $perusahaan->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
+            return redirect()->back()->with('error', 'Anda tidak berwenang mengubah status ini.');
         }
 
         $pendaftaran->update([
@@ -98,7 +98,7 @@ class SeleksiMahasiswaController extends Controller
             'catatan' => $request->catatan
         ]);
 
-        // Update tanggal mulai dan selesai jika diterima
+        // Jika statusnya 'diterima', perbarui juga tanggal mulai/selesai magang
         if ($request->status === 'diterima') {
             $pendaftaran->update([
                 'tanggal_mulai' => $pendaftaran->magang->tanggal_mulai,
@@ -107,10 +107,8 @@ class SeleksiMahasiswaController extends Controller
             ]);
         }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Status berhasil diperbarui'
-        ]);
+        // Alihkan kembali ke halaman seleksi dengan pesan sukses
+        return redirect()->route('perusahaan.seleksi.index')->with('success', 'Status lamaran berhasil diperbarui!');
     }
 
     // public function detail($id)

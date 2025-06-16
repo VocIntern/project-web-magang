@@ -165,7 +165,7 @@ class MahasiswaMagangController extends Controller
 
         $pendaftaran->save();
 
-        return redirect()->route('mahasiswa.pendaftaran.index')
+        return redirect()->route('mahasiswa.magang.search')
             ->with('success', 'Pendaftaran magang berhasil diajukan. Silakan tunggu konfirmasi dari perusahaan.');
     }
 

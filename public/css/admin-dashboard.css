@@ -37,6 +37,11 @@ body {
     flex-shrink: 0;
 }
 
+.status {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 /* Memperbesar ukuran font link di dalam sidebar-logo */
 .sidebar .sidebar-logo a {
     font-size: 1.3rem; /* Ubah nilai ini jika ingin lebih besar/kecil */

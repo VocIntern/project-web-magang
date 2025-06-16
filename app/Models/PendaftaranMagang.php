@@ -34,8 +34,5 @@ class PendaftaranMagang extends Model
         return $this->belongsTo(Magang::class);
     }
 
-    public function laporan()
-    {
-        return $this->hasMany(Laporan::class);
-    }
+
 }

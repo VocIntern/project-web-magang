@@ -101,7 +101,7 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
     Route::put('/profile/update', [PerusahaanProfileController::class, 'update'])->name('profile.update');
 
     // Halaman Seleksi Mahasiswa
-    Route::get('/seleksi', [SeleksiMahasiswaController::class, 'index'])->name('perusahaan.seleksi.index');
+    
     Route::get('/seleksi-mahasiswa', [SeleksiMahasiswaController::class, 'index'])->name('seleksi.index');
     Route::put('/seleksi-mahasiswa/{id}/status', [SeleksiMahasiswaController::class, 'updateStatus'])->name('seleksi.update-status');
     Route::get('/seleksi-mahasiswa/{id}/detail', [SeleksiMahasiswaController::class, 'detail'])->name('seleksi.detail');
