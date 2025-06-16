@@ -63,22 +63,6 @@ class RegisteredUserController extends Controller
             'role' => $role,
         ]);
 
-        // 3. Buat profil Mahasiswa atau Perusahaan yang terhubung
-        if ($role === 'mahasiswa') {
-            Mahasiswa::create([
-                'user_id' => $user->id,
-                'nama' => $request->nama,
-                'email' => $user->email, // Ambil email dari user yang baru dibuat
-            ]);
-        } elseif ($role === 'perusahaan') {
-            Perusahaan::create([
-                'user_id' => $user->id,
-                'nama_perusahaan' => $request->nama_perusahaan,
-                'nama_pendaftar' => $request->nama_pendaftar,
-                'email_perusahaan' => $user->email,
-            ]);
-        }
-
         event(new Registered($user));
 
         // Auth::login($user);

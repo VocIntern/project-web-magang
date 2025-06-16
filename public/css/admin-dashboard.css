@@ -37,14 +37,15 @@ body {
     flex-shrink: 0;
 }
 
-.sidebar-logo {
-    text-align: center;
-    margin-bottom: 30px;
+/* Memperbesar ukuran font link di dalam sidebar-logo */
+.sidebar .sidebar-logo a {
+    font-size: 1.3rem; /* Ubah nilai ini jika ingin lebih besar/kecil */
 }
 
-.sidebar-logo img {
-    max-width: 130px;
-    height: auto;
+/* Menyesuaikan ukuran ikon di dalamnya agar proporsional */
+.sidebar .sidebar-logo a .fas {
+    /* Sedikit lebih kecil dari teks agar terlihat seimbang */
+    font-size: 1.2rem;
 }
 
 .sidebar-nav ul {
@@ -540,6 +541,17 @@ body {
 .pagination .page-item .page-link:hover {
     background-color: var(--light-green);
     color: var(--dark-green);
+}
+
+/* Style untuk logo perusahaan di header */
+.header-logo {
+    width: 30px; /* Ukuran yang pas untuk header */
+    height: 30px;
+    border-radius: 50%; /* Membuatnya bundar */
+    object-fit: cover; /* Memastikan gambar tidak gepeng */
+    margin-right: 8px; /* Memberi jarak dengan teks nama */
+    border: 1px solid #ddd; /* Opsi: memberi sedikit border */
+    background-color: #fff; /* Memberi background putih jika gambar transparan */
 }
 
 /* Responsif untuk layar kecil */

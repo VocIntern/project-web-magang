@@ -3,149 +3,146 @@
 @section('title', 'Dashboard Perusahaan')
 
 @section('content')
-    <div class="main-content">
+    <div class="container-fluid">
 
-        <div class="content-area">
-            <h1>Dashboard</h1>
-
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-error">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            <!-- Statistik Dashboard -->
-            <div class="stats-cards">
-                <div class="stat-card">
-                    <span class="stat-number">{{ $totalLowongan }}</span>
-                    <span class="stat-label">Lowongan Magang</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">{{ $totalPelamar }}</span>
-                    <span class="stat-label">Total Pelamar</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">{{ $magangAktif }}</span>
-                    <span class="stat-label">Magang Aktif</span>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="section-card">
-                <h2>Aksi Cepat</h2>
-                <div class="quick-actions">
-                    <a href="{{ route('perusahaan.lowongan.create') }}" class="btn btn-primary">
-                        <i class="material-icons">add</i>
-                        Buat Lowongan Baru
-                    </a>
-                    <a href="{{ route('perusahaan.seleksi-mahasiswa') }}" class="btn btn-secondary">
-                        <i class="material-icons">people</i>
-                        Lihat Pelamar
-                    </a>
-                    <a href="{{ route('perusahaan.profil') }}" class="btn btn-secondary">
-                        <i class="material-icons">settings</i>
-                        Edit Profil
-                    </a>
-                </div>
-            </div>
-
-            <!-- Lowongan Terbaru -->
-            <div class="section-card">
-                <h2>Lowongan Terbaru</h2>
-                @if ($lowonganTerbaru->count() > 0)
-                    <div class="table-responsive">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Judul Lowongan</th>
-                                    <th>Bidang</th>
-                                    <th>Lokasi</th>
-                                    <th>Tanggal Dibuat</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($lowonganTerbaru as $lowongan)
-                                    <tr>
-                                        <td>{{ $lowongan->judul }}</td>
-                                        <td>{{ $lowongan->bidang }}</td>
-                                        <td>{{ $lowongan->lokasi }}</td>
-                                        <td>{{ $lowongan->created_at->format('d/m/Y') }}</td>
-                                        <td>
-                                            @if ($lowongan->tanggal_mulai <= now() && $lowongan->tanggal_selesai >= now())
-                                                <span class="status-badge active">Aktif</span>
-                                            @else
-                                                <span class="status-badge inactive">Nonaktif</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="section-footer">
-                        <a href="{{ route('perusahaan.lowongan') }}" class="btn btn-outline">Lihat Semua Lowongan</a>
-                    </div>
-                @else
-                    <div class="empty-state">
-                        <i class="material-icons">work_off</i>
-                        <p>Belum ada lowongan magang</p>
-                        <a href="{{ route('perusahaan.lowongan.create') }}" class="btn btn-primary">Buat Lowongan
-                            Pertama</a>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Pelamar Terbaru -->
-            <div class="section-card">
-                <h2>Pelamar Terbaru</h2>
-                @if ($pelamarTerbaru->count() > 0)
-                    <div class="applicant-list">
-                        @foreach ($pelamarTerbaru as $pelamar)
-                            <div class="applicant-item">
-                                <div class="applicant-info">
-                                    <div class="applicant-avatar">
-                                        {{ strtoupper(substr($pelamar->mahasiswa->nama, 0, 2)) }}
-                                    </div>
-                                    <div class="applicant-details">
-                                        <h4>{{ $pelamar->mahasiswa->nama }}</h4>
-                                        <p>{{ $pelamar->mahasiswa->jurusan }}</p>
-                                        <small>Melamar untuk: {{ $pelamar->magang->judul }}</small>
-                                    </div>
-                                </div>
-                                <div class="applicant-actions">
-                                    <span class="status-badge pending">Menunggu Review</span>
-                                    <button class="btn btn-small btn-primary"
-                                        onclick="reviewApplicant({{ $pelamar->id }})">
-                                        Review
-                                    </button>
-                                </div>
+        {{-- Kartu Statistik --}}
+        <div class="row">
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs fw-bold text-success text-uppercase mb-1">Total Lowongan</div>
+                                <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalLowongan }}</div>
                             </div>
-                        @endforeach
+
+                        </div>
                     </div>
-                    <div class="section-footer">
-                        <a href="{{ route('perusahaan.seleksi-mahasiswa') }}" class="btn btn-outline">Lihat Semua
-                            Pelamar</a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs fw-bold text-success text-uppercase mb-1">Lowongan Aktif</div>
+                                <div class="h5 mb-0 fw-bold text-gray-800">{{ $magangAktif }}</div>
+                            </div>
+ 
+                        </div>
                     </div>
-                @else
-                    <div class="empty-state">
-                        <i class="material-icons">people_outline</i>
-                        <p>Belum ada pelamar baru</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs fw-bold text-success text-uppercase mb-1">Total Pelamar</div>
+                                <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalPelamar }}</div>
+                            </div>
+
+                        </div>
                     </div>
-                @endif
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {{-- Kolom Kiri - Lowongan Terbaru --}}
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 fw-bold text-success">Lowongan Terbaru Anda</h6>
+                    </div>
+                    <div class="card-body">
+                        @if ($lowonganTerbaru->count() > 0)
+                            <div class="table-responsive">
+                                <table class="table table-hover" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Judul Lowongan</th>
+                                            <th>Bidang</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($lowonganTerbaru as $lowongan)
+                                            <tr>
+                                                <td>{{ $lowongan->judul }}</td>
+                                                <td>{{ $lowongan->bidang }}</td>
+                                                <td>
+                                                    @if (now()->between($lowongan->tanggal_mulai, $lowongan->tanggal_selesai))
+                                                        <span class="badge bg-success">Aktif</span>
+                                                    @else
+                                                        <span class="badge bg-secondary">Nonaktif</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-center p-4">
+                                <i class="fas fa-box-open fa-3x text-gray-400 mb-3"></i>
+                                <p>Anda belum membuat lowongan magang.</p>
+                                <a href="{{ route('perusahaan.lowongan.create') }}" class="btn btn-success">Buat Lowongan
+                                    Pertama</a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            {{-- Kolom Kanan - Aksi Cepat & Pelamar Terbaru --}}
+            <div class="col-lg-4">
+                {{-- Aksi Cepat --}}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 fw-bold text-success">Aksi Cepat</h6>
+                    </div>
+                    <div class="card-body">
+                        <a href="{{ route('perusahaan.lowongan.create') }}"
+                            class="btn btn-success btn-icon-split d-block mb-2">
+                            <span class="icon text-white-50"><i class="fas fa-plus"></i></span>
+                            <span class="text">Buat Lowongan Baru</span>
+                        </a>
+                        <a href="{{ route('perusahaan.seleksi.index') }}"
+                            class="btn btn-outline-success btn-icon-split d-block">
+                            <span class="icon text-white-50"></span>
+                            <span class="text">Lihat Semua Pelamar</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Pelamar Terbaru --}}
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 fw-bold text-success">Pelamar Terbaru</h6>
+                    </div>
+                    <div class="card-body">
+                        @if ($pelamarTerbaru->count() > 0)
+                            <ul class="list-group list-group-flush">
+                                @foreach ($pelamarTerbaru as $pelamar)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-0">{{ $pelamar->mahasiswa->nama }}</h6>
+                                            <small class="text-muted">Melamar untuk:
+                                                {{ Str::limit($pelamar->magang->judul, 25) }}</small>
+                                        </div>
+                                        <span class="badge bg-warning text-dark">Baru</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <div class="text-center p-3">
+                                <p class="mb-0">Belum ada pelamar baru.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function reviewApplicant(id) {
-            window.location.href = `/perusahaan/pelamar/${id}`;
-        }
-    </script>
 @endsection

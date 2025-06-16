@@ -26,7 +26,7 @@
             </div>
             <div class="card-body">
                 @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success alert-dismissible fade show">{{ session('success') }}</div>
                 @endif
 
                 <div class="table-responsive">
@@ -53,19 +53,15 @@
                                     <td>{{ $mahasiswa->user->email ?? 'N/A' }}</td>
                                     <td class="text-center">
                                         <div class="action-buttons">
-                                            <a href="{{ route('admin.mahasiswa.edit', $mahasiswa->id) }}" class="action-icon"
-                                                title="Edit">
+                                            <a href="{{ route('admin.mahasiswa.edit', $mahasiswa->id) }}"
+                                                class="action-icon" title="Edit">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
-                                            <form action="{{ route('admin.mahasiswa.destroy', $mahasiswa->id) }}"
-                                                method="POST" class="d-inline"
-                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="action-icon-danger" title="Hapus">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="action-icon-danger" title="Hapus"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                                data-id="{{ $mahasiswa->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -101,11 +97,51 @@
                         <input type="hidden" name="search" value="{{ request('search') }}">
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Export Sekarang</button>
+                            <button type="submit" class="btn btn-success">Export Sekarang</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin menghapus lowongan ini? Tindakan ini tidak dapat dibatalkan.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <form id="deleteForm" method="POST" action="">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var deleteModal = document.getElementById('deleteModal');
+            if (deleteModal) {
+                deleteModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget;
+                    var mahasiswaId = button.getAttribute('data-id');
+                    var form = document.getElementById('deleteForm');
+
+                    // Ini bagian paling penting: membuat URL yang benar
+                    var actionUrl = "{{ url('admin/mahasiswa') }}/" + mahasiswaId;
+
+                    form.setAttribute('action', actionUrl);
+                });
+            }
+        });
+    </script>
+@endpush

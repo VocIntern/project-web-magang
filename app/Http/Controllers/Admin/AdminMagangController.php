@@ -117,6 +117,8 @@ class AdminMagangController extends Controller
     {
         $fileName = 'data-magang-' . date('Y-m-d') . '.csv';
         $query = Magang::with('perusahaan');
+
+        // Logika pencarian Anda sudah benar dan dipertahankan
         if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -128,7 +130,9 @@ class AdminMagangController extends Controller
                     });
             });
         }
+
         $magangs = $query->get();
+
         $headers = [
             "Content-type"        => "text/csv",
             "Content-Disposition" => "attachment; filename=$fileName",
@@ -136,22 +140,53 @@ class AdminMagangController extends Controller
             "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
             "Expires"             => "0"
         ];
-        $columns = ['NIM', 'Nama', 'Email', 'Jurusan', 'Semester'];
+
+        // --- PERBAIKAN 1: Sesuaikan Header CSV dengan Data Magang ---
+        $columns = [
+      
+            'Judul Lowongan',
+            'Perusahaan',
+            'Bidang',
+            'Lokasi',
+            'Kuota',
+            'Tanggal Mulai',
+            'Tanggal Selesai',
+            'Status'
+        ];
+
         $callback = function () use ($magangs, $columns) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-            foreach ($magangs as $magang) {
-                fputcsv($file, [
-                    $magang->judul,
-                    $magang->perusahaan->nama_perusahaan,
-                    $magang->lokasi,
-                    $magang->tipe, // Pengaman ?? 'N/A' sudah bagus di sini
-                    $magang->status,
+            fputcsv($file, $columns); // Tulis header yang sudah benar
 
+            foreach ($magangs as $magang) {
+                // --- PERBAIKAN 2: Sesuaikan Data Baris dengan Header ---
+         
+                $row['Judul']           = $magang->judul;
+                $row['Perusahaan']      = $magang->perusahaan->nama_perusahaan;
+                $row['Bidang']          = $magang->bidang;
+                $row['Lokasi']          = $magang->lokasi;
+                $row['Kuota']           = $magang->kuota;
+                $row['Tanggal Mulai']   = $magang->tanggal_mulai;
+                $row['Tanggal Selesai'] = $magang->tanggal_selesai;
+
+                // --- PERBAIKAN 3: Gunakan 'status_aktif' dan ubah jadi teks ---
+                $row['Status']          = $magang->status_aktif ? 'Aktif' : 'Tidak Aktif';
+
+                fputcsv($file, [
+        
+                    $row['Judul'],
+                    $row['Perusahaan'],
+                    $row['Bidang'],
+                    $row['Lokasi'],
+                    $row['Kuota'],
+                    $row['Tanggal Mulai'],
+                    $row['Tanggal Selesai'],
+                    $row['Status'],
                 ]);
             }
             fclose($file);
         };
+
         return response()->stream($callback, 200, $headers);
     }
 }

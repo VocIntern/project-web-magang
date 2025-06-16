@@ -17,48 +17,46 @@ class DashboardPerusahaanController extends Controller
     public function index()
     {
 
-        $user = Auth::user();
+        $perusahaan = Auth::user()->perusahaan;
 
-        if (Auth::user()->role !== 'perusahaan') {
-            abort(403, 'Unauthorized');
+        // Jika user belum punya profil perusahaan, paksa untuk membuat profil dulu.
+        if (!$perusahaan) {
+            return redirect()->route('perusahaan.profile.create')
+                ->with('info', 'Selamat datang! Silakan lengkapi profil perusahaan Anda terlebih dahulu untuk melanjutkan.');
         }
-        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
 
-        // if (!$perusahaan) {
-        //     return redirect()->route('perusahaan.profile.create')
-        //         ->with('error', 'Silakan lengkapi profil perusahaan terlebih dahulu.');
-        // }
+        // --- PENGAMBILAN DATA UNTUK DASHBOARD ---
 
-        // Statistik Dashboard
-        $totalLowongan = Magang::where('perusahaan_id', $perusahaan->id)->count();
-        $totalPelamar = PendaftaranMagang::whereHas('magang', function ($query) use ($perusahaan) {
-            $query->where('perusahaan_id', $perusahaan->id);
-        })->count();
-        $magangAktif = PendaftaranMagang::whereHas('magang', function ($query) use ($perusahaan) {
-            $query->where('perusahaan_id', $perusahaan->id);
-        })->where('status', 'diterima')->where('status_magang', 'berlangsung')->count();
+        // Dapatkan semua ID lowongan milik perusahaan ini
+        $magangIds = $perusahaan->magang()->pluck('id');
 
-        // Lowongan terbaru
-        $lowonganTerbaru = Magang::where('perusahaan_id', $perusahaan->id)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
+        // 1. Hitung total lowongan
+        $totalLowongan = $magangIds->count();
 
-        // Pelamar terbaru yang menunggu review
-        $pelamarTerbaru = PendaftaranMagang::with(['mahasiswa.user', 'magang'])
-            ->whereHas('magang', function ($query) use ($perusahaan) {
-                $query->where('perusahaan_id', $perusahaan->id);
-            })
-            ->where('status', 'menunggu')
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
+        // 2. Hitung magang yang sedang aktif (tanggal hari ini di antara tgl mulai & selesai)
+        $magangAktif = $perusahaan->magang()
+            ->where('tanggal_mulai', '<=', now())
+            ->where('tanggal_selesai', '>=', now())
+            ->count();
+
+        // 3. Ambil 5 lowongan terbaru
+        $lowonganTerbaru = $perusahaan->magang()->latest()->take(5)->get();
+
+        // 4. Hitung total pelamar
+        $totalPelamar = PendaftaranMagang::whereIn('magang_id', $magangIds)->count();
+
+        // 5. Ambil 5 pelamar terbaru, eager load relasi untuk performa
+        $pelamarTerbaru = PendaftaranMagang::whereIn('magang_id', $magangIds)
+            ->with(['mahasiswa', 'magang'])
+            ->latest()
+            ->take(5)
             ->get();
 
         return view('perusahaan.dashboard', compact(
             'perusahaan',
             'totalLowongan',
-            'totalPelamar',
             'magangAktif',
+            'totalPelamar',
             'lowonganTerbaru',
             'pelamarTerbaru'
         ));
@@ -161,100 +159,5 @@ class DashboardPerusahaanController extends Controller
             'success' => true,
             'message' => 'Status pelamar berhasil diupdate'
         ]);
-    }
-
-    public function profilPerusahaan()
-    {
-        $user = Auth::user();
-        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-
-        // Statistik untuk profil
-        $totalLowongan = Magang::where('perusahaan_id', $perusahaan->id)->count();
-        $totalPendaftar = PendaftaranMagang::whereHas('magang', function ($query) use ($perusahaan) {
-            $query->where('perusahaan_id', $perusahaan->id);
-        })->count();
-        $magangAktif = PendaftaranMagang::whereHas('magang', function ($query) use ($perusahaan) {
-            $query->where('perusahaan_id', $perusahaan->id);
-        })->where('status', 'diterima')->where('status_magang', 'berlangsung')->count();
-
-        return view('perusahaan.profil', compact(
-            'perusahaan',
-            'totalLowongan',
-            'totalPendaftar',
-            'magangAktif'
-        ));
-    }
-
-    public function updateProfil(Request $request)
-    {
-        $request->validate([
-            'nama_perusahaan' => 'required|string|max:255',
-            'bidang' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'website' => 'nullable|url',
-            'deskripsi' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
-        ]);
-
-        $user = Auth::user();
-        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-
-        $data = $request->only(['nama_perusahaan', 'bidang', 'alamat', 'website', 'deskripsi']);
-
-        // Handle logo upload
-        if ($request->hasFile('logo')) {
-            // Delete old logo if exists
-            if ($perusahaan->logo && file_exists(public_path('storage/' . $perusahaan->logo))) {
-                unlink(public_path('storage/' . $perusahaan->logo));
-            }
-
-            $logoPath = $request->file('logo')->store('logos', 'public');
-            $data['logo'] = $logoPath;
-        }
-
-        $perusahaan->update($data);
-
-        return redirect()->back()->with('success', 'Profil perusahaan berhasil diperbarui');
-    }
-
-    public function lowonganMagang()
-    {
-        $user = Auth::user();
-        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-
-        $lowonganList = Magang::where('perusahaan_id', $perusahaan->id)
-            ->withCount('pendaftaranMagang')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return view('perusahaan.lowongan-magang', compact('lowonganList'));
-    }
-
-    public function createLowongan()
-    {
-        return view('perusahaan.create-lowongan');
-    }
-
-    public function storeLowongan(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'lokasi' => 'required|string|max:255',
-            'bidang' => 'required|string|max:255',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
-            'kuota' => 'required|integer|min:1'
-        ]);
-
-        $user = Auth::user();
-        $perusahaan = Perusahaan::where('user_id', $user->id)->first();
-
-        $data = $request->all();
-        $data['perusahaan_id'] = $perusahaan->id;
-
-        Magang::create($data);
-
-        return redirect()->route('perusahaan.lowongan')->with('success', 'Lowongan magang berhasil dibuat');
     }
 }

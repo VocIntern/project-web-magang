@@ -88,10 +88,6 @@
 
                                         <div class="d-flex justify-content-center align-items-center mb-2">
                                             <span class="badge bg-light text-dark me-2">{{ $item->bidang }}</span>
-                                            <span class="badge bg-light text-dark">
-                                                <i class="bi bi-people"></i>
-                                                {{ rand(1, 20) }} posisi
-                                            </span>
                                         </div>
 
                                         <p class="card-text small text-muted mb-0">

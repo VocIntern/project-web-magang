@@ -26,7 +26,7 @@
             </div>
             <div class="card-body">
                 @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success alert-dismissible fade show">{{ session('success') }}</div>
                 @endif
 
                 <div class="table-responsive">
@@ -55,12 +55,12 @@
                                             class="badge bg-success rounded-pill">{{ $p->magang_count }}</span></td>
                                     <td class="text-center">
                                         <div class="action-buttons">
-                                            <a href="{{ route('admin.perusahaan.edit', $p->id) }}"
-                                                class="action-icon" title="Edit">
+                                            <a href="{{ route('admin.perusahaan.edit', $p->id) }}" class="action-icon"
+                                                title="Edit">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </a>
-                                            <form action="{{ route('admin.perusahaan.destroy', $p->id) }}"
-                                                method="POST" class="d-inline"
+                                            <form action="{{ route('admin.perusahaan.destroy', $p->id) }}" method="POST"
+                                                class="d-inline"
                                                 onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -103,7 +103,7 @@
                         <input type="hidden" name="search" value="{{ request('search') }}">
                         <div class="text-end">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Export Sekarang</button>
+                            <button type="submit" class="btn btn-success">Export Sekarang</button>
                         </div>
                     </form>
                 </div>

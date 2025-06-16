@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('bidang');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->integer('kuota')->default(1);
+            $table->unsignedInteger('kuota')->default(1);
             $table->boolean('status_aktif')->default(true);
             $table->timestamps();
         });

@@ -14,11 +14,13 @@ use App\Http\Controllers\MagangController;
 use App\Http\Controllers\Mahasiswa\MahasiswaMagangController;
 use App\Http\Controllers\Mahasiswa\MahasiswaProfileController;
 use App\Http\Controllers\Perusahaan\DashboardPerusahaanController;
+use App\Http\Controllers\Perusahaan\PerusahaanLowonganController;
 use App\Http\Controllers\Perusahaan\PerusahaanProfileController;
 use App\Http\Controllers\Perusahaan\SeleksiMahasiswaController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -94,11 +96,12 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
 
     // Profile management
     Route::get('/profile/create', [PerusahaanProfileController::class, 'create'])->name('profile.create');
-    Route::post('/profile', [PerusahaanProfileController::class, 'store'])->name('profile.store');
+    Route::post('/profile/store', [PerusahaanProfileController::class, 'store'])->name('profile.store');
     Route::get('/profile/edit', [PerusahaanProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [PerusahaanProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/update', [PerusahaanProfileController::class, 'update'])->name('profile.update');
 
     // Halaman Seleksi Mahasiswa
+    Route::get('/seleksi', [SeleksiMahasiswaController::class, 'index'])->name('perusahaan.seleksi.index');
     Route::get('/seleksi-mahasiswa', [SeleksiMahasiswaController::class, 'index'])->name('seleksi.index');
     Route::put('/seleksi-mahasiswa/{id}/status', [SeleksiMahasiswaController::class, 'updateStatus'])->name('seleksi.update-status');
     Route::get('/seleksi-mahasiswa/{id}/detail', [SeleksiMahasiswaController::class, 'detail'])->name('seleksi.detail');
@@ -106,7 +109,13 @@ Route::middleware(['auth', 'verified', 'role:perusahaan'])->prefix('perusahaan')
     // Manajemen Lowongan menggunakan Route::resource
     // Menggantikan 6 baris route manual menjadi 1 baris.
     // Pastikan method di DashboardPerusahaanController namanya sesuai standar resource (index, create, store, edit, update, destroy)
-    Route::resource('lowongan-magang', DashboardPerusahaanController::class)->names('lowongan');
+    // Route::resource('lowongan-magang', DashboardPerusahaanController::class)->names('lowongan');
+    Route::get('/perusahaan/lowongan', [PerusahaanLowonganController::class, 'index'])->name('lowongan.index');
+    Route::get('/lowongan/create', [PerusahaanLowonganController::class, 'create'])->name('lowongan.create');
+    Route::post('/lowongan', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store');
+    Route::get('/lowongan/{magang}/edit', [PerusahaanLowonganController::class, 'edit'])->name('lowongan.edit');
+    Route::put('/lowongan/{magang}', [PerusahaanLowonganController::class, 'update'])->name('lowongan.update');
+    Route::delete('/lowongan/{magang}', [PerusahaanLowonganController::class, 'destroy'])->name('lowongan.destroy');
 
     // Manajemen Laporan Magang
     Route::get('/laporan-magang', [DashboardPerusahaanController::class, 'laporanMagang'])->name('laporan');

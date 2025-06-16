@@ -38,11 +38,6 @@
                     </div>
                 @endif
 
-                <div class="alert alert-info mb-4">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Silakan lengkapi informasi profil Anda untuk dapat mengakses platform magang.
-                </div>
-
                 <form method="POST" action="{{ route('mahasiswa.profile.store') }}" enctype="multipart/form-data"
                     id="profileForm">
                     @csrf
@@ -185,9 +180,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
