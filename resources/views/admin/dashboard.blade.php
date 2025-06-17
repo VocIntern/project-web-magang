@@ -50,7 +50,7 @@
                 @php
                     $totalPendaftaran = $totalPendaftaranMagang ?? 0;
                     $diterimaCount = $diterima ?? 0;
-                    $acceptanceRate = ($totalPendaftaran > 0) ? round(($diterimaCount / $totalPendaftaran) * 100) : 0;
+                    $acceptanceRate = $totalPendaftaran > 0 ? round(($diterimaCount / $totalPendaftaran) * 100) : 0;
                 @endphp
                 {{ $acceptanceRate }}%
             </div>
@@ -63,14 +63,19 @@
             <h2><i class="fas fa-file-alt"></i> Pendaftaran Terbaru</h2>
             @forelse($recentApplications as $application)
                 <div class="application-item">
-                    <div class="application-avatar">
-                        {{ substr($application['mahasiswa_nama'], 0, 2) }}
-                    </div>
+                    {{-- <div class="application-avatar">
+                        @if (!empty($application['foto']))
+                            <img src="{{ asset('storage/' . $application['foto']) }}" alt="Avatar" class="rounded-circle">
+                        @else
+                            <i class="fas fa-user"></i>
+                        @endif
+                    </div> --}}
                     <div class="application-info">
                         <div class="name">{{ $application['mahasiswa_nama'] }}</div>
                         <div class="details">{{ $application['posisi'] }} - {{ $application['perusahaan_nama'] }}
                         </div>
-                        <div class="details">{{ \Carbon\Carbon::parse($application['tanggal_apply'])->format('d M Y') }}</div>
+                        <div class="details">{{ \Carbon\Carbon::parse($application['tanggal_apply'])->format('d M Y') }}
+                        </div>
                     </div>
                     <div class="application-status status-{{ strtolower($application['status']) }}">
                         {{ ucfirst($application['status']) }}
@@ -110,28 +115,28 @@
 @endsection
 
 @push('scripts')
-<script>
-    // Script spesifik untuk halaman dashboard bisa ditaruh di sini.
-    // Contoh: AJAX call untuk refresh data secara real-time.
-    
-    // Fungsi untuk memuat ulang statistik
-    function refreshStats() {
-        fetch('{{ route('admin.dashboard.stats') }}')
-            .then(response => response.json())
-            .then(data => {
-                document.querySelector('.number.total-mahasiswa').textContent = data.totalMahasiswa;
-                document.querySelector('.number.total-perusahaan').textContent = data.totalPerusahaan;
-                // ... update elemen lainnya
-                console.log('Dashboard stats refreshed.');
-            })
-            .catch(error => console.error('Error refreshing stats:', error));
-    }
+    <script>
+        // Script spesifik untuk halaman dashboard bisa ditaruh di sini.
+        // Contoh: AJAX call untuk refresh data secara real-time.
 
-    // Auto refresh data every 60 seconds
-    setInterval(() => {
-        console.log('Refreshing dashboard data...');
-        // Anda bisa memanggil fungsi refresh di sini
-        // refreshStats(); 
-    }, 60000);
-</script>
+        // Fungsi untuk memuat ulang statistik
+        function refreshStats() {
+            fetch('{{ route('admin.dashboard.stats') }}')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('.number.total-mahasiswa').textContent = data.totalMahasiswa;
+                    document.querySelector('.number.total-perusahaan').textContent = data.totalPerusahaan;
+                    // ... update elemen lainnya
+                    console.log('Dashboard stats refreshed.');
+                })
+                .catch(error => console.error('Error refreshing stats:', error));
+        }
+
+        // Auto refresh data every 60 seconds
+        setInterval(() => {
+            console.log('Refreshing dashboard data...');
+            // Anda bisa memanggil fungsi refresh di sini
+            // refreshStats(); 
+        }, 60000);
+    </script>
 @endpush

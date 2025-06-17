@@ -205,7 +205,21 @@ body {
     padding-bottom: 0;
 }
 
-.application-avatar {
+/* .application-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+} */
+
+.application-avatar img {
     width: 45px;
     height: 45px;
     border-radius: 50%;

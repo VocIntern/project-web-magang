@@ -59,8 +59,20 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="semester" class="form-label">Semester</label>
-                            <input type="text" class="form-control" id="semester" name="semester"
-                                value="{{ old('semester') }}" required>
+                            <label for="semester" class="form-label">Semester *</label>
+                                <select class="form-select @error('semester') is-invalid @enderror" name="semester"
+                                    id="semester" required>
+                                    <option value="">Pilih Semester</option>
+                                    @for ($i = 1; $i <= 8; $i++)
+                                        <option value="Semester {{ $i }}"
+                                            {{ old('semester') == "Semester $i" ? 'selected' : '' }}>
+                                            {{ $i }}
+                                        </option>
+                                    @endfor
+                                </select>
+                                @error('semester')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                         </div>
                     </div>
                     <div class="mb-3">

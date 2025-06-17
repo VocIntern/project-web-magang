@@ -147,7 +147,7 @@
                                                 @for ($i = 1; $i <= 8; $i++)
                                                     <option value="Semester {{ $i }}"
                                                         {{ old('semester', $mahasiswa->semester ?? '') == "Semester $i" ? 'selected' : '' }}>
-                                                        Semester {{ $i }}
+                                                        {{ $i }}
                                                     </option>
                                                 @endfor
                                             </select>

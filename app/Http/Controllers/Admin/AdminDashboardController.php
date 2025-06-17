@@ -37,7 +37,8 @@ class AdminDashboardController extends Controller
                     'posisi' => $application->magang->judul ?? 'Unknown Position', // Fixed: judul bukan posisi
                     'perusahaan_nama' => $application->magang->perusahaan->nama_perusahaan ?? 'Unknown Company',
                     'tanggal_apply' => Carbon::parse($application->created_at)->format('d M Y'),
-                    'status' => $application->status
+                    'status' => $application->status,
+                    'foto' => $application->mahasiswa->foto, // Tambahkan ini
                 ];
             });
 

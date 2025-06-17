@@ -62,7 +62,7 @@
                         <a class="nav-link" href="{{ route('login.perusahaan') }}">Untuk Perusahaan</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tentang Kami</a>
+                        <a class="nav-link" href="#tentang">Tentang Kami</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -245,7 +245,7 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-5 bg-warning">
+    <section class="py-5 bg-warning" id="tentang">
         <div class="container">
             <h2 class="text-center mb-5">Mengapa VocIntern?</h2>
             <div class="row">
