@@ -59,7 +59,7 @@
                         <div class="input-group">
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                 name="email" id="email" value="{{ old('email') }}"
-                                placeholder="Masukkan email perusahaan" required autofocus>
+                                placeholder="Masukkan email mahasiswa" required autofocus>
                         </div>
                         @error('email')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -95,7 +95,7 @@
                                 Lupa kata sandi?
                             </a>
                         @endif
-                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}?role=perusahaan"
+                        <p class="mb-0">Belum punya akun? <a href="{{ route('register') }}?role=mahasiswa"
                                 class="auth-link">Daftar Sekarang</a></p>
                     </div>
                 </form>
