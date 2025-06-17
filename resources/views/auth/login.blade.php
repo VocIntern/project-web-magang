@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-    <title>{{ config('app.name', 'VocIntern') }} - Masuk Perusahaan</title>
+    <title>{{ config('app.name', 'VocIntern') }} - Masuk Mahasiswa</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
                 <p class="definisi">Platform Magang Khusus Mahasiswa Vokasi USU</p>
             </div>
             <div class="login-body">
-                <h3 class="text-center mb-4">Masuk ke Akun Perusahaan</h3>
+                <h3 class="text-center mb-4">Masuk ke Akun Mahasiswa</h3>
 
                 <div class="role-selector">
                     <div class="role">
@@ -55,7 +55,7 @@
                     <input type="hidden" name="role" value="mahasiswa">
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Perusahaan</label>
+                        <label for="email" class="form-label">Email Mahasiswa</label>
                         <div class="input-group">
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
                                 name="email" id="email" value="{{ old('email') }}"

@@ -76,7 +76,7 @@ class MahasiswaMagangController extends Controller
         $query->orderBy($sortBy, $sortOrder);
 
         // Paginate results
-        $magang = $query->paginate(10)->withQueryString();
+        $magang = $query->paginate(12)->withQueryString();
 
         return view('mahasiswa.magang-search', compact('magang', 'recommended'));
     }
