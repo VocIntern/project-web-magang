@@ -119,7 +119,7 @@
                 <!-- Form Perusahaan -->
                 <form id="perusahaanForm" method="POST" action="{{ route('register') }}" style="display: none;">
                     @csrf
-                    <input type="hidden" name="role" value="perusahaan">
+                    <input type="hidden" name="role" value="perusahaan" id="role_perusahaan">
 
                     <div class="mb-3">
                         <label for="nama_perusahaan" class="form-label">Nama Perusahaan</label>
@@ -229,10 +229,17 @@
             function switchRoleForm(role) {
                 const isMahasiswa = role === 'mahasiswa';
 
+                // Update hidden input values
+                const mahasiswaRoleInput = document.querySelector('#mahasiswaForm input[name="role"]');
+                const perusahaanRoleInput = document.querySelector('#perusahaanForm input[name="role"]');
+
+                if (mahasiswaRoleInput) mahasiswaRoleInput.value = 'mahasiswa';
+                if (perusahaanRoleInput) perusahaanRoleInput.value = 'perusahaan';
+
                 // Atur tombol aktif
                 document.querySelector('.role-btn[data-role="mahasiswa"]').classList.toggle('active', isMahasiswa);
                 document.querySelector('.role-btn[data-role="perusahaan"]').classList.toggle('active', !
-                isMahasiswa);
+                    isMahasiswa);
 
                 // Tampilkan/sembunyikan form
                 mahasiswaForm.style.display = isMahasiswa ? 'block' : 'none';
@@ -240,6 +247,11 @@
 
                 // Ubah judul form
                 formTitle.textContent = isMahasiswa ? 'Daftar Sebagai Mahasiswa' : 'Daftar Sebagai Perusahaan';
+
+                // Debug log
+                console.log('Role dipilih:', role);
+                console.log('Role input value:', isMahasiswa ? mahasiswaRoleInput?.value : perusahaanRoleInput
+                    ?.value);
             }
 
             // --- FUNGSI UNTUK VALIDASI PASSWORD ---

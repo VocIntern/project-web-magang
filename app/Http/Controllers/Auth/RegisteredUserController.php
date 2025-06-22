@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 class RegisteredUserController extends Controller
 {
@@ -59,15 +60,21 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $userName,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'role' => $role,
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
-        // Auth::login($user);
-        // Redirect based on role for profile completion
+        // Panggil pengiriman email verifikasi yang benar secara manual
+        $user->sendEmailVerificationNotification();
+
+        // <-- TAMBAHKAN BARIS LOG DI BAWAH INI -->
+        Log::info('### REGISTRASI BERHASIL: Notifikasi manual dikirim ke ' . $user->email . ' ###');
         // Karena kedua role redirect ke tempat yang sama, kita bisa sederhanakan
-        return redirect()->route('login')->with('status', 'Pendaftaran Berahasil! Silakan periksa email Anda untuk melakukan verifikasi sebelum login.');
+        Auth::login($user);
+
+        // Arahkan ke halaman pemberitahuan verifikasi email
+        return redirect()->route('verification.notice');
     }
 }

@@ -44,8 +44,12 @@ class VerifyEmail extends Notification
             ->markdown('emails.verify-email', ['url' => $verificationUrl]);
     }
 
+    /**
+     * Generate verification URL tanpa parameter tambahan
+     */
     protected function verificationUrl($notifiable)
     {
+        // Opsi 1: Tanpa parameter role (Direkomendasikan)
         return URL::temporarySignedRoute(
             'verification.verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
@@ -54,5 +58,19 @@ class VerifyEmail extends Notification
                 'hash' => sha1($notifiable->getEmailForVerification()),
             ]
         );
+
+        // Opsi 2: Jika tetap ingin menggunakan parameter role
+        // Uncomment kode di bawah ini dan comment kode di atas
+        /*
+        return URL::temporarySignedRoute(
+            'verification.verify',
+            Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+            [
+                'id' => $notifiable->getKey(),
+                'hash' => sha1($notifiable->getEmailForVerification()),
+            ],
+            false  // absolute = false untuk URL relatif
+        ) . '?role=' . urlencode($notifiable->role);
+        */
     }
 }
