@@ -1,0 +1,387 @@
+Tabel users:
+    Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->enum('role', ['admin', 'mahasiswa', 'perusahaan'])->default('mahasiswa');
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+Tabel mahasiswa:
+    Schema::create('mahasiswa', function (Blueprint $table) {
+            $table->id();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('nama');
+            $table->integer('nim')->unique();
+            $table->string('jurusan');
+            $table->string('semester');
+            $table->text('bio')->nullable();
+            $table->string('foto')->nullable();
+            $table->timestamps();
+        });
+
+Tabel perusahaan:
+    Schema::create('perusahaan', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('nama_perusahaan');
+            $table->text('alamat');
+            $table->string('bidang');
+            $table->string('nama_pendaftar');
+            $table->string('website')->nullable();
+            $table->string('logo')->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->timestamps();
+        });
+
+Tabel magang:
+    Schema::create('magang', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('perusahaan_id')->references('id')->on('perusahaan')->onDelete('cascade');
+            $table->string('judul');
+            $table->text('deskripsi');
+            $table->string('lokasi');
+            $table->string('bidang');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
+            $table->integer('kuota')->default(1);
+            $table->boolean('status_aktif')->default(true);
+            $table->timestamps();
+        });
+
+Tabel pendaftaran_magang:
+    Schema::create('pendaftaran_magang', function (Blueprint $table) {
+            $table->id();
+            $table->foreign('mahasiswa_id')->references('id')->on('mahasiswa')->onDelete('cascade');
+            $table->foreign('magang_id')->references('id')->on('magang')->onDelete('cascade');
+            $table->string('cv');
+            $table->string('surat_pengantar')->nullable();
+            $table->enum('status', ['menunggu', 'diterima', 'ditolak'])->default('menunggu');
+            $table->text('catatan')->nullable();
+            $table->date('tanggal_mulai')->nullable();
+            $table->date('tanggal_selesai')->nullable();
+            $table->enum('status_magang', ['belum_mulai', 'berlangsung', 'selesai'])->nullable();
+            $table->timestamps();
+        });
+
+Tabel laporan:
+    Schema::create('laporan', function (Blueprint $table) {
+            $table->id();
+            $table->foreign('pendaftaran_magang_id')->references('id')->on('pendaftaran_magang')->onDelete('cascade');
+            $table->integer('minggu_ke');
+            $table->text('kegiatan');
+            $table->string('file_laporan')->nullable();
+            $table->text('catatan_perusahaan')->nullable();
+            $table->timestamps();
+        });
+
+// Model mahasiswa
+class Mahasiswa extends Model
+{
+    use HasFactory;
+
+    protected $table = 'mahasiswa';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'nama',
+        'nim',
+        'jurusan',
+        'semester',
+        'bio',
+        'foto',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'nim' => 'integer',
+        ];
+    }
+
+    /**
+     * Get the user that owns the mahasiswa profile.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get all pendaftaran magang for this mahasiswa.
+     */
+    public function pendaftaranMagang()
+    {
+        return $this->hasMany(PendaftaranMagang::class);
+    }
+
+    /**
+     * Get profile completion percentage
+     */
+    public function getProfileCompletionAttribute()
+    {
+        $fields = ['nama', 'nim', 'jurusan', 'semester', 'bio', 'foto'];
+        $filledFields = 0;
+
+        foreach ($fields as $field) {
+            if (!empty($this->$field)) {
+                $filledFields++;
+            }
+        }
+
+        return round(($filledFields / count($fields)) * 100);
+    }
+
+    /**
+     * Get the mahasiswa's full name with NIM
+     */
+    public function getFullIdentityAttribute()
+    {
+        return $this->nama . ' (' . $this->nim . ')';
+    }
+}
+
+// Model User
+class User extends Authenticatable implements MustVerifyEmail
+{
+    use HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'email',
+        'password',
+        'role',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is mahasiswa
+     */
+    public function isMahasiswa(): bool
+    {
+        return $this->role === 'mahasiswa';
+    }
+
+    /**
+     * Check if user is perusahaan
+     */
+    public function isPerusahaan(): bool
+    {
+        return $this->role === 'perusahaan';
+    }
+
+    /**
+     * Get the mahasiswa associated with the user.
+     */
+    public function mahasiswa()
+    {
+        return $this->hasOne(Mahasiswa::class);
+    }
+
+    /**
+     * Get the perusahaan associated with the user.
+     */
+    public function perusahaan()
+    {
+        return $this->hasOne(Perusahaan::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
+}
+
+// Model magang
+class Magang extends Model
+{
+    use HasFactory;
+    protected $table = 'magang';
+
+    protected $fillable = [
+        'perusahaan_id',
+        'judul',
+        'deskripsi',
+        'lokasi',
+        'bidang',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'kuota',
+        'status_aktif'
+    ];
+
+    // Tambahkan casting untuk otomatis jadi Carbon instance
+    protected $casts = [
+        'tanggal_mulai'   => 'date',     // cast menjadi Carbon
+        'tanggal_selesai' => 'date',     // cast menjadi Carbon
+    ];
+
+    public function perusahaan()
+    {
+        return $this->belongsTo(Perusahaan::class);
+    }
+
+    public function pendaftaranMagang()
+    {
+        return $this->hasMany(PendaftaranMagang::class);
+    }
+}
+
+// Model Perusahaan
+class Perusahaan extends Model
+{
+    use HasFactory;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'perusahaan';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'nama_perusahaan',
+        'alamat',
+        'bidang',
+        'website',
+        'logo',
+        'deskripsi',
+    ];
+
+    /**
+     * Get the user that owns the perusahaan.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the magang offerings for the perusahaan.
+     */
+    public function magang()
+    {
+        return $this->hasMany(Magang::class);
+    }
+
+    /**
+     * Get logo URL attribute
+     */
+    public function getLogoUrlAttribute()
+    {
+        if ($this->logo) {
+            return asset('storage/' . $this->logo);
+        }
+
+        return asset('images/default-company.png');
+    }
+}
+
+// Model Pendaftaran Magang
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class PendaftaranMagang extends Model
+{
+    use HasFactory;
+
+    // Explicitly set the table name to match your database
+    protected $table = 'pendaftaran_magang';
+
+    protected $fillable = [
+        'mahasiswa_id',
+        'magang_id',
+        'cv',
+        'surat_pengantar',
+        'status',
+        'catatan',
+        'tanggal_mulai',
+        'tanggal_selesai',
+        'status_magang'
+    ];
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class);
+    }
+
+    public function magang()
+    {
+        return $this->belongsTo(Magang::class);
+    }
+
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class);
+    }
+}
+
+// Model Laporan
+class Laporan extends Model
+{
+    //
+}

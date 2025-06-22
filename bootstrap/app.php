@@ -12,6 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        $middleware->alias([
+            'admin'      => \App\Http\Middleware\IsAdmin::class,
+            'mahasiswa'  => \App\Http\Middleware\IsMahasiswa::class,
+            'perusahaan' => \App\Http\Middleware\IsPerusahaan::class,
+            'role'       => \App\Http\Middleware\CheckRole::class,
+            'profile.complete' => \App\Http\Middleware\EnsureProfileComplete::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

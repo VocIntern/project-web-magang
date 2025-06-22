@@ -1,0 +1,539 @@
+/* public/css/auth.css */
+
+/* General Styles */
+body {
+    min-height: 100vh;
+    font-family: "Figtree", sans-serif;
+}
+
+a.auth-link {
+    color: #198754;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.auth-link {
+    color: #198754;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+a.auth-link:hover {
+    color: #0a3622;
+}
+
+p.definisi {
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* ===== REGISTER FORM STYLES ===== */
+.register-container,
+.auth-container,
+.reset-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.register-card,
+.auth-card,
+.reset-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 650px;
+    width: 100%;
+}
+
+.register-header,
+.reset-header {
+    color: #0d7926;
+    text-align: center;
+    padding: 1rem 0.5rem 1rem;
+}
+
+.register-header h1,
+.auth-header h1 .reset-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.register-header p,
+.auth-header p,
+.reset-header p {
+    opacity: 0.9;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+.register-body,
+.auth-body,
+.reset-body {
+    padding: 2rem 1.5rem;
+}
+
+/* Container style untuk login dan lupa password */
+.login-container,
+.forgot-password-container,
+.reset-password-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+/* Card/Form style untuk login dan lupa password */
+.login-card,
+.forgot-password-form,
+.reset-password-form {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 650px;
+    width: 100%;
+    padding: 2rem 1.5rem 1.5rem;
+}
+
+/* Header/logo style */
+.login-header,
+.login-logo {
+    color: #0d7926;
+    text-align: center;
+    padding: 1rem 0.5rem 1rem;
+}
+
+.login-header h1,
+.login-logo h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.login-header p,
+.login-logo p {
+    opacity: 0.9;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* Tombol submit */
+.btn-reset {
+    background-color: #0d7926;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-reset:hover {
+    background-color: #0b5d1f;
+    color: white;
+}
+
+/* Role Selector (Register specific) */
+.role-selector {
+    display: flex;
+    gap: 2rem; /* beri jarak antar tombol */
+    margin-bottom: 1.5rem;
+    background: transparent;
+    padding: 0.25rem;
+    justify-content: center;
+}
+
+.role-btn {
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: #2e8b57; /* hijau */
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.role-btn::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    /* left: 0; */
+    right: 25%;
+    height: 3px;
+    width: 0%;
+    background-color: #2e8b57; /* hijau */
+    transition: width 0.3s ease;
+}
+
+.role-btn.active::after {
+    width: 50%;
+}
+
+.role-btn:hover {
+    color: #1e6b47;
+}
+
+/* Form Elements */
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* .input-group {
+    margin-bottom: 1rem;
+}
+*/
+
+.form-control {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0d7926;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-select {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    border-color: #0d7926;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* Login specific form elements */
+.login-body .form-check {
+    margin-bottom: 1rem;
+}
+
+.login-body .form-check-input {
+    border: 1px solid #dee2e6;
+    margin-top: 0.25rem;
+}
+
+.login-body .form-check-input:checked {
+    background-color: #0d7926;
+    border-color: #0d7926;
+}
+
+.login-body .form-check-input:focus {
+    border-color: #0d7926;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.login-body .form-check-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-left: 0.25rem;
+}
+
+/* Forgot password link */
+a.forgot-password-link {
+    color: #0d7926;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+a.forgot-password-link:hover {
+    color: #20c997;
+    text-decoration: underline;
+}
+
+/* Button Styles */
+.btn-register,
+.btn-login {
+    background-color: #0d7926 !important; /* hijau */
+    color: white !important; /* putih */
+    border: none;
+    padding: 0.875rem 1.5rem;
+    font-weight: 600;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    cursor: pointer;
+}
+
+.btn-register:hover,
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(40, 167, 69, 0.4);
+}
+
+.btn-register:active,
+.btn-login:active {
+    transform: translateY(0);
+}
+
+/* Divider */
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+    color: #6c757d;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #dee2e6;
+}
+
+.divider span {
+    background: white;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    position: relative; /* Tambahkan ini */
+    z-index: 1;
+}
+
+/* Social Login */
+.social-login {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-google,
+.btn-facebook {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #495057;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-google:hover {
+    border-color: #db4437;
+    color: #db4437;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(219, 68, 55, 0.2);
+}
+
+.btn-facebook:hover {
+    border-color: #4267b2;
+    color: #4267b2;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(66, 103, 178, 0.2);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    color: #ffffff;
+}
+
+.footer a {
+    color: #0d7926;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.register-footer a:hover {
+    color: #20c997;
+    text-decoration: underline;
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-success {
+    background: #d1eddd;
+    color: #155724;
+    border-left: 4px solid #0d7926;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.form-control.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Animation for form transition */
+.form-transition {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Tambahkan CSS ini ke file auth.css Anda */
+
+/* Password Toggle Button Styles */
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    z-index: 5;
+    background: white; /* penting agar tidak terpotong box-shadow */
+    padding: 0 4px;
+}
+
+.toggle-password:hover {
+    color: #198754;
+}
+
+.toggle-password:focus {
+    box-shadow: none !important;
+    color: #0d7926;
+}
+
+input.form-control {
+    border-radius: 8px; /* atau sesuai border-radius global kamu */
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+}
+
+/* Pastikan input group tetap rapi */
+.input-group .form-control:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 576px) {
+    .toggle-password {
+        padding: 0.625rem 0.5rem;
+    }
+
+    .toggle-password i {
+        font-size: 0.85rem;
+    }
+}
+/* Responsive Design */
+@media (max-width: 576px) {
+    .register-container,
+    .login-container {
+        padding: 1rem 0.5rem;
+    }
+
+    .register-header,
+    .login-header {
+        padding: 1.5rem 1rem 0.5rem;
+    }
+
+    .register-body,
+    .login-body {
+        padding: 1.5rem 1rem;
+    }
+
+    .register-header h1,
+    .login-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .register-header p,
+    .login-header p {
+        font-size: 0.85rem;
+    }
+
+    .social-login {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .role-selector {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .role-btn {
+        padding: 0.625rem 1rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .register-card,
+    .login-card {
+        margin: 0.5rem;
+        border-radius: 15px;
+    }
+
+    .register-header,
+    .login-header {
+        padding: 1.25rem 0.75rem 0.5rem;
+    }
+
+    .register-body,
+    .login-body {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .btn-register,
+    .btn-login {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+    }
+}

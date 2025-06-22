@@ -1,0 +1,457 @@
+/* Reset dan Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+    line-height: 1.6;
+    background-color: #f8fafc;
+    color: #374151;
+}
+
+/* Variables */
+:root {
+    --primary-color: #059669;
+    --primary-light: #10b981;
+    --primary-dark: #047857;
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --gray-light: #f9fafb;
+    --gray-medium: #6b7280;
+    --gray-dark: #374151;
+    --border-color: #d1d5db;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Container utama */
+.container-fluid {
+    width: 100%;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+}
+
+.internship-form-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+#page-apply-wrapper .internship-form-container {
+    width: 100%;
+}
+
+/* Header Halaman */
+#page-apply-wrapper h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gray-dark);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+/* Subtitle untuk posisi magang */
+h1 + p {
+    font-size: 1.2rem;
+    color: var(--gray-medium);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* Form Section Headers */
+h3,
+h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+    margin: 2rem 0 1rem 0;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+h3 i,
+h4 i {
+    margin-right: 0.75rem;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+/* Section subtitle */
+h3 + p,
+h4 + p {
+    color: var(--gray-medium);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+/* Form Container */
+#page-apply-wrapper form {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    margin: 2rem 0;
+    border: 1px solid var(--border-color);
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    color: var(--gray-dark);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.875rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: white;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+/* Readonly inputs untuk informasi pribadi */
+input[readonly] {
+    background-color: #f3f4f6;
+    color: var(--gray-dark);
+    font-weight: 500;
+    cursor: not-allowed;
+}
+
+/* Grid layout untuk informasi pribadi */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--gray-light);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-color);
+}
+
+/* File Input Styles */
+input[type="file"] {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 0.5rem;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    font-size: 0.9rem;
+}
+
+input[type="file"]:hover {
+    border-color: var(--primary-color);
+    background-color: #f0fdf4;
+}
+
+input[type="file"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+/* File description text */
+input[type="file"] + small,
+.file-info {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--gray-medium);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* Checkbox dan Terms */
+.checkbox-container {
+    background: #f0fdf4;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #d1fae5;
+    margin: 2rem 0;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: auto;
+    margin-right: 1rem;
+    transform: scale(1.2);
+    accent-color: var(--primary-color);
+}
+
+.checkbox-container label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.checkbox-container a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.checkbox-container a:hover {
+    text-decoration: underline;
+}
+
+/* Buttons */
+.btn-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    min-width: 160px;
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: var(--gray-dark);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.btn-success {
+    background: linear-gradient(
+        135deg,
+        var(--primary-light),
+        var(--primary-color)
+    );
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.btn-success:hover {
+    background: linear-gradient(
+        135deg,
+        var(--primary-color),
+        var(--primary-dark)
+    );
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Tips Section */
+.tips-section {
+    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+    border: 2px solid #d1fae5;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.tips-section h4 {
+    color: #065f46;
+    margin-bottom: 1.5rem;
+    border: none;
+    padding-bottom: 0;
+}
+
+.tips-section h4 i {
+    color: #fbbf24;
+    font-size: 1.5rem;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.tip-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0.5rem;
+}
+
+.tip-item i {
+    color: var(--success-color);
+    margin-right: 0.75rem;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.tip-item p {
+    color: #065f46;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Alert Messages */
+.alert {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.alert i {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.alert h4 {
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border: none;
+    padding: 0;
+}
+
+.alert p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.alert.success {
+    background: linear-gradient(
+        135deg,
+        var(--success-color),
+        var(--primary-color)
+    );
+    color: white;
+    border-left: 4px solid var(--primary-dark);
+}
+
+.alert.error {
+    background: linear-gradient(135deg, var(--error-color), #dc2626);
+    color: white;
+    border-left: 4px solid #b91c1c;
+}
+
+.alert ul {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1rem;
+}
+
+.alert li {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Error text untuk validasi */
+.error-text {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.error-text::before {
+    content: "⚠";
+    margin-right: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 1rem 0.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .btn-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    form {
+        padding: 1.5rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h3,
+    h4 {
+        font-size: 1.25rem;
+    }
+
+    form {
+        padding: 1rem;
+    }
+
+    .tips-section {
+        padding: 1.5rem;
+    }
+}

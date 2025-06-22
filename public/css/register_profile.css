@@ -1,0 +1,230 @@
+/* public/css/profile.css */
+
+.profile-container {
+    min-height: 100vh;
+    /* background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%); */
+    padding: 20px 0;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.profile-header {
+    /* background: linear-gradient(135deg, #198754 100%, #4a7c59 100%); */
+    color:#198754;
+    padding: 30px;
+    text-align: center;
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.profile-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.profile-body {
+    padding: 40px;
+}
+
+.section-title {
+    color: #2d5a27;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8f5e8;
+    display: flex;
+    align-items: center;
+}
+
+.section-title i {
+    margin-right: 10px;
+    color: #198754;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #198754;
+    margin-bottom: 8px;
+}
+
+.form-control, .form-select {
+    border: 2px solid #e8f5e8;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.2rem rgba(74, 124, 89, 0.25);
+}
+
+/* .btn-profile {
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-profile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(25, 135, 84, 0.4);
+    color: #ffffff;
+    background: linear-gradient(135deg, #67c599 0%, #198754 100%);
+} */
+
+
+.progress-indicator {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.progress-step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e8f5e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 10px;
+    font-weight: 600;
+    color: #999;
+    position: relative;
+}
+
+.progress-step.active {
+    background: #198754;
+    color: white;
+}
+
+.progress-step.completed {
+    background: #2d5a27;
+    color: white;
+}
+
+.progress-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 20px;
+    height: 2px;
+    background: #e8f5e8;
+    transform: translateY(-50%);
+}
+
+.progress-step.completed:not(:last-child)::after {
+    background: #198754;
+}
+
+.file-upload-area {
+    border: 2px dashed #198754;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    background: #f8fff8;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-upload-area:hover {
+    border-color: #2d5a27;
+    background: #f0fff0;
+}
+
+.file-upload-area i {
+    font-size: 2rem;
+    color: #198754;
+    margin-bottom: 10px;
+}
+
+.alert-info {
+    background-color: #dff0d8;
+    border-color: #198754;
+    color: #2d5a27;
+    border-radius: 10px;
+}
+
+.mb-section {
+    margin-bottom: 40px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 10px;
+    }
+    
+    .profile-body {
+        padding: 20px;
+    }
+    
+    .profile-header {
+        padding: 20px;
+    }
+    
+    .profile-header h1 {
+        font-size: 2rem;
+    }
+    
+    .progress-step {
+        width: 35px;
+        height: 35px;
+        margin: 0 5px;
+    }
+    
+    .progress-step:not(:last-child)::after {
+        width: 10px;
+    }
+    
+    .file-upload-area {
+        padding: 20px;
+    }
+    
+    .file-upload-area i {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .profile-header p {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+    }
+    
+    .btn-profile {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+}
