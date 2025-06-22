@@ -88,7 +88,7 @@ Berikut adalah diagram visual dari hubungan entitas:
 2. Install dependencies:
     ```bash
     composer install
-    npm install
+  
 3. Salin file environment:
     ```bash
     cp .env.example .env
@@ -102,11 +102,10 @@ Berikut adalah diagram visual dari hubungan entitas:
    DB_USERNAME=root
    DB_PASSWORD=
   
-6. Migrasi database:
+6. Migrasi database dan data seeder:
    ```bash
    php artisan migrate --seed
   
 7. Jalankan server:
    ```bash
    php artisan serve
-   npm run dev
