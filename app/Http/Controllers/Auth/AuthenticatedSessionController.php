@@ -53,14 +53,21 @@ class AuthenticatedSessionController extends Controller
 
         // Case 2: User ditemukan, TAPI role tidak sesuai dengan form yang diisi.
         if ($user->role !== $request->role) {
-            // Tentukan role yang seharusnya dalam format yang mudah dibaca
-            $expectedRole = ($user->role === 'mahasiswa') ? 'Mahasiswa' : 'Perusahaan';
+            // Mapping role ke format yang mudah dibaca
+            $roleLabels = [
+                'mahasiswa' => 'Mahasiswa',
+                'perusahaan' => 'Perusahaan',
+                'admin' => 'Admin'
+            ];
 
-            // Buat pesan error yang spesifik
+            // Dapatkan label role yang seharusnya
+            $expectedRole = $roleLabels[$user->role] ?? 'Unknown';
+
+            // Buat pesan error yang spesifik berdasarkan role
             $errorMessage = "Akun Anda terdaftar sebagai {$expectedRole}. Silakan gunakan form login {$expectedRole}.";
 
             throw ValidationException::withMessages([
-                'email' => $errorMessage, // Tampilkan pesan spesifik ini
+                'email' => $errorMessage,
             ]);
         }
 

@@ -145,8 +145,8 @@
                                                 id="semester" name="semester" required>
                                                 <option value="">Pilih Semester</option>
                                                 @for ($i = 1; $i <= 8; $i++)
-                                                    <option value="Semester {{ $i }}"
-                                                        {{ old('semester', $mahasiswa->semester ?? '') == "Semester $i" ? 'selected' : '' }}>
+                                                    <option value="{{ $i }}"
+                                                        {{ old('semester', $mahasiswa->semester ?? '') == "$i" ? 'selected' : '' }}>
                                                         {{ $i }}
                                                     </option>
                                                 @endfor
